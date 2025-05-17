@@ -1,9 +1,10 @@
 import React from "react";
 import logo from "../../assets/logo.png";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 const Nav = () => {
   return (
-    <div className=" flex w-full items-center container mx-auto max-w-[calc(100%-440px)]  shadow-sm">
+    <div className=" flex w-full items-center font-semibold py-4  text-gray-500  uppercase mx-auto max-w-[calc(100%-440px)]  shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -25,7 +26,7 @@ const Nav = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
               <a>Item 1</a>
@@ -52,7 +53,7 @@ const Nav = () => {
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu text-xs menu-horizontal px-1">
           <li>
             <details>
               <summary>Shop</summary>
@@ -87,8 +88,36 @@ const Nav = () => {
           </li>
         </ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn">Login</a>
+      {/* <div className="navbar-end flex items-center justify-items-center ">
+        <div>
+          <a className=" text-xs font-semibold">Login</a>
+        </div>
+        <div>
+          <ul className="text-xs font-semibold flex  items-center  justify-items-center">
+            <li>
+              <a>Cart</a>
+            </li>
+            <li>
+              <a>$0.00</a>
+            </li>
+          </ul>
+        </div>
+      </div> */}
+      <div className="navbar-end flex items-center gap-4 ml-auto">
+        <a className="text-xs font-semibold cursor-pointer">Login</a>
+        <div className="w-px h-5 bg-gray-300"></div>
+        <ul className="text-xs font-semibold flex items-center gap-2">
+          <li>
+            <a>Cart</a>
+          </li>
+          <li className="text-gray-400">/</li>
+          <li>
+            <a>$0.00</a>
+          </li>
+          <li>
+            <ShoppingBagIcon className="w-8 h-8 text-gray-700" />
+          </li>
+        </ul>
       </div>
     </div>
   );

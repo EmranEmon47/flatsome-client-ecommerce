@@ -3,3 +3,12 @@
 @plugin "daisyui" {
   themes: light --default;
 }
+@theme {
+  --font-display: "Oswald", "sans-serif";
+}
+
+@tailwind utilities;
+
+body {
+  font-family: "Poppins", sans-serif;
+}
