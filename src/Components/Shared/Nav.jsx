@@ -4,7 +4,7 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 const Nav = () => {
   return (
-    <div className="flex items-center justify-around   w-full lg:items-center font-semibold lg:font-semibold tracking-wide py-0 lg:py-4  text-gray-500 lg:uppercase  uppercase mx-auto lg:max-w-[calc(100%-440px)]  shadow-sm">
+    <div className="flex items-center justify-around   w-full lg:items-center font-semibold lg:font-semibold tracking-wide py-2 lg:py-4  text-gray-500 lg:uppercase  uppercase mx-auto lg:max-w-[calc(100%-440px)]  shadow-sm">
       <div className="navbar-start ">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -48,7 +48,10 @@ const Nav = () => {
           </ul>
         </div>
         {/* <a className="btn btn-ghost text-xl">daisy</a> */}
-        <a href="/" className="block">
+        <a
+          href="/"
+          className="block absolute left-1/2 transform -translate-x-1/2 lg:static lg:translate-x-0"
+        >
           <img src={logo} className="h-10 block" alt="Logo" />
         </a>
       </div>
