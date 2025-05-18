@@ -20,7 +20,7 @@ const images = [
     url: image3,
     heading: "Discover Page 3",
     text: "This is the third slide description.",
-    textColor: "text-white",
+    textColor: "text-blue",
   },
 ];
 
