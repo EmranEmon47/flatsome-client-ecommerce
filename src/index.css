@@ -1,13 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+@tailwind utilities;
 @import "tailwindcss";
 /* @plugin "daisyui"; */
+
 @plugin "daisyui" {
   themes: light --default;
 }
-@theme {
-  --font-display: "Oswald", "sans-serif";
-}
-
-@tailwind utilities;
 
 body {
   font-family: "Poppins", sans-serif;
