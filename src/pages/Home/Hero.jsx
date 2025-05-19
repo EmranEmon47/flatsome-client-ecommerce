@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
+
 import image1 from "../../assets/hero1.jpg";
 import image2 from "../../assets/hero2.jpg";
 import image3 from "../../assets/hero3.jpg";
@@ -15,20 +18,23 @@ const images = [
   },
   {
     url: image1,
-    heading: "Welcome to Our Website",
-    text: "This is the first slide description.",
+    subheading: "It has finally Started",
+    heading: "Huge Sale\nUp to 70% off",
+    // text: "This is the first slide description.",
     textColor: "text-white",
   },
   {
     url: image2,
-    heading: "Explore Our Website",
-    text: "This is the second slide description.",
+    subheading: "Mens Clothing",
+    heading: "Hot Summer\nfashion",
+    // text: "This is the second slide description.",
     textColor: "text-white",
   },
   {
     url: image3,
-    heading: "Discover Page 4",
-    text: "This is the third slide description.",
+    subheading: "Something Nice To Buy",
+    heading: "Discover\nYour Style of Clothing",
+    // text: "This is the third slide description.",
     textColor: "text-white",
   },
 ];
@@ -77,19 +83,47 @@ const Hero = () => {
             />
           )}
 
-          <div
+          <motion.div
+            key={current}
             className={`absolute inset-0  flex flex-col justify-center items-center text-center px-4 ${slide.textColor}`}
           >
-            <h2
+            <motion.h2
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
               style={{ fontFamily: '"Dancing Script", cursive' }}
-              className="text-4xl  font-medium  mb-2"
+              className="text-4xl   font-medium  mb-2"
             >
               {slide.subheading}
-            </h2>
-            <h1 className="text-6xl  font-medium mb-4">{slide.heading}</h1>
-            <p className="text-lg md:text-xl mb-6">{slide.text}</p>
+            </motion.h2>
+            <motion.h1
+              initial={{ opacity: 0, x: -60 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-4xl md:text-6xl   font-medium mb-4 text-center leading-snug"
+            >
+              {slide.heading.split("\n").map((line, idx) => (
+                <div
+                  key={idx}
+                  className={idx === 0 ? "text-6xl " : "text-3xl md:text-4xl"}
+                >
+                  {line}
+                </div>
+              ))}
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, x: -70 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-lg md:text-xl mb-6"
+            >
+              {slide.text}
+            </motion.p>
             <div className="flex gap-4">
-              <button
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1, duration: 0.8 }}
                 className={`uppercase px-6 py-2 font-semibold border-2 ${
                   slide.isVideo
                     ? "border-white text-white bg-transparent hover:bg-[#445e85] hover:border-[#445e85]"
@@ -97,8 +131,11 @@ const Hero = () => {
                 } transition`}
               >
                 Shop Men
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1, duration: 0.8 }}
                 className={`uppercase px-6 py-2 font-semibold border-2 ${
                   slide.isVideo
                     ? "border-white text-white bg-transparent hover:bg-[#445e85] hover:border-[#445e85]"
@@ -106,9 +143,9 @@ const Hero = () => {
                 } transition`}
               >
                 Shop Woman
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
       ))}
       {/* Left Arrow */}
