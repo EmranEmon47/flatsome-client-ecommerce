@@ -48,6 +48,19 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = (productId) => {
     setCartItems((prev) => prev.filter((item) => item.id !== productId));
   };
+  // Add this function inside CartProvider component:
+  const updateQuantity = (productId, newQuantity) => {
+    if (newQuantity <= 0) {
+      // Remove item if quantity is zero or less
+      removeFromCart(productId);
+    } else {
+      setCartItems((prev) =>
+        prev.map((item) =>
+          item.id === productId ? { ...item, quantity: newQuantity } : item
+        )
+      );
+    }
+  };
 
   // Clear the entire cart
   const clearCart = () => {
@@ -67,6 +80,7 @@ export const CartProvider = ({ children }) => {
     <CartContext.Provider
       value={{
         cartItems,
+        updateQuantity,
         addToCart,
         removeFromCart,
         clearCart,
