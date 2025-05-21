@@ -17,7 +17,7 @@ const FeaturedProducts = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
-    <div className="py-12 px-4 max-w-6xl mx-auto">
+    <div className="py-12 w-full max-w-[calc(100%-440px)] mx-auto">
       {/* Heading */}
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
@@ -28,7 +28,7 @@ const FeaturedProducts = () => {
       </div>
 
       {/* Product Grid */}
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {products.map((product) => (
           <div
             key={product.id}
