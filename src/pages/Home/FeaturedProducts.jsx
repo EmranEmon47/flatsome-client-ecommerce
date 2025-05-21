@@ -64,7 +64,7 @@ const FeaturedProducts = () => {
                 ))}
               </div>
               <p className="text-sm font-semibold text-gray-800">
-                {product.price}
+                ${product.price.toFixed(2)}
               </p>
             </div>
           </div>
@@ -97,7 +97,9 @@ const FeaturedProducts = () => {
             <h3 className="text-xl font-semibold mb-2">
               {selectedProduct.name}
             </h3>
-            <p className="text-gray-600 text-lg">{selectedProduct.price}</p>
+            <p className="text-gray-600 text-lg">
+              ${selectedProduct.price.toFixed(2)}
+            </p>
           </div>
         </div>
       )}

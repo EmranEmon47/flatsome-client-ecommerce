@@ -1,0 +1,80 @@
+import React, { createContext, useContext, useEffect, useState } from "react";
+
+// Create the cart context
+const CartContext = createContext();
+
+// Custom hook to use cart context
+export const useCart = () => useContext(CartContext);
+
+// CartProvider component
+export const CartProvider = ({ children }) => {
+  const [cartItems, setCartItems] = useState(() => {
+    const saved = localStorage.getItem("cart");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Save to localStorage whenever cartItems change
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  // Add to cart
+  const addToCart = (product, quantity) => {
+    console.log("Adding to cart:", product);
+
+    const numericPrice =
+      typeof product.price === "string"
+        ? parseFloat(product.price.replace("$", ""))
+        : product.price;
+
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.id === product.id);
+      if (existing) {
+        return prev.map((item) =>
+          item.id === product.id
+            ? {
+                ...item,
+                quantity: item.quantity + quantity,
+                price: numericPrice,
+              }
+            : item
+        );
+      }
+      return [...prev, { ...product, quantity, price: numericPrice }];
+    });
+  };
+
+  // Remove from cart
+  const removeFromCart = (productId) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== productId));
+  };
+
+  // Clear the entire cart
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
+  // Total quantity of items in cart
+  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  // Total price of all items in cart
+  const totalPrice = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  return (
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        totalQuantity,
+        totalPrice,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+};

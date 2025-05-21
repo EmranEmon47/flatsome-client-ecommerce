@@ -1,8 +1,10 @@
 import React from "react";
 import logo from "../../assets/logo.png";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { useCart } from "../../Context/CartProvider";
 
 const Nav = () => {
+  const { totalQuantity, totalPrice } = useCart();
   return (
     <div className="flex items-center justify-around   w-full lg:items-center font-semibold lg:font-semibold tracking-wide py-2 lg:py-4  text-gray-500 lg:uppercase  uppercase mx-auto lg:max-w-[calc(100%-440px)]  shadow-sm">
       <div className="navbar-start ">
@@ -102,9 +104,13 @@ const Nav = () => {
             <a>Cart</a>
           </li>
           <li className="text-gray-400 lg:flex items-center hidden">/</li>
-          <li className="lg:flex items-center  hidden">
-            <a>$0.00</a>
+          <li className="lg:flex items-center hidden">
+            <a href="#">
+              {totalQuantity} item{totalQuantity !== 1 ? "s" : ""} - $
+              {totalPrice.toFixed(2)}
+            </a>
           </li>
+
           <li>
             <ShoppingBagIcon className="w-8 flex justify-center items-center h-8 text-gray-700" />
           </li>
