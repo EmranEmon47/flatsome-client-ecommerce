@@ -1,16 +1,18 @@
-import React from "react";
-import Home from "./pages/Home/Home";
-import { CardView } from "./pages/Home/CardView";
-import FeaturedProducts from "./pages/Home/FeaturedProducts";
+// App.jsx or main router file
+import { BrowserRouter as Router, Routes, Route } from "react-router";
 
-const App = () => {
+import Home from "./pages/Home/Home.jsx";
+import ProductDetails from "./pages/ProductDetails/ProductDetails";
+
+function App() {
   return (
-    <div>
-      <Home />
-      <CardView />
-      <FeaturedProducts />/
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;
