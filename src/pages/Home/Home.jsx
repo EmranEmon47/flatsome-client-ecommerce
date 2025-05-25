@@ -3,6 +3,7 @@ import Nav from "../../Components/Shared/Nav.jsx";
 import Hero from "./Hero";
 import FeaturedProducts from "./FeaturedProducts.jsx";
 import { CardView } from "./CardView.jsx";
+import BestSelling from "./BestSelling.jsx";
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
       <Hero />
       <CardView />
       <FeaturedProducts />/
+      <BestSelling />
     </div>
   );
 };

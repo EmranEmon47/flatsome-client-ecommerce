@@ -57,19 +57,7 @@ const products = [
         colors: ["Denim Blue", "Charcoal"],
         availability: "Out of Stock",
     },
-    {
-        id: 4,
-        image: product4,
-        span: "Mens",
-        name: "Raglan Tee Denim",
-        rating: 5,
-        price: 55.50,
-        description:
-            "This rugged raglan tee styled with denim wash gives both comfort and bold character for everyday wear.",
-        sizes: ["S", "M", "L"],
-        colors: ["Denim Blue", "Charcoal"],
-        availability: "Out of Stock",
-    },
+
 ];
 
 export default products;
