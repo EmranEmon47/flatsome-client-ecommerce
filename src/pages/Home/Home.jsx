@@ -4,6 +4,7 @@ import Hero from "./Hero";
 import FeaturedProducts from "./FeaturedProducts.jsx";
 import { CardView } from "./CardView.jsx";
 import BestSelling from "./BestSelling.jsx";
+import BrowseCategories from "./BrowseCategories.jsx";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <CardView />
       <FeaturedProducts />/
       <BestSelling />
+      <BrowseCategories />/
     </div>
   );
 };
