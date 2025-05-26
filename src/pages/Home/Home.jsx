@@ -14,7 +14,7 @@ const Home = () => {
       <CardView />
       <FeaturedProducts />/
       <BestSelling />
-      <BrowseCategories />/
+      <BrowseCategories />
     </div>
   );
 };

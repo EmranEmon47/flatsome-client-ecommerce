@@ -17,6 +17,7 @@ const products = [
         sizes: ["S", "M", "L", "XL"],
         colors: ["White", "Beige", "Navy Blue"],
         availability: "In Stock",
+        stock: 12,
     },
     {
         id: 2,
@@ -30,6 +31,7 @@ const products = [
         sizes: ["XS", "S", "M", "L"],
         colors: ["Olive", "Black", "Mustard"],
         availability: "In Stock",
+        stock: 110,
     },
     {
         id: 3,
@@ -43,6 +45,7 @@ const products = [
         sizes: ["M", "L", "XL"],
         colors: ["Red", "Gray"],
         availability: "Limited Stock",
+        stock: 50,
     },
     {
         id: 4,
@@ -56,6 +59,7 @@ const products = [
         sizes: ["S", "M", "L"],
         colors: ["Denim Blue", "Charcoal"],
         availability: "Out of Stock",
+        stock: 80,
     },
 
 ];
