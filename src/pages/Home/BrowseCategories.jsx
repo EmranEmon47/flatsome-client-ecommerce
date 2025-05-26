@@ -1,5 +1,5 @@
 // src/pages/Home.jsx
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router";
 import products from "../../data/products";
 
@@ -13,8 +13,8 @@ const Star = ({ filled }) => (
   </svg>
 );
 
-const BrowseCategories = () => {
-  const [selectedProduct, setSelectedProduct] = useState(null);
+const BrowserCategories = () => {
+  //   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
     <div className="py-12 w-full max-w-[calc(100%-440px)] mx-auto">
@@ -45,73 +45,25 @@ const BrowseCategories = () => {
                     className="w-full h-84 object-cover object-top"
                   />
                 </div>
-                {/* Hover Quick View Button */}
-                <button
-                  onClick={() => setSelectedProduct(product)}
-                  className="absolute bottom-0   left-1/2 w-full -translate-x-1/2 mb-10 px-2 py-2 text-sm bg-white hover:bg-[#445e85] text-gray-600 hover:text-white transition-all "
-                >
-                  <div className="flex flex-col ">
-                    <div className="text-lg font-medium">{product.span}</div>
-                    <div className="text-xs font-normal">
-                      {product.stock} Products
+                <div className="text-left">
+                  {/* Hover Quick View Button */}
+                  <button className="absolute bottom-0 left-1/2 w-full -translate-x-1/2 mb-10 px-2 py-2 text-sm  text-gray-600 group-hover:text-white transition-all bg-white group-hover:bg-[#445e85]">
+                    <div className="flex flex-col ">
+                      <div className="text-lg font-medium">{product.span}</div>
+                      <div className="text-xs font-normal">
+                        {product.stock} Products
+                      </div>
                     </div>
-                  </div>
-                </button>
+                  </button>
+                </div>
               </Link>
 
               {/* Product info */}
-              {/* <div className="p-4 text-left">
-                <h5 className="text-base text-gray-400 font-normal mb-2">
-                  {product.span}
-                </h5>
-                <h3 className="text-sm font-normal mb-2">{product.name}</h3>
-                <div className="flex justify-start mb-2">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} filled={i <= product.rating} />
-                  ))}
-                </div>
-                <p className="text-sm font-semibold text-gray-800">
-                  ${product.price.toFixed(2)}
-                </p>
-              </div> */}
             </div>
           ))}
       </div>
-
-      {/* Modal */}
-      {selectedProduct && (
-        <div
-          className="fixed inset-0 bg-white/30 backdrop-blur-sm flex justify-center items-center z-50"
-          onClick={() => setSelectedProduct(null)}
-        >
-          <div
-            className="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setSelectedProduct(null)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
-            >
-              &times;
-            </button>
-
-            <img
-              src={selectedProduct.image}
-              alt={selectedProduct.name}
-              className="w-full h-auto mb-4 rounded object-contain max-h-[80vh]"
-            />
-
-            <h3 className="text-xl font-semibold mb-2">
-              {selectedProduct.name}
-            </h3>
-            <p className="text-gray-600 text-lg">
-              ${selectedProduct.price.toFixed(2)}
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default BrowseCategories;
+export default BrowserCategories;
