@@ -17,7 +17,7 @@ const BrowserCategories = () => {
   //   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
-    <div className="py-12 w-full max-w-[calc(100%-440px)] mx-auto">
+    <div className=" w-full max-w-[calc(100%-440px)] mx-auto">
       {/* Heading */}
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
