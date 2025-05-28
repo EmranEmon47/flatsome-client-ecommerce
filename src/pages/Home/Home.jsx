@@ -6,6 +6,7 @@ import { CardView } from "./CardView.jsx";
 import BestSelling from "./BestSelling.jsx";
 import BrowseCategories from "./BrowseCategories.jsx";
 import Services from "./Services.jsx";
+import Testimonial from "./Testimonial.jsx";
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <BestSelling />
       <BrowseCategories />
       <Services />
+      <Testimonial />
     </div>
   );
 };
