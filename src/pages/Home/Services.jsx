@@ -1,31 +1,47 @@
 import React from "react";
+import { Truck, Headset, ShieldCheck } from "lucide-react"; // Lucide icons
+
+const serviceData = [
+  {
+    title: "Free Shipping on all orders",
+    description:
+      "Get Free Shipping on all orders over $75 and free returns to our UK returns centre! Items are dispatched from the US and will arrive in 5-8 days.",
+    icon: <Truck className="w-8 h-8 text-blue-500" />,
+  },
+  {
+    title: "Amazing customer service",
+    description:
+      "Our support team is here to help with anything you need. Fast, friendly, and knowledgeable service available 24/7.",
+    icon: <Headset className="w-8 h-8 text-green-500" />,
+  },
+  {
+    title: "No Customs or Duty Fees!",
+    description:
+      "We pay these fees so you don’t have to! The total billed at checkout is the final amount you pay, inclusive of VAT.",
+    icon: <ShieldCheck className="w-8 h-8 text-yellow-500" />,
+  },
+];
 
 const Services = () => {
   return (
-    <div className="w-full py-12 max-w-[calc(100%-440px)] mx-auto flex flex-col md:flex-row gap-4 p-4">
-      <div className=" flex flex-col justify-center items-center  gap-2">
-        <h3 className="text-lg font-semibold">Free Shipping on all orders</h3>
-        <p className="text-sm font-normal">
-          Get Free Shipping on all orders over $75 and free returns to our UK
-          returns centre! Items are dispatched from the US and will arrive in
-          5-8 days.
-        </p>
-      </div>
-      <div className=" flex flex-col justify-center items-center  gap-2">
-        <h3 className="text-lg font-semibold">Amazing customer service</h3>
-        <p className="text-sm font-normal">
-          Get Free Shipping on all orders over $75 and free returns to our UK
-          returns centre! Items are dispatched from the US and will arrive in
-          5-8 days.
-        </p>
-      </div>
-      <div className=" flex flex-col justify-center items-center  gap-2">
-        <h3 className="text-lg font-semibold">No Customs or Duty Fees!</h3>
-        <p className="text-sm font-normal">
-          We pay these fees so you don’t have to! The total billed at checkout
-          is the final amount you pay, inclusive of VAT, with no additional
-          charges at the time of delivery!
-        </p>
+    <div className="w-full py-12 px-4 max-w-screen-xl mx-auto">
+      <div className="flex flex-col md:flex-row gap-8 md:gap-0 justify-between">
+        {serviceData.map((service, index) => (
+          <div
+            key={index}
+            className={`flex flex-col items-center text-center gap-2 px-4 md:w-1/3 ${
+              index < serviceData.length - 1
+                ? "md:border-r md:border-gray-300"
+                : ""
+            }`}
+          >
+            <div>{service.icon}</div>
+            <h3 className="text-lg text-gray-700 font-semibold">
+              {service.title}
+            </h3>
+            <p className="text-sm text-gray-500">{service.description}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
