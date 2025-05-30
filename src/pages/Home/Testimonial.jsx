@@ -48,11 +48,21 @@ export default function Testimonial() {
     >
       {/* Overlay for dark effect */}
       <div className="absolute inset-0  bg-opacity-60 z-0"></div>
+      <div className="flex items-center absolute top-1/2  left-1/2 gap-4  ">
+        <hr className="flex-grow border-t border-gray-300" />
+        <h2
+          style={{ fontFamily: '"Dancing Script", cursive' }}
+          className="text-3xl text-black font-semibold uppercase whitespace-nowrap"
+        >
+          Testimonials
+        </h2>
+        <hr className="flex-grow border-t border-gray-300" />
+      </div>
 
       {/* Review box with fade and scale transition */}
       <div
         key={current}
-        className="relative z-10 p-8 bg-none bg-opacity-10 backdrop-blur-md rounded-xl max-w-2xl text-center transition-all duration-700 ease-in-out transform scale-100 opacity-100 animate-fade-in"
+        className="relative z-10 p-8 mt-8 bg-none bg-opacity-10 backdrop-blur-md rounded-xl max-w-[calc(100%-440px)] text-center transition-all duration-700 ease-in-out transform scale-100 opacity-100 animate-fade-in"
       >
         <p className="text-xl md:text-2xl font-semibold italic mb-4">
           “{reviews[current].text}”
@@ -64,13 +74,13 @@ export default function Testimonial() {
         {/* Arrows */}
         <button
           onClick={goToPrev}
-          className="absolute left-[-3rem] top-1/2 transform -translate-y-1/2 bg-black bg-opacity-40 hover:bg-opacity-70 p-2 rounded-full"
+          className="absolute left-[-3rem] top-1/2 transform -translate-y-1/2 bg-none bg-opacity-40 hover:bg-opacity-70 p-2 rounded-full"
         >
           <ChevronLeft className="w-6 h-6 text-white" />
         </button>
         <button
           onClick={goToNext}
-          className="absolute right-[-3rem] top-1/2 transform -translate-y-1/2 bg-black bg-opacity-40 hover:bg-opacity-70 p-2 rounded-full"
+          className="absolute right-[-3rem] top-1/2 transform -translate-y-1/2 bg-none bg-opacity-40 hover:bg-opacity-70 p-2 rounded-full"
         >
           <ChevronRight className="w-6 h-6 text-white" />
         </button>
