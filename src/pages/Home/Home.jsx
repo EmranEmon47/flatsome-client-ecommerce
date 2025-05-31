@@ -7,6 +7,7 @@ import BestSelling from "./BestSelling.jsx";
 import BrowseCategories from "./BrowseCategories.jsx";
 import Services from "./Services.jsx";
 import Testimonial from "./Testimonial.jsx";
+import News from "./News.jsx";
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <BrowseCategories />
       <Services />
       <Testimonial />
+      <News />
     </div>
   );
 };

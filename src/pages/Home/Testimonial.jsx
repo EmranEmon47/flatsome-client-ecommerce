@@ -48,7 +48,7 @@ export default function Testimonial() {
     >
       {/* Overlay for dark effect */}
       <div className="absolute inset-0  bg-opacity-60 z-0"></div>
-      <div className="flex items-center absolute top-1/2  left-1/2 gap-4  ">
+      <div className="flex items-center absolute  gap-4  ">
         <hr className="flex-grow border-t border-gray-300" />
         <h2
           style={{ fontFamily: '"Dancing Script", cursive' }}
