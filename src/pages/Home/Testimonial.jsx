@@ -62,7 +62,7 @@ export default function Testimonial() {
       {/* Review box with fade and scale transition */}
       <div
         key={current}
-        className="relative z-10 p-8 mt-8 bg-none bg-opacity-10 backdrop-blur-md rounded-xl max-w-[calc(100%-440px)] text-center transition-all duration-700 ease-in-out transform scale-100 opacity-100 animate-fade-in"
+        className="relative group z-10 p-8 mt-8 bg-none bg-opacity-10 backdrop-blur-md rounded-xl max-w-[calc(100%-440px)] text-center transition-all duration-700 ease-in-out transform scale-100 opacity-100 animate-fade-in"
       >
         <p className="text-xl md:text-2xl font-semibold italic mb-4">
           “{reviews[current].text}”
@@ -74,15 +74,15 @@ export default function Testimonial() {
         {/* Arrows */}
         <button
           onClick={goToPrev}
-          className="absolute left-[-3rem] top-1/2 transform -translate-y-1/2 bg-none bg-opacity-40 hover:bg-opacity-70 p-2 rounded-full"
+          className="absolute left-[-3rem] top-1/2 transform -translate-y-1/2   p-2 "
         >
-          <ChevronLeft className="w-6 h-6 text-white" />
+          <ChevronLeft className="w-6 h-6 text-white group-hover:block hidden" />
         </button>
         <button
           onClick={goToNext}
-          className="absolute right-[-3rem] top-1/2 transform -translate-y-1/2 bg-none bg-opacity-40 hover:bg-opacity-70 p-2 rounded-full"
+          className="absolute right-[-3rem] top-1/2 transform -translate-y-1/2  p-2 "
         >
-          <ChevronRight className="w-6 h-6 text-white" />
+          <ChevronRight className="w-6 h-6 text-white group-hover:block hidden" />
         </button>
       </div>
 
