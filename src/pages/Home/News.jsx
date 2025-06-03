@@ -35,27 +35,37 @@ const News = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-4 gap-8">
-      {posts.map((post) => (
-        <div key={post.id} className="bg-white shadow rounded  relative">
-          <div className="relative">
-            <img
-              src={post.image}
-              alt={post.title}
-              className="w-full h-44 object-cover"
-            />
-            {/* Date Badge */}
-            <div className="absolute -left-4 flex flex-col items-center leading-tight text-[#445e85] hover:text-white text-center shadow border-[#445e85] hover:bg-[#445e85]  border-2  top-4 bg-white  px-3 py-1   ">
-              <span className="text-sm font-medium ">{post.date.day}</span>
-              <span className="text-xs font-medium ">{post.date.month}</span>
+    <div className="max-w-[calc(100%-440px)] mx-auto px-4 py-10 ">
+      {/* Heading */}
+      <div className="flex items-center gap-4 mb-8">
+        <hr className="flex-grow border-t border-gray-300" />
+        <h2 className="text-2xl text-gray-600 font-medium uppercase whitespace-nowrap">
+          Latest News
+        </h2>
+        <hr className="flex-grow border-t border-gray-300" />
+      </div>
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {posts.map((post) => (
+          <div key={post.id} className="bg-white shadow rounded  relative">
+            <div className="relative group">
+              <img
+                src={post.image}
+                alt={post.title}
+                className="w-full h-44 object-cover"
+              />
+              {/* Date Badge */}
+              <div className="absolute -left-4 flex flex-col items-center leading-tight text-[#445e85] group-hover:text-white text-center shadow border-[#445e85] group-hover:bg-[#445e85]  border-2  top-4 bg-white  px-3 py-1   ">
+                <span className="text-sm font-medium ">{post.date.day}</span>
+                <span className="text-xs font-medium ">{post.date.month}</span>
+              </div>
+            </div>
+            <div className="p-4">
+              <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
+              <p className="text-gray-600 text-sm">{post.description}</p>
             </div>
           </div>
-          <div className="p-4">
-            <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
-            <p className="text-gray-600 text-sm">{post.description}</p>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

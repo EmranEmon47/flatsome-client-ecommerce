@@ -24,7 +24,7 @@ const serviceData = [
 
 const Services = () => {
   return (
-    <div className="w-full py-12 px-4 max-w-screen-xl mx-auto">
+    <div className="w-full py-16 px-4 max-w-screen-xl mx-auto">
       <div className="flex flex-col md:flex-row gap-8 md:gap-0 justify-between">
         {serviceData.map((service, index) => (
           <div

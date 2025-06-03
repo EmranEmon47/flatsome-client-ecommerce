@@ -8,6 +8,7 @@ import BrowseCategories from "./BrowseCategories.jsx";
 import Services from "./Services.jsx";
 import Testimonial from "./Testimonial.jsx";
 import News from "./News.jsx";
+import Footer from "../../Components/Shared/Footer.jsx";
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
       <Services />
       <Testimonial />
       <News />
+      <Footer />
     </div>
   );
 };
