@@ -1,64 +1,61 @@
-// src/pages/Home.jsx
 import React from "react";
-import { Link } from "react-router";
-import products from "../../data/products";
-
-const Star = ({ filled }) => (
-  <svg
-    className={`w-4 h-4 ${filled ? "text-yellow-400" : "text-gray-300"}`}
-    fill="currentColor"
-    viewBox="0 0 20 20"
-  >
-    <path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.566-.955L10 0l2.946 5.955 6.566.955-4.756 4.635 1.122 6.545z" />
-  </svg>
-);
-
+import img from "../../assets/product1.jpg"; // Example image import
 const News = () => {
-  //   const [selectedProduct, setSelectedProduct] = useState(null);
+  const posts = [
+    {
+      id: 1,
+      title: "Exploring the Mountains",
+      description:
+        "Discover the beauty of nature as we explore the wild terrains.",
+      date: { day: "12", month: "Aug" },
+      image: img,
+    },
+    {
+      id: 2,
+      title: "City Lights at Night",
+      description: "The charm and chaos of city life seen after dark.",
+      date: { day: "20", month: "Sep" },
+      image: img,
+    },
+    {
+      id: 3,
+      title: "Beachside Bliss",
+      description: "Relax and recharge by the calming ocean waves.",
+      date: { day: "08", month: "Jun" },
+      image: img,
+    },
+    {
+      id: 4,
+      title: "Exploring the Mountains",
+      description:
+        "Discover the beauty of nature as we explore the wild terrains.",
+      date: { day: "11", month: "Feb" },
+      image: img,
+    },
+  ];
 
   return (
-    <div className=" w-full mb-12 max-w-[calc(100%-440px)] mx-auto">
-      {/* Heading */}
-      <div className="flex items-center gap-4 my-8">
-        <hr className="flex-grow border-t border-gray-300" />
-        <h2 className="text-2xl text-gray-600 font-medium uppercase whitespace-nowrap">
-          Latest News
-        </h2>
-        <hr className="flex-grow border-t border-gray-300" />
-      </div>
-
-      {/* Product Grid */}
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {products
-          .sort((a, b) => b.id - a.id)
-          .map((product) => (
-            <div
-              key={product.id}
-              className="bg-white shadow-sm overflow-hidden hover:shadow-lg transition-shadow group relative"
-            >
-              {/* Wrap image in link to product details */}
-              <Link to={`/product/${product.id}`}>
-                <div className="relative">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-40 object-cover object-top"
-                  />
-                </div>
-                <div className="text-left">
-                  {/* Hover Quick View Button */}
-                  <button className="absolute bottom-1/2  w-full -translate-x-1/2 px-auto   text-sm  text-gray-600 group-hover:text-white transition-all bg-white group-hover:bg-[#445e85]">
-                    <div className="flex flex-col ">
-                      <div className="text-xs font-normal">{product.stock}</div>
-                    </div>
-                  </button>
-                </div>
-              </Link>
-
-              {/* Product info */}
+    <div className="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-4 gap-8">
+      {posts.map((post) => (
+        <div key={post.id} className="bg-white shadow rounded  relative">
+          <div className="relative">
+            <img
+              src={post.image}
+              alt={post.title}
+              className="w-full h-44 object-cover"
+            />
+            {/* Date Badge */}
+            <div className="absolute -left-4 flex flex-col items-center leading-tight text-[#445e85] hover:text-white text-center shadow border-[#445e85] hover:bg-[#445e85]  border-2  top-4 bg-white  px-3 py-1   ">
+              <span className="text-sm font-medium ">{post.date.day}</span>
+              <span className="text-xs font-medium ">{post.date.month}</span>
             </div>
-          ))}
-      </div>
+          </div>
+          <div className="p-4">
+            <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
+            <p className="text-gray-600 text-sm">{post.description}</p>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

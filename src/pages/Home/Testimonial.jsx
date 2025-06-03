@@ -87,7 +87,7 @@ export default function Testimonial() {
       </div>
 
       {/* Dots */}
-      <div className="z-10 flex space-x-2 mt-6">
+      <div className="z-10 flex space-x-2 my-4">
         {reviews.map((_, index) => (
           <button
             key={index}
