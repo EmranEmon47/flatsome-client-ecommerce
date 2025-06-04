@@ -4,6 +4,11 @@ import products from "../../data/products";
 import Nav from "../../Components/Shared/Nav";
 import { useCart } from "../../Context/CartProvider";
 
+// 🧩 Imported new components
+import ColorSelector from "../../Components/Product/ColorSelector";
+import SizeSelector from "../../Components/Product/SizeSelector";
+import QuantitySelector from "../../Components/Product/QuantitySelector";
+
 const ProductDetails = () => {
   const { id } = useParams();
   const product = products.find((item) => item.id === parseInt(id));
@@ -32,6 +37,7 @@ const ProductDetails = () => {
 
           {/* Product Info */}
           <div className="space-y-6">
+            {/* Title, Category, Price */}
             <div>
               <h1 className="text-3xl font-semibold mb-2">{product.name}</h1>
               <p className="text-sm text-gray-600 mb-1">
@@ -42,55 +48,26 @@ const ProductDetails = () => {
               </p>
             </div>
 
-            <div className="space-y-4 text-sm text-gray-700">
-              <div>
-                <h4 className="font-medium text-base text-black">
-                  Description:
-                </h4>
-                <p>{product.description}</p>
-              </div>
+            {/* Description */}
+            <div>
+              <h4 className="font-medium text-base text-black">Description:</h4>
+              <p className="text-sm text-gray-700">{product.description}</p>
+            </div>
 
-              <div>
-                <h4 className="font-medium text-base text-black">
-                  Available Colors:
-                </h4>
-                <p>{product.colors.join(", ")}</p>
-              </div>
+            {/* Color & Size Selectors */}
+            <ColorSelector colors={product.colors} />
+            <SizeSelector sizes={product.sizes} />
 
-              <div>
-                <h4 className="font-medium text-base text-black">
-                  Available Sizes:
-                </h4>
-                <p>{product.sizes.join(", ")}</p>
-              </div>
-
-              <div>
-                <h4 className="font-medium text-base text-black">
-                  Availability:
-                </h4>
-                <p>{product.availability}</p>
-              </div>
+            {/* Availability */}
+            <div>
+              <h4 className="font-medium text-base text-black">
+                Availability:
+              </h4>
+              <p className="text-sm text-gray-700">{product.availability}</p>
             </div>
 
             {/* Quantity Selector */}
-            <div className="flex items-center gap-4">
-              <label className="text-sm font-medium">Quantity:</label>
-              <div className="flex items-center border rounded">
-                <button
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
-                >
-                  -
-                </button>
-                <span className="px-4">{quantity}</span>
-                <button
-                  onClick={() => setQuantity((q) => q + 1)}
-                  className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
-                >
-                  +
-                </button>
-              </div>
-            </div>
+            <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
 
             {/* Add to Cart */}
             <div>
