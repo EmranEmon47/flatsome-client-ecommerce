@@ -57,7 +57,7 @@ const products = [
         description:
             "This rugged raglan tee styled with denim wash gives both comfort and bold character for everyday wear.",
         sizes: ["S", "M", "L"],
-        colors: ["Denim Blue", "Charcoal"],
+        colors: ["#6F8FAF", "#36454F"],
         availability: "Out of Stock",
         stock: 80,
     },
