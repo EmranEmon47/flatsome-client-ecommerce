@@ -15,7 +15,7 @@ const products = [
         description:
             "A soft and stylish top made from premium knit materials, perfect for casual wear or layering. It offers comfort and fashion in one piece.",
         sizes: ["S", "M", "L", "XL"],
-        colors: ["White", "Beige", "Navy Blue"],
+        colors: ["#FFFFFF", "#F5F5DC", "#000080"],
         availability: "In Stock",
         stock: 12,
     },
@@ -29,7 +29,7 @@ const products = [
         description:
             "This lightweight jacket is perfect for spring and fall. Designed with minimal seams for a clean look and high comfort.",
         sizes: ["XS", "S", "M", "L"],
-        colors: ["Olive", "Black", "Mustard"],
+        colors: ["#808000", "#000000", "#FFDB58"],
         availability: "In Stock",
         stock: 110,
     },
@@ -43,7 +43,7 @@ const products = [
         description:
             "A retro college-style sweatshirt with bold print and durable stitching. Stay warm and trendy all season long.",
         sizes: ["M", "L", "XL"],
-        colors: ["Red", "Gray"],
+        colors: ["#FF6347", "#787878"],
         availability: "Limited Stock",
         stock: 50,
     },

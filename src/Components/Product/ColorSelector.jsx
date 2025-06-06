@@ -9,7 +9,7 @@ const ColorSelector = ({ colors }) => {
         {colors.map((color, index) => (
           <span
             key={index}
-            className="w-6 h-6 rounded-full border"
+            className="w-6 h-6 rounded-full border-none"
             title={color}
             style={{ backgroundColor: color }}
           ></span>
