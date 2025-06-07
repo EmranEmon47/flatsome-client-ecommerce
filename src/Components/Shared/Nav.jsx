@@ -227,7 +227,7 @@ const Nav = () => {
 
                 <button
                   onClick={() => alert("Proceed to Checkout")}
-                  className="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+                  className="mt-3 w-full bg-blue-400 text-white py-2 rounded hover:bg-blue-600 transition"
                   aria-label="Proceed to checkout"
                 >
                   Proceed to Checkout
