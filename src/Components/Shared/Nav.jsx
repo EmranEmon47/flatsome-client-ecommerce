@@ -242,14 +242,14 @@ const Nav = () => {
                   </ul>
                 )}
 
-                <div className="mt-4 border-t pt-3 text-right font-semibold">
+                <div className="mt-4 border-t py-3 text-right font-semibold">
                   Total: ${totalPrice.toFixed(2)}
                 </div>
 
                 <Link
                   to="/checkout"
                   onClick={() => alert("Proceed to Checkout")}
-                  className="mt-3 w-full bg-blue-400 text-white py-2 rounded hover:bg-blue-600 transition"
+                  className="w-full bg-blue-400 text-white py-2 px-2 rounded hover:bg-blue-600 transition"
                   aria-label="Proceed to checkout"
                 >
                   Proceed to Checkout
