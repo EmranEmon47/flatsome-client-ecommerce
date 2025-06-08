@@ -180,9 +180,29 @@ const Nav = () => {
                       >
                         <div className="flex flex-col">
                           <span className="font-semibold">{item.name}</span>
+
+                          {item.selectedColor && (
+                            <span className="text-sm text-gray-500">
+                              Color:{" "}
+                              <span className="font-medium">
+                                {item.selectedColor}
+                              </span>
+                            </span>
+                          )}
+
+                          {item.selectedSize && (
+                            <span className="text-sm text-gray-500">
+                              Size:{" "}
+                              <span className="font-medium">
+                                {item.selectedSize}
+                              </span>
+                            </span>
+                          )}
+
                           <span className="text-sm text-gray-500">
                             Price: ${item.price.toFixed(2)}
                           </span>
+
                           <span className="text-sm text-gray-500">
                             Total: ${(item.price * item.quantity).toFixed(2)}
                           </span>
