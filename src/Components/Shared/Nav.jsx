@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import logo from "../../assets/logo.png";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../Context/CartProvider";
+import { Link } from "react-router";
 
 const Nav = () => {
   const {
@@ -245,13 +246,14 @@ const Nav = () => {
                   Total: ${totalPrice.toFixed(2)}
                 </div>
 
-                <button
+                <Link
+                  to="/checkout"
                   onClick={() => alert("Proceed to Checkout")}
                   className="mt-3 w-full bg-blue-400 text-white py-2 rounded hover:bg-blue-600 transition"
                   aria-label="Proceed to checkout"
                 >
                   Proceed to Checkout
-                </button>
+                </Link>
               </div>
             </div>
           )}

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 // Create the cart context
 const CartContext = createContext();
@@ -28,10 +29,20 @@ export const CartProvider = ({ children }) => {
         : product.price;
 
     setCartItems((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find(
+        (item) =>
+          item.id === product.id &&
+          item.selectedColor === product.selectedColor &&
+          item.selectedSize === product.selectedSize
+      );
+
+      let updatedCart;
+
       if (existing) {
-        return prev.map((item) =>
-          item.id === product.id
+        updatedCart = prev.map((item) =>
+          item.id === product.id &&
+          item.selectedColor === product.selectedColor &&
+          item.selectedSize === product.selectedSize
             ? {
                 ...item,
                 quantity: item.quantity + quantity,
@@ -39,9 +50,17 @@ export const CartProvider = ({ children }) => {
               }
             : item
         );
+      } else {
+        updatedCart = [...prev, { ...product, quantity, price: numericPrice }];
       }
-      return [...prev, { ...product, quantity, price: numericPrice }];
+
+      // Trigger toast after state is set
+
+      return updatedCart;
     });
+    toast.success(
+      `${product.name} (${product.selectedColor}, ${product.selectedSize}) added to your cart!`
+    );
   };
 
   // Remove from cart
