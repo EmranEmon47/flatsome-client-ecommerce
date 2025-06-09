@@ -3,9 +3,11 @@ import { useCart } from "../../Context/CartProvider.jsx";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import Nav from "../../Components/Shared/Nav.jsx";
+import { useAuth } from "../../Context/AuthContext.jsx"; // 🔹 import useAuth
 
 const Checkout = () => {
   const { cartItems, totalPrice, clearCart } = useCart();
+  const { currentUser } = useAuth(); // 🔹 get currentUser
   const navigate = useNavigate();
 
   const handlePlaceOrder = () => {
@@ -14,13 +16,19 @@ const Checkout = () => {
       return;
     }
 
-    // Simulate placing order
+    if (!currentUser) {
+      toast.error("Please log in to place your order.");
+      navigate("/login");
+      return;
+    }
+
+    // ✅ User is logged in — proceed with order
     clearCart();
     toast.success("🎉 Order placed successfully!");
 
     setTimeout(() => {
       navigate("/");
-    }, 1500); // Delay so user sees toast
+    }, 1500);
   };
 
   return (
