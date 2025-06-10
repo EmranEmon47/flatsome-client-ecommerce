@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase"; // make sure this path matches your config file
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../../firebase"; // ensure the path is correct
 import toast from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -22,8 +23,23 @@ const Signup = () => {
       return;
     }
 
+    if (!fullName.trim()) {
+      toast.error("Please enter your full name.");
+      return;
+    }
+
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // ✅ Set display name
+      await updateProfile(userCredential.user, {
+        displayName: fullName,
+      });
+
       toast.success("🎉 Account created successfully!");
       navigate(from, { replace: true });
     } catch (error) {
@@ -36,6 +52,19 @@ const Signup = () => {
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6">Sign Up</h2>
         <form onSubmit={handleSignup} className="space-y-4">
+          {/* ✅ Full Name field */}
+          <div>
+            <label className="block mb-1">Full Name</label>
+            <input
+              type="text"
+              autoComplete="name"
+              className="w-full border px-4 py-2 rounded"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+            />
+          </div>
+
           <div>
             <label className="block mb-1">Email</label>
             <input

@@ -4,6 +4,8 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../Context/CartProvider";
 import { Link } from "react-router";
 import { useAuth } from "../../Context/AuthContext.jsx";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
 
 const Nav = () => {
   const { currentUser } = useAuth();
@@ -11,6 +13,15 @@ const Nav = () => {
     if (!fullNameOrEmail) return "User";
     return fullNameOrEmail.split(" ")[0] || fullNameOrEmail.split("@")[0];
   };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Logout error:", error.message);
+    }
+  };
+
   const {
     cartItems,
     totalQuantity,
@@ -129,10 +140,31 @@ const Nav = () => {
 
         {/* Cart + quantity + price wrapper for hover */}
         <div className="navbar-end lg:flex lg:items-center lg:justify-center lg:gap-4 ml-auto relative ">
+          {/* user display name and profile */}
           {currentUser ? (
-            <span className="text-xs lg:block hidden font-semibold text-green-700">
-              {getFirstName(currentUser.displayName || currentUser.email)}
-            </span>
+            <div className="relative group text-xs font-semibold text-gray-700 lg:block hidden">
+              <button className="cursor-pointer py-2 px-4 rounded hover:bg-gray-100 transition">
+                {getFirstName(currentUser.displayName || currentUser.email)}
+              </button>
+              <ul className="absolute right-0  w-32 bg-white border rounded shadow-md hidden group-hover:block z-50">
+                <li>
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 hover:bg-gray-100 text-sm"
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
           ) : (
             <Link
               to="/login"
@@ -141,6 +173,7 @@ const Nav = () => {
               Login
             </Link>
           )}
+
           <div className="w-px h-5 lg:flex items-center hidden bg-gray-300 mx-2"></div>
 
           <ul

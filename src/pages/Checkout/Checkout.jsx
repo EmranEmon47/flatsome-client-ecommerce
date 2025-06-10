@@ -1,14 +1,16 @@
 import React from "react";
 import { useCart } from "../../Context/CartProvider.jsx";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import toast from "react-hot-toast";
 import Nav from "../../Components/Shared/Nav.jsx";
 import { useAuth } from "../../Context/AuthContext.jsx"; // 🔹 import useAuth
+import {} from "react-router";
 
 const Checkout = () => {
   const { cartItems, totalPrice, clearCart } = useCart();
   const { currentUser } = useAuth(); // 🔹 get currentUser
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handlePlaceOrder = () => {
     if (cartItems.length === 0) {
@@ -18,7 +20,8 @@ const Checkout = () => {
 
     if (!currentUser) {
       toast.error("Please log in to place your order.");
-      navigate("/login");
+      navigate("/login", { state: { from: location } });
+
       return;
     }
 
