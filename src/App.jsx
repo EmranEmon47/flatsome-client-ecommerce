@@ -6,7 +6,9 @@ import Home from "./pages/Home/Home.jsx";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Checkout from "./pages/Checkout/Checkout.jsx";
 import { AuthProvider } from "./Context/AuthContext.jsx";
-
+import ProtectedRoute from "./Components/Protected/ProtectedRoute.jsx";
+import Login from "./pages/Auth/Login.jsx";
+import Signup from "./pages/Auth/Signup.jsx";
 function App() {
   return (
     <AuthProvider>
@@ -14,9 +16,16 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/checkout" element={<Checkout />} />
-          {/* <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} /> */}
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Router>
 

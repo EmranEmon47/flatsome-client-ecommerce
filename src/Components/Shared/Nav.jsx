@@ -3,8 +3,14 @@ import logo from "../../assets/logo.png";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../Context/CartProvider";
 import { Link } from "react-router";
+import { useAuth } from "../../Context/AuthContext.jsx";
 
 const Nav = () => {
+  const { currentUser } = useAuth();
+  const getFirstName = (fullNameOrEmail) => {
+    if (!fullNameOrEmail) return "User";
+    return fullNameOrEmail.split(" ")[0] || fullNameOrEmail.split("@")[0];
+  };
   const {
     cartItems,
     totalQuantity,
@@ -123,9 +129,18 @@ const Nav = () => {
 
         {/* Cart + quantity + price wrapper for hover */}
         <div className="navbar-end lg:flex lg:items-center lg:justify-center lg:gap-4 ml-auto relative ">
-          <a className="text-xs lg:block hidden font-semibold cursor-pointer">
-            Login
-          </a>
+          {currentUser ? (
+            <span className="text-xs lg:block hidden font-semibold text-green-700">
+              {getFirstName(currentUser.displayName || currentUser.email)}
+            </span>
+          ) : (
+            <Link
+              to="/login"
+              className="text-xs lg:block hidden font-semibold cursor-pointer"
+            >
+              Login
+            </Link>
+          )}
           <div className="w-px h-5 lg:flex items-center hidden bg-gray-300 mx-2"></div>
 
           <ul
