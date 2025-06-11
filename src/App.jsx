@@ -9,6 +9,7 @@ import { AuthProvider } from "./Context/AuthContext.jsx";
 import ProtectedRoute from "./Components/Protected/ProtectedRoute.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import Signup from "./pages/Auth/Signup.jsx";
+import NotFound from "./pages/NotFound/NotFound.jsx";
 function App() {
   return (
     <AuthProvider>
@@ -26,6 +27,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
 
