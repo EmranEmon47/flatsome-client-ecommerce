@@ -142,8 +142,8 @@ const Nav = () => {
         <div className="navbar-end lg:flex lg:items-center lg:justify-center lg:gap-4 ml-auto relative ">
           {/* user display name and profile */}
           {currentUser ? (
-            <div className="relative group text-xs font-semibold text-gray-700 lg:block hidden">
-              <button className="cursor-pointer py-2 px-4 rounded hover:bg-gray-100 transition">
+            <div className="relative group text-sm font-semibold text-gray-500 lg:block hidden">
+              <button className="cursor-pointer py-2     rounded text-[#6184b8] transition">
                 {getFirstName(currentUser.displayName || currentUser.email)}
               </button>
               <ul className="absolute right-0  w-32 bg-white border rounded shadow-md hidden group-hover:block z-50">
@@ -174,7 +174,7 @@ const Nav = () => {
             </Link>
           )}
 
-          <div className="w-px h-5 lg:flex items-center hidden bg-gray-300 mx-2"></div>
+          <div className="w-px h-5 lg:flex items-center hidden bg-gray-300 mx-1"></div>
 
           <ul
             className="text-xs font-semibold lg:flex lg:items-center gap-2 cursor-pointer select-none"
