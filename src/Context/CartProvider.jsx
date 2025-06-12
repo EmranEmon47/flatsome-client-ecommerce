@@ -54,28 +54,45 @@ export const CartProvider = ({ children }) => {
         updatedCart = [...prev, { ...product, quantity, price: numericPrice }];
       }
 
-      // Trigger toast after state is set
-
       return updatedCart;
     });
+
     toast.success(
       `${product.name} (${product.selectedColor}, ${product.selectedSize}) added to your cart!`
     );
   };
 
   // Remove from cart
-  const removeFromCart = (productId) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== productId));
+  const removeFromCart = (productId, selectedColor, selectedSize) => {
+    setCartItems((prev) =>
+      prev.filter(
+        (item) =>
+          !(
+            item.id === productId &&
+            item.selectedColor === selectedColor &&
+            item.selectedSize === selectedSize
+          )
+      )
+    );
   };
-  // Add this function inside CartProvider component:
-  const updateQuantity = (productId, newQuantity) => {
+
+  // ✅ Updated updateQuantity function
+  const updateQuantity = (
+    productId,
+    selectedColor,
+    selectedSize,
+    newQuantity
+  ) => {
     if (newQuantity <= 0) {
-      // Remove item if quantity is zero or less
-      removeFromCart(productId);
+      removeFromCart(productId, selectedColor, selectedSize);
     } else {
       setCartItems((prev) =>
         prev.map((item) =>
-          item.id === productId ? { ...item, quantity: newQuantity } : item
+          item.id === productId &&
+          item.selectedColor === selectedColor &&
+          item.selectedSize === selectedSize
+            ? { ...item, quantity: newQuantity }
+            : item
         )
       );
     }

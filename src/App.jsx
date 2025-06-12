@@ -10,6 +10,7 @@ import ProtectedRoute from "./Components/Protected/ProtectedRoute.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import Signup from "./pages/Auth/Signup.jsx";
 import NotFound from "./pages/NotFound/NotFound.jsx";
+import CartView from "./pages/Cart/CartView.jsx";
 function App() {
   return (
     <AuthProvider>
@@ -17,6 +18,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/cart" element={<CartView />} />
+
           <Route
             path="/checkout"
             element={

@@ -9,6 +9,7 @@ import { auth } from "../../firebase";
 
 const Nav = () => {
   const { currentUser } = useAuth();
+
   const getFirstName = (fullNameOrEmail) => {
     if (!fullNameOrEmail) return "User";
     return fullNameOrEmail.split(" ")[0] || fullNameOrEmail.split("@")[0];
@@ -29,18 +30,15 @@ const Nav = () => {
     removeFromCart,
     updateQuantity,
   } = useCart();
-  const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // We use a ref to delay closing when mouse leaves the popup (optional for better UX)
+  const [isCartOpen, setIsCartOpen] = useState(false);
   let timeoutRef = useRef(null);
 
-  // Show modal on mouse enter
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setIsCartOpen(true);
   };
 
-  // Hide modal on mouse leave with delay (to allow moving mouse into modal)
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setIsCartOpen(false);
@@ -49,9 +47,8 @@ const Nav = () => {
 
   return (
     <>
-      <div className="flex items-center justify-around w-full lg:items-center font-semibold tracking-wide py-2 lg:py-4 text-gray-500 lg:uppercase uppercase mx-auto lg:max-w-[calc(100%-440px)] shadow-sm">
+      <div className="flex items-center justify-around w-full font-semibold tracking-wide py-2 lg:py-4 text-gray-500 uppercase mx-auto lg:max-w-[calc(100%-440px)] shadow-sm">
         <div className="navbar-start">
-          {/* Dropdown and Logo unchanged */}
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
               <svg
@@ -101,7 +98,6 @@ const Nav = () => {
         </div>
 
         <div className="navbar-center hidden lg:flex">
-          {/* Your existing menu code unchanged */}
           <ul className="menu text-xs menu-horizontal px-1">
             <li>
               <details>
@@ -138,15 +134,13 @@ const Nav = () => {
           </ul>
         </div>
 
-        {/* Cart + quantity + price wrapper for hover */}
-        <div className="navbar-end lg:flex lg:items-center lg:justify-center lg:gap-4 ml-auto relative ">
-          {/* user display name and profile */}
+        <div className="navbar-end lg:flex lg:items-center lg:justify-center lg:gap-4 ml-auto relative">
           {currentUser ? (
             <div className="relative group text-sm font-semibold text-gray-500 lg:block hidden">
-              <button className="cursor-pointer py-2     rounded text-[#6184b8] transition">
+              <button className="cursor-pointer py-2 rounded text-[#6184b8] transition">
                 {getFirstName(currentUser.displayName || currentUser.email)}
               </button>
-              <ul className="absolute right-0  w-32 bg-white border rounded shadow-md hidden group-hover:block z-50">
+              <ul className="absolute right-0 w-32 bg-white border rounded shadow-md hidden group-hover:block z-50">
                 <li>
                   <Link
                     to="/profile"
@@ -183,7 +177,7 @@ const Nav = () => {
             aria-haspopup="true"
             aria-expanded={isCartOpen}
           >
-            <li className="hidden lg:flex items-center ">
+            <li className="hidden lg:flex items-center">
               <a>Cart</a>
             </li>
             <li className="text-gray-400 lg:flex items-center hidden">/</li>
@@ -193,7 +187,6 @@ const Nav = () => {
                 {totalPrice.toFixed(2)}
               </a>
             </li>
-
             <li className="relative">
               <ShoppingBagIcon className="w-8 h-8 text-gray-700" />
               {totalQuantity > 0 && (
@@ -204,7 +197,7 @@ const Nav = () => {
             </li>
           </ul>
 
-          {/* SMALL cart dropdown modal */}
+          {/* Cart dropdown */}
           {isCartOpen && (
             <div
               className="absolute right-0 top-0 mt-2 w-80 max-h-96 overflow-auto bg-white shadow-lg rounded border border-gray-200 z-50"
@@ -224,12 +217,11 @@ const Nav = () => {
                   <ul className="divide-y divide-gray-200 max-h-60 overflow-y-auto">
                     {cartItems.map((item) => (
                       <li
-                        key={item.id}
+                        key={`${item.id}-${item.selectedColor}-${item.selectedSize}`}
                         className="py-2 flex justify-between items-center"
                       >
                         <div className="flex flex-col">
                           <span className="font-semibold">{item.name}</span>
-
                           {item.selectedColor && (
                             <span className="text-sm text-gray-500">
                               Color:{" "}
@@ -238,7 +230,6 @@ const Nav = () => {
                               </span>
                             </span>
                           )}
-
                           {item.selectedSize && (
                             <span className="text-sm text-gray-500">
                               Size:{" "}
@@ -247,11 +238,9 @@ const Nav = () => {
                               </span>
                             </span>
                           )}
-
                           <span className="text-sm text-gray-500">
                             Price: ${item.price.toFixed(2)}
                           </span>
-
                           <span className="text-sm text-gray-500">
                             Total: ${(item.price * item.quantity).toFixed(2)}
                           </span>
@@ -259,10 +248,14 @@ const Nav = () => {
                         <div className="flex items-center gap-1">
                           <button
                             onClick={() =>
-                              updateQuantity(item.id, item.quantity - 1)
+                              updateQuantity(
+                                item.id,
+                                item.selectedColor,
+                                item.selectedSize,
+                                item.quantity - 1
+                              )
                             }
                             disabled={item.quantity <= 1}
-                            aria-label={`Decrease quantity of ${item.name}`}
                             className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
                           >
                             -
@@ -270,16 +263,25 @@ const Nav = () => {
                           <span>{item.quantity}</span>
                           <button
                             onClick={() =>
-                              updateQuantity(item.id, item.quantity + 1)
+                              updateQuantity(
+                                item.id,
+                                item.selectedColor,
+                                item.selectedSize,
+                                item.quantity + 1
+                              )
                             }
-                            aria-label={`Increase quantity of ${item.name}`}
                             className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
                           >
                             +
                           </button>
                           <button
-                            onClick={() => removeFromCart(item.id)}
-                            aria-label={`Remove ${item.name} from cart`}
+                            onClick={() =>
+                              removeFromCart(
+                                item.id,
+                                item.selectedColor,
+                                item.selectedSize
+                              )
+                            }
                             className="ml-2 text-red-500 hover:text-red-700 font-bold"
                           >
                             &times;
@@ -295,10 +297,14 @@ const Nav = () => {
                 </div>
 
                 <Link
+                  to="/cart"
+                  className="w-full block text-center bg-[#445e85] text-white py-2  hover:bg-[#2c3c53] transition"
+                >
+                  View My Cart
+                </Link>
+                <Link
                   to="/checkout"
-                  onClick={() => alert("Proceed to Checkout")}
-                  className="w-full bg-blue-400 text-white py-2 px-2 rounded hover:bg-blue-600 transition"
-                  aria-label="Proceed to checkout"
+                  className="w-full block text-center bg-[#FF6347] text-white  py-2 mt-2  hover:bg-[#EC2D01] transition"
                 >
                   Proceed to Checkout
                 </Link>
