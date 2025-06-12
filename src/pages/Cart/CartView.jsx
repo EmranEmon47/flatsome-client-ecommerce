@@ -39,39 +39,55 @@ const CartView = () => {
   return (
     <div>
       <Nav />
-      <div className="max-w-4xl mx-auto p-6">
-        <h2 className="text-2xl font-semibold mb-6">Your Cart</h2>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <h2 className="text-2xl font-medium mb-6">Shopping Cart</h2>
 
-        <div className="divide-y">
-          {cartItems.map((item, index) => (
-            <div
-              key={index}
-              className="py-1 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4"
-            >
-              <div className="flex items-center space-x-4">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-24 h-24 object-contain rounded "
-                />
-                <div>
-                  <h4 className="font-medium text-lg">{item.name}</h4>
-                  <p className="text-sm text-gray-500">
-                    Color:{" "}
-                    <span className="capitalize">{item.selectedColor}</span>,
-                    Size: {item.selectedSize}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Unit Price: ${item.price.toFixed(2)}
-                  </p>
-                  <p className="text-sm text-gray-600 font-semibold">
-                    Subtotal: ${(item.price * item.quantity).toFixed(2)}
-                  </p>
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Left: Cart Items */}
+          <div className="flex-1">
+            {/* Table Header (hidden on small screens) */}
+            <div className="hidden sm:grid grid-cols-[2fr_1fr_.5fr_.5fr_.5fr] font-semibold text-gray-700 py-2 border-b text-sm">
+              <div>Product</div>
+              <div>Color / Size</div>
+              <div className="text-center">Unit Price</div>
+              <div className="text-center">Quantity</div>
+              <div className="text-end">Subtotal</div>
+            </div>
+
+            {/* Cart Items */}
+            {cartItems.map((item, index) => (
+              <div
+                key={index}
+                className="py-4 px-2 flex flex-col sm:grid sm:grid-cols-[2fr_1fr_.5fr_.5fr_.5fr] sm:items-center border-b gap-3 text-sm"
+              >
+                {/* Product */}
+                <div className="flex items-center gap-3">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-12 h-12 object-contain rounded"
+                  />
+                  <h4 className="font-normal text-sm sm:text-base break-words">
+                    {item.name}
+                  </h4>
                 </div>
-              </div>
 
-              <div className="flex flex-col items-start sm:items-end gap-2">
-                <div className="flex items-center border rounded overflow-hidden">
+                {/* Color / Size */}
+                <div className="text-gray-600">
+                  <div>
+                    Color:{" "}
+                    <span className="capitalize">{item.selectedColor}</span>
+                  </div>
+                  <div>Size: {item.selectedSize}</div>
+                </div>
+
+                {/* Unit Price */}
+                <div className="sm:text-center text-start text-gray-600">
+                  ${item.price.toFixed(2)}
+                </div>
+
+                {/* Quantity Controls */}
+                <div className="flex justify-start sm:justify-center items-center gap-2">
                   <button
                     onClick={() =>
                       updateQuantity(
@@ -81,14 +97,12 @@ const CartView = () => {
                         item.quantity - 1
                       )
                     }
-                    className="px-3 py-1 bg-gray-100 hover:bg-gray-200"
+                    className="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded"
                     disabled={item.quantity <= 1}
                   >
                     -
                   </button>
-                  <span className="px-4 py-1 text-sm bg-white">
-                    {item.quantity}
-                  </span>
+                  <span className="px-2">{item.quantity}</span>
                   <button
                     onClick={() =>
                       updateQuantity(
@@ -98,50 +112,67 @@ const CartView = () => {
                         item.quantity + 1
                       )
                     }
-                    className="px-3 py-1 bg-gray-100 hover:bg-gray-200"
+                    className="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded"
                   >
                     +
                   </button>
                 </div>
 
-                <button
-                  onClick={() =>
-                    removeFromCart(
-                      item.id,
-                      item.selectedColor,
-                      item.selectedSize
-                    )
-                  }
-                  className="text-red-500 text-sm hover:underline"
-                >
-                  Remove
-                </button>
+                {/* Subtotal and Remove */}
+                <div className="flex flex-col items-start sm:items-end gap-1">
+                  <p className="font-semibold">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </p>
+                  <button
+                    onClick={() =>
+                      removeFromCart(
+                        item.id,
+                        item.selectedColor,
+                        item.selectedSize
+                      )
+                    }
+                    className="text-red-500 hover:underline text-xs"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right: Cart Totals */}
+          <div className="lg:w-1/4 w-full sticky top-24 self-start border  p-4 h-fit bg-gray-50 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              Cart Totals
+            </h2>
+
+            <div className="space-y-2 text-sm text-gray-700">
+              <div className="flex justify-between">
+                <span>Subtotal:</span>
+                <span className="font-medium">${subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Shipping:</span>
+                <span className="font-medium">${shipping.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Tax (5%):</span>
+                <span className="font-medium">${tax.toFixed(2)}</span>
+              </div>
+              <hr className="my-2" />
+              <div className="flex justify-between text-base font-semibold">
+                <span>Total:</span>
+                <span>${total.toFixed(2)}</span>
               </div>
             </div>
-          ))}
-        </div>
 
-        {/* Total section */}
-        <div className="mt-4 border-t pt-6 text-right space-y-2">
-          <p className="text-gray-700">
-            Subtotal:{" "}
-            <span className="font-semibold">${subtotal.toFixed(2)}</span>
-          </p>
-          <p className="text-gray-700">
-            Shipping:{" "}
-            <span className="font-semibold">${shipping.toFixed(2)}</span>
-          </p>
-          <p className="text-gray-700">
-            Tax (5%): <span className="font-semibold">${tax.toFixed(2)}</span>
-          </p>
-          <h3 className="text-xl font-bold mt-2">Total: ${total.toFixed(2)}</h3>
-
-          <button
-            onClick={handleCheckout}
-            className="mt-4 px-6 py-2 bg-[#FF6347] hover:bg-[#EC2D01] text-white "
-          >
-            Proceed to Checkout
-          </button>
+            <button
+              onClick={handleCheckout}
+              className="mt-6 w-full px-4 py-2 bg-[#FF6347] hover:bg-[#EC2D01] text-white font-semibold "
+            >
+              Proceed to Checkout
+            </button>
+          </div>
         </div>
       </div>
     </div>
