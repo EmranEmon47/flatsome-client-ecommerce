@@ -39,7 +39,7 @@ const CartView = () => {
   return (
     <div>
       <Nav />
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-[calc(100%-440px)] mx-auto  py-8">
         <h2 className="text-2xl font-medium mb-6">Shopping Cart</h2>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -49,8 +49,8 @@ const CartView = () => {
             <div className="hidden sm:grid grid-cols-[2fr_1fr_.5fr_.5fr_.5fr] font-semibold text-gray-700 py-2 border-b text-sm">
               <div>Product</div>
               <div>Color / Size</div>
-              <div className="text-center">Unit Price</div>
-              <div className="text-center">Quantity</div>
+              <div className="text-start">Unit Price</div>
+              <div className="text-start">Quantity</div>
               <div className="text-end">Subtotal</div>
             </div>
 
