@@ -6,7 +6,7 @@ import Nav from "../../Components/Shared/Nav.jsx";
 import { useAuth } from "../../Context/AuthContext.jsx";
 
 const Checkout = () => {
-  const { cartItems, clearCart } = useCart();
+  const { cartItems } = useCart();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -91,9 +91,17 @@ const Checkout = () => {
       return;
     }
 
-    clearCart();
-    toast.success("🎉 Order placed successfully!");
-    setTimeout(() => navigate("/"), 1500);
+    navigate("/payment", {
+      state: {
+        shippingInfo: {
+          ...shippingInfo,
+          firstName,
+          lastName,
+          email: currentUser?.email || "",
+        },
+        totalAmount: Number(total.toFixed(2)),
+      },
+    });
   };
 
   return (

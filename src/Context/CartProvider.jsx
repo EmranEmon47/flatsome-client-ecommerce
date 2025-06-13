@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import toast from "react-hot-toast";
 
 // Create the cart context
@@ -21,8 +27,6 @@ export const CartProvider = ({ children }) => {
 
   // Add to cart
   const addToCart = (product, quantity) => {
-    console.log("Adding to cart:", product);
-
     const numericPrice =
       typeof product.price === "string"
         ? parseFloat(product.price.replace("$", ""))
@@ -76,7 +80,7 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // ✅ Updated updateQuantity function
+  // Update quantity
   const updateQuantity = (
     productId,
     selectedColor,
@@ -98,15 +102,12 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Clear the entire cart
-  const clearCart = () => {
+  // ✅ Clear cart wrapped in useCallback to avoid re-renders
+  const clearCart = useCallback(() => {
     setCartItems([]);
-  };
+  }, []);
 
-  // Total quantity of items in cart
   const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
-  // Total price of all items in cart
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
