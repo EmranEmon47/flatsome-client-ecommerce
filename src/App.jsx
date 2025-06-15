@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound/NotFound.jsx";
 import CartView from "./pages/Cart/CartView.jsx";
 import Payment from "./pages/Payment/Payment.jsx";
 import OrderComplete from "./pages/OrderComplete/OrderComplete.jsx";
+import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -55,6 +56,7 @@ function App() {
 
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/aboutUs" element={<AboutUs />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
