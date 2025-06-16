@@ -71,7 +71,7 @@ const Payment = () => {
           <button
             type="submit"
             disabled={!stripe || isProcessing}
-            className="w-full bg-[#FF6347] hover:bg-[#EC2D01] text-white py-2 rounded font-semibold disabled:opacity-50"
+            className="w-full bg-[#ff6b51] hover:bg-[#ec0101] text-white py-2 rounded font-semibold disabled:opacity-50"
           >
             {isProcessing
               ? "Processing..."
