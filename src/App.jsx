@@ -16,6 +16,7 @@ import CartView from "./pages/Cart/CartView.jsx";
 import Payment from "./pages/Payment/Payment.jsx";
 import OrderComplete from "./pages/OrderComplete/OrderComplete.jsx";
 import AboutUs from "./pages/AboutUs/AboutUs.jsx";
+import AllProducts from "./pages/AllProduct/AllProducts.jsx";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -26,6 +27,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/all-products" element={<AllProducts />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<CartView />} />
 

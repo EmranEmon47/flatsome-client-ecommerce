@@ -44,10 +44,10 @@ const Nav = () => {
       setIsCartOpen(false);
     }, 200);
   };
-
+  const [open, setOpen] = useState(false);
   return (
-    <>
-      <div className="flex items-center justify-around w-full font-semibold tracking-wide py-2 lg:py-4 text-gray-500 uppercase mx-auto lg:max-w-[calc(100%-440px)] shadow-sm">
+    <div className="navbar bg-white fixed top-0  z-50  w-full">
+      <div className="flex items-center justify-center w-full max-w-[calc(100%-440px)]  mx-auto font-semibold tracking-wide py-2  text-gray-500 uppercase   ">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -98,43 +98,78 @@ const Nav = () => {
         </div>
 
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu text-xs menu-horizontal px-1">
-            <li>
-              <details>
-                <summary>Shop</summary>
-                <ul className="p-2">
+          <ul className="flex items-center font-medium text-sm gap-2">
+            {/* Product Dropdown */}
+            <li
+              className="relative"
+              onMouseEnter={() => setOpen(true)}
+              onMouseLeave={() => setOpen(false)}
+            >
+              <span className="cursor-pointer p-2 hover:text-[#FF6347]">
+                Product
+              </span>
+
+              {open && (
+                <ul className="absolute left-0 mt-2 w-48 bg-white shadow-lg  border">
                   <li>
-                    <a>Submenu 1</a>
+                    <Link
+                      to="/all-products"
+                      className="block px-4 py-2 hover:bg-[#FF6347] hover:text-white"
+                    >
+                      All Products
+                    </Link>
                   </li>
                   <li>
-                    <a>Submenu 2</a>
+                    <Link
+                      to="/products/men"
+                      className="block px-4 py-2 hover:bg-[#FF6347] hover:text-white"
+                    >
+                      For Men
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/products/women"
+                      className="block px-4 py-2 hover:bg-[#FF6347] hover:text-white"
+                    >
+                      For Women
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/products/kids"
+                      className="block px-4 py-2 hover:bg-[#FF6347] hover:text-white"
+                    >
+                      For Kids
+                    </Link>
                   </li>
                 </ul>
-              </details>
+              )}
             </li>
+
+            {/* Blogs */}
             <li>
-              <details>
-                <summary>Pages</summary>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </details>
+              <Link
+                to="/blogs"
+                className="hover:text-[#FF6347] p-2 transition duration-200"
+              >
+                Blogs
+              </Link>
             </li>
+
+            {/* About Us */}
             <li>
-              <a>Blog</a>
-            </li>
-            <li>
-              <a>Elements</a>
+              <Link
+                to="/about"
+                className="hover:text-[#FF6347] p-2 transition duration-200"
+              >
+                About Us
+              </Link>
             </li>
           </ul>
         </div>
 
-        <div className="navbar-end lg:flex lg:items-center lg:justify-center lg:gap-4 ml-auto relative">
+        <div className="navbar-end flex items-center gap-4">
           {currentUser ? (
             <div className="relative group text-sm font-semibold text-gray-500 lg:block hidden">
               <button className="cursor-pointer py-2 rounded text-[#6184b8] transition">
@@ -313,7 +348,7 @@ const Nav = () => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

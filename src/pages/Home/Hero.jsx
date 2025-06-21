@@ -59,7 +59,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-screen h-[85vh] overflow-hidden">
+    <div className="relative w-screen h-[88vh] mt-20 overflow-hidden">
       {images.map((slide, index) => (
         <div
           key={index}
