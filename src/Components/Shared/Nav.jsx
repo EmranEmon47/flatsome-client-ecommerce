@@ -6,6 +6,7 @@ import { Link } from "react-router";
 import { useAuth } from "../../Context/AuthContext.jsx";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
+import DarkModeToggle from "./DarkModeToggle.jsx";
 
 const Nav = () => {
   const { currentUser } = useAuth();
@@ -231,6 +232,7 @@ const Nav = () => {
               )}
             </li>
           </ul>
+          <DarkModeToggle />
 
           {/* Cart dropdown */}
           {isCartOpen && (
