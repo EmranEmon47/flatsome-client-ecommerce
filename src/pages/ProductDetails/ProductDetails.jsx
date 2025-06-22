@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import products from "../../data/products";
+import axios from "axios";
 import Nav from "../../Components/Shared/Nav";
 import { useCart } from "../../Context/CartProvider";
 import ColorSelector from "../../Components/Product/ColorSelector";
@@ -8,39 +8,99 @@ import SizeSelector from "../../Components/Product/SizeSelector";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const product = products.find((item) => item.id === parseInt(id));
   const { addToCart } = useCart();
 
-  const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState(null);
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [previewImage, setPreviewImage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  if (!product)
-    return <div className="p-8 text-red-500">Product not found.</div>;
+  const fetchProduct = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/products/${id}`
+      );
+      setProduct(res.data);
+      setPreviewImage(res.data.primaryImage);
+      console.log("Variants from backend:", res.data.variants);
+    } catch {
+      setError("Failed to fetch product.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, [id]);
 
   const handleAdd = () => {
     if (!selectedColor || !selectedSize) {
-      alert("Please select a color and size.");
+      alert("Please select color and size.");
       return;
     }
 
     addToCart({ ...product, selectedColor, selectedSize }, quantity);
   };
 
+  if (loading)
+    return <div className="p-8 text-gray-500 text-lg">Loading...</div>;
+  if (error) return <div className="p-8 text-red-500 text-lg">{error}</div>;
+  if (!product)
+    return <div className="p-8 text-red-500">Product not found.</div>;
+
+  // ✅ Extract unique colors
+  const allColors = product.variants.flatMap((v) => v.colors || []);
+  const uniqueColorsMap = new Map();
+  for (const color of allColors) {
+    const key = `${color.name}-${color.hex}`;
+    if (!uniqueColorsMap.has(key)) {
+      uniqueColorsMap.set(key, { name: color.name, hex: color.hex });
+    }
+  }
+  const uniqueColors = Array.from(uniqueColorsMap.values());
+
+  // ✅ Extract unique sizes
+  const uniqueSizes = [...new Set(product.variants.map((v) => v.size))];
+
   return (
     <div>
       <Nav />
-      <div className="max-w-[calc(100%-440px)] mx-auto p-8">
+      <div className="max-w-[calc(100%-440px)] mt-20 mx-auto p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full max-h-[600px] object-contain"
-          />
+          {/* Image Preview with Swapping */}
+          <div>
+            <img
+              src={previewImage}
+              alt={product.name}
+              className="w-full max-h-[600px] object-contain mb-4 border"
+            />
+            <div className="flex gap-2">
+              {[product.primaryImage, ...(product.additionalImages || [])].map(
+                (img, i) => (
+                  <img
+                    key={i}
+                    src={img}
+                    alt={`thumb-${i}`}
+                    onClick={() => setPreviewImage(img)}
+                    className={`w-20 h-20 object-cover cursor-pointer border ${
+                      previewImage === img ? "border-black" : "border-gray-300"
+                    }`}
+                  />
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Product Info */}
           <div>
             <h2 className="text-2xl font-medium mb-2">{product.name}</h2>
             <p className="text-gray-600 text-sm mb-1">
-              Category: {product.span}
+              Category: {product.category} → {product.subcategory}
             </p>
             <p className="text-xl text-gray-800 font-semibold mb-4">
               ${product.price.toFixed(2)}
@@ -54,16 +114,15 @@ const ProductDetails = () => {
                 <p className="text-sm text-gray-600">{product.description}</p>
               </div>
 
-              {/* 🔵 Color Selector */}
+              {/* ✅ ColorSelector with updated structure */}
               <ColorSelector
-                colors={product.colors}
+                colors={uniqueColors}
                 selectedColor={selectedColor}
                 onSelectColor={setSelectedColor}
               />
 
-              {/* 🔴 Size Selector */}
               <SizeSelector
-                sizes={product.sizes}
+                sizes={uniqueSizes}
                 selectedSize={selectedSize}
                 onSelectSize={setSelectedSize}
               />
