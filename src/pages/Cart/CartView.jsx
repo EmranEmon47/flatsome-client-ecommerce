@@ -63,7 +63,7 @@ const CartView = () => {
                 {/* Product */}
                 <div className="flex items-center gap-3">
                   <img
-                    src={item.image}
+                    src={item.primaryImage}
                     alt={item.name}
                     className="w-12 h-12 object-contain rounded"
                   />

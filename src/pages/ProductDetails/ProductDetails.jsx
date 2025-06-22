@@ -5,6 +5,7 @@ import Nav from "../../Components/Shared/Nav";
 import { useCart } from "../../Context/CartProvider";
 import ColorSelector from "../../Components/Product/ColorSelector";
 import SizeSelector from "../../Components/Product/SizeSelector";
+import Breadcrumb from "../../Components/Product/Breadcrumb";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -71,6 +72,13 @@ const ProductDetails = () => {
     <div>
       <Nav />
       <div className="max-w-[calc(100%-440px)] mt-20 mx-auto p-8">
+        {/* Breadcrumb here */}
+        <Breadcrumb
+          category={product.category}
+          subcategory={product.subcategory}
+          name={product.name}
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Image Preview with Swapping */}
           <div>
