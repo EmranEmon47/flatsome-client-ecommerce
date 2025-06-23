@@ -52,21 +52,10 @@ const ProductDetails = () => {
   };
 
   if (loading)
-    return (
-      <div className="p-8 text-gray-500 dark:text-gray-300 text-lg">
-        Loading...
-      </div>
-    );
-  if (error)
-    return (
-      <div className="p-8 text-red-500 dark:text-red-400 text-lg">{error}</div>
-    );
+    return <div className="p-8 text-lg text-gray-500">Loading...</div>;
+  if (error) return <div className="p-8 text-lg text-red-500">{error}</div>;
   if (!product)
-    return (
-      <div className="p-8 text-red-500 dark:text-red-400">
-        Product not found.
-      </div>
-    );
+    return <div className="p-8 text-red-500">Product not found.</div>;
 
   // Extract unique colors and sizes
   const allColors = product.variants.flatMap((v) => v.colors || []);
@@ -86,21 +75,21 @@ const ProductDetails = () => {
     setCarouselIndex((i) => (i - 1 + allImages.length) % allImages.length);
 
   return (
-    <div className="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen">
+    <div className="min-h-screen text-black bg-white">
       <Nav />
       <div className="max-w-[calc(100%-440px)] mt-20 mx-auto p-8">
         <Breadcrumb
           category={product.category}
           subcategory={product.subcategory}
           name={product.name}
-          className="text-gray-700 dark:text-gray-300"
+          className="text-gray-700"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {/* Image Zoom + Modal */}
           <div>
             <div
-              className="relative overflow-hidden cursor-zoom-in border dark:border-gray-700"
+              className="relative overflow-hidden border border-gray-300 cursor-zoom-in"
               style={{ maxHeight: 600 }}
               onClick={() => setIsModalOpen(true)}
             >
@@ -119,9 +108,7 @@ const ProductDetails = () => {
                   alt={`thumb-${i}`}
                   onClick={() => setPreviewImage(img)}
                   className={`w-20 h-20 object-cover cursor-pointer border ${
-                    previewImage === img
-                      ? "border-black dark:border-white"
-                      : "border-gray-300 dark:border-gray-700"
+                    previewImage === img ? "border-black" : "border-gray-300"
                   }`}
                 />
               ))}
@@ -130,20 +117,20 @@ const ProductDetails = () => {
 
           {/* Product Info */}
           <div>
-            <h2 className="text-2xl font-medium mb-2">{product.name}</h2>
-            <p className="text-gray-600 dark:text-gray-400 text-sm mb-1">
+            <h2 className="mb-2 text-2xl font-medium bg-testRed">
+              {product.name}
+            </h2>
+            <p className="mb-1 text-sm text-gray-600">
               Category: {product.category} → {product.subcategory}
             </p>
-            <p className="text-xl text-gray-800 dark:text-gray-200 font-semibold mb-4">
+            <p className="mb-4 text-xl font-semibold text-gray-800">
               ${product.price.toFixed(2)}
             </p>
 
             <div className="mt-6 space-y-4">
               <div>
                 <h4 className="text-base font-medium">Description:</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {product.description}
-                </p>
+                <p className="text-sm text-gray-600">{product.description}</p>
               </div>
 
               <ColorSelector
@@ -160,23 +147,21 @@ const ProductDetails = () => {
 
               <div>
                 <h4 className="text-base font-medium">Availability:</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {product.availability}
-                </p>
+                <p className="text-sm text-gray-600">{product.availability}</p>
               </div>
 
               {/* Quantity Selector */}
               <div className="flex items-center mb-4 space-x-3">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="px-3 py-1 bg-gray-200 dark:bg-gray-700 dark:text-white rounded"
+                  className="px-3 py-1 bg-gray-200 rounded"
                 >
                   -
                 </button>
                 <span className="px-4">{quantity}</span>
                 <button
                   onClick={() => setQuantity((q) => q + 1)}
-                  className="px-3 py-1 bg-gray-200 dark:bg-gray-700 dark:text-white rounded"
+                  className="px-3 py-1 bg-gray-200 rounded"
                 >
                   +
                 </button>
@@ -205,7 +190,7 @@ const ProductDetails = () => {
             <button
               onClick={goPrev}
               aria-label="Previous Image"
-              className="text-6xl font-bold text-gray-400 dark:text-gray-500 select-none"
+              className="text-6xl font-bold text-gray-400 select-none"
             >
               ‹
             </button>
@@ -219,7 +204,7 @@ const ProductDetails = () => {
             <button
               onClick={goNext}
               aria-label="Next Image"
-              className="text-6xl font-bold text-gray-400 dark:text-gray-500 select-none"
+              className="text-6xl font-bold text-gray-400 select-none"
             >
               ›
             </button>
@@ -230,9 +215,7 @@ const ProductDetails = () => {
               <button
                 key={i}
                 className={`w-3 h-3 rounded-full ${
-                  i === carouselIndex
-                    ? "bg-black dark:bg-white"
-                    : "bg-gray-400 dark:bg-gray-500"
+                  i === carouselIndex ? "bg-black" : "bg-gray-400"
                 }`}
                 onClick={() => setCarouselIndex(i)}
                 aria-label={`Go to image ${i + 1}`}

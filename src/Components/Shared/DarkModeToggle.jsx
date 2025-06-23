@@ -7,7 +7,7 @@ const DarkModeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+      className="p-2 rounded-full bg-gray-100 dark:bg-gray-500 transition"
       aria-label="Toggle dark mode"
     >
       {darkMode ? (

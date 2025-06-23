@@ -49,8 +49,8 @@ const Nav = () => {
   return (
     <div className="navbar bg-white fixed top-0  z-50  w-full">
       <div className="flex items-center justify-center w-full max-w-[calc(100%-440px)]  mx-auto font-semibold tracking-wide py-2  text-gray-500 uppercase   ">
-        <div className="navbar-start">
-          <div className="dropdown">
+        <div className="navbar-start ">
+          {/* <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +69,7 @@ const Nav = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content  bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <li>
                 <a>Item 1</a>
@@ -89,7 +89,7 @@ const Nav = () => {
                 <a>Item 3</a>
               </li>
             </ul>
-          </div>
+          </div> */}
           <a
             href="/"
             className="block absolute left-1/2 transform -translate-x-1/2 lg:static lg:translate-x-0"
@@ -162,7 +162,7 @@ const Nav = () => {
             <li>
               <Link
                 to="/about"
-                className="hover:text-[#FF6347] p-2 transition duration-200"
+                className="hover:text-[#FF6347]  p-2 transition duration-200"
               >
                 About Us
               </Link>

@@ -1,14 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
-@tailwind utilities;
+
+/* ✅ Tailwind v4 correct import */
 @import "tailwindcss";
-/* @plugin "daisyui"; */
 
-@plugin "daisyui" {
-  themes: light --default;
-}
-
+/* Custom styles */
 body {
   font-family: "Poppins", sans-serif;
-
   overflow-x: hidden;
 }
