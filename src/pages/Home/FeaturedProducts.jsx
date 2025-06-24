@@ -1,7 +1,7 @@
-// src/pages/Home.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
-import products from "../../data/products";
+import axios from "axios";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Star = ({ filled }) => (
   <svg
@@ -14,95 +14,131 @@ const Star = ({ filled }) => (
 );
 
 const FeaturedProducts = () => {
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const PRODUCTS_TO_SHOW = 6;
+  const ITEMS_PER_VIEW = 3;
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/products`
+        );
+        setProducts(res.data.slice(0, PRODUCTS_TO_SHOW));
+      } catch (err) {
+        console.error("Error loading products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const maxIndex = Math.ceil(PRODUCTS_TO_SHOW / ITEMS_PER_VIEW) - 1;
+
+  const handlePrev = () => {
+    setCarouselIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCarouselIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+  };
+
+  const start = carouselIndex * ITEMS_PER_VIEW;
+  const visibleProducts = [
+    ...products.slice(start, start + ITEMS_PER_VIEW),
+    // if near end, wrap-around remaining items
+    ...products.slice(
+      0,
+      Math.max(0, start + ITEMS_PER_VIEW - PRODUCTS_TO_SHOW)
+    ),
+  ].slice(0, ITEMS_PER_VIEW); // just in case
 
   return (
-    <div className=" w-full max-w-[calc(100%-440px)] mx-auto">
+    <div className="relative group w-full max-w-[calc(100%-440px)] mx-auto">
       {/* Heading */}
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
-        <h2 className="text-2xl text-gray-600 font-medium uppercase whitespace-nowrap">
+        <h2 className="text-2xl font-medium text-gray-600 uppercase whitespace-nowrap">
           Weekly Featured Products
         </h2>
         <hr className="flex-grow border-t border-gray-300" />
       </div>
 
-      {/* Product Grid */}
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white shadow-sm overflow-hidden hover:shadow-lg transition-shadow group relative"
-          >
-            {/* Wrap image in link to product details */}
-            <Link to={`/product/${product.id}`}>
-              <div className="relative">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-84 object-cover object-top"
-                />
-              </div>
-            </Link>
-
-            {/* Product info */}
-            <div className="p-4 text-left">
-              {/* Hover Quick View Button */}
-              <button
-                onClick={() => setSelectedProduct(product)}
-                className="absolute bottom-1/4 left-1/2 w-full -translate-x-1/2 mb-4 px-2 py-2 text-sm bg-[#445e85] text-white transition-all opacity-0 group-hover:opacity-80"
-              >
-                Quick View
-              </button>
-              <h5 className="text-base text-gray-400 font-normal mb-2">
-                {product.span}
-              </h5>
-              <h3 className="text-sm font-normal mb-2">{product.name}</h3>
-              <div className="flex justify-start mb-2">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} filled={i <= product.rating} />
-                ))}
-              </div>
-              <p className="text-sm font-semibold text-gray-800">
-                ${product.price.toFixed(2)}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Modal */}
-      {selectedProduct && (
-        <div
-          className="fixed inset-0 bg-white/30 backdrop-blur-sm flex justify-center items-center z-50"
-          onClick={() => setSelectedProduct(null)}
-        >
-          <div
-            className="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full relative"
-            onClick={(e) => e.stopPropagation()}
-          >
+      {/* Carousel Wrapper */}
+      <div className="relative overflow-hidden">
+        {/* Arrow Buttons */}
+        {products.length > ITEMS_PER_VIEW && (
+          <>
             <button
-              onClick={() => setSelectedProduct(null)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
+              onClick={handlePrev}
+              className="absolute left-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 bg-none top-1/2 hover:bg-none group-hover:opacity-100"
             >
-              &times;
+              <ChevronLeft />
             </button>
+            <button
+              onClick={handleNext}
+              className="absolute right-0 z-10 p-2 transition-opacity -translate-y-1/2 bg-white border shadow opacity-0 top-1/2 hover:bg-gray-100 group-hover:opacity-100"
+            >
+              <ChevronRight />
+            </button>
+          </>
+        )}
 
-            <img
-              src={selectedProduct.image}
-              alt={selectedProduct.name}
-              className="w-full h-auto mb-4 rounded object-contain max-h-[80vh]"
-            />
+        {/* Product Cards or Skeleton */}
+        <div className="grid grid-cols-1 gap-4 transition-all duration-500 sm:grid-cols-2 md:grid-cols-3">
+          {loading
+            ? Array.from({ length: ITEMS_PER_VIEW }).map((_, i) => (
+                <div
+                  key={i}
+                  className="p-4 bg-white border rounded shadow-sm animate-pulse"
+                >
+                  <div className="mb-4 bg-gray-200 rounded h-52" />
+                  <div className="w-3/4 h-4 mb-2 bg-gray-300 rounded" />
+                  <div className="w-1/2 h-4 mb-2 bg-gray-300 rounded" />
+                  <div className="w-1/4 h-4 bg-gray-300 rounded" />
+                </div>
+              ))
+            : visibleProducts.map((product) => (
+                <div
+                  key={product._id}
+                  className="relative transition-shadow bg-white shadow-sm hover:shadow-lg group"
+                >
+                  <Link to={`/product/${product._id}`}>
+                    <img
+                      src={product.primaryImage}
+                      alt={product.name}
+                      className="object-cover w-full h-72"
+                    />
+                  </Link>
 
-            <h3 className="text-xl font-semibold mb-2">
-              {selectedProduct.name}
-            </h3>
-            <p className="text-gray-600 text-lg">
-              ${selectedProduct.price.toFixed(2)}
-            </p>
-          </div>
+                  <div className="p-4">
+                    <h5 className="mb-2 text-base font-normal text-gray-400">
+                      {product.subcategory}
+                    </h5>
+                    <h3 className="mb-2 text-sm font-semibold">
+                      {product.name}
+                    </h3>
+                    <div className="flex mb-2">
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <Star
+                          key={i}
+                          filled={i <= Math.round(product.rating || 0)}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-sm font-semibold text-gray-800">
+                      ${product.price?.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
