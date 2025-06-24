@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
 import axios from "axios";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-const Star = ({ filled }) => (
-  <svg
-    className={`w-4 h-4 ${filled ? "text-yellow-400" : "text-gray-300"}`}
-    fill="currentColor"
-    viewBox="0 0 20 20"
-  >
-    <path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.566-.955L10 0l2.946 5.955 6.566.955-4.756 4.635 1.122 6.545z" />
-  </svg>
-);
+import ProductCard from "../../Components/Product/ProductCard";
+import ProductCardSkeleton from "../../Components/Product/ProductCardSkeleton";
+import ProductQuickViewModal from "../../Components/Product/ProductQuickViewModal";
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const PRODUCTS_TO_SHOW = 6;
-  const ITEMS_PER_VIEW = 3;
+  const ITEMS_PER_VIEW = 4;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -51,15 +44,14 @@ const FeaturedProducts = () => {
   const start = carouselIndex * ITEMS_PER_VIEW;
   const visibleProducts = [
     ...products.slice(start, start + ITEMS_PER_VIEW),
-    // if near end, wrap-around remaining items
     ...products.slice(
       0,
       Math.max(0, start + ITEMS_PER_VIEW - PRODUCTS_TO_SHOW)
     ),
-  ].slice(0, ITEMS_PER_VIEW); // just in case
+  ].slice(0, ITEMS_PER_VIEW);
 
   return (
-    <div className="relative group w-full max-w-[calc(100%-440px)] mx-auto">
+    <div className="relative  w-full max-w-[calc(100%-440px)] mx-auto">
       {/* Heading */}
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
@@ -70,13 +62,13 @@ const FeaturedProducts = () => {
       </div>
 
       {/* Carousel Wrapper */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden ">
         {/* Arrow Buttons */}
         {products.length > ITEMS_PER_VIEW && (
           <>
             <button
               onClick={handlePrev}
-              className="absolute left-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 bg-none top-1/2 hover:bg-none group-hover:opacity-100"
+              className="absolute left-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 top-1/2 group-hover:opacity-100"
             >
               <ChevronLeft />
             </button>
@@ -89,56 +81,31 @@ const FeaturedProducts = () => {
           </>
         )}
 
-        {/* Product Cards or Skeleton */}
-        <div className="grid grid-cols-1 gap-4 transition-all duration-500 sm:grid-cols-2 md:grid-cols-3">
+        {/* Product Cards */}
+        <div className="grid grid-cols-1 gap-4 transition-all duration-500 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {loading
             ? Array.from({ length: ITEMS_PER_VIEW }).map((_, i) => (
-                <div
-                  key={i}
-                  className="p-4 bg-white border rounded shadow-sm animate-pulse"
-                >
-                  <div className="mb-4 bg-gray-200 rounded h-52" />
-                  <div className="w-3/4 h-4 mb-2 bg-gray-300 rounded" />
-                  <div className="w-1/2 h-4 mb-2 bg-gray-300 rounded" />
-                  <div className="w-1/4 h-4 bg-gray-300 rounded" />
-                </div>
+                <ProductCardSkeleton key={i} />
               ))
             : visibleProducts.map((product) => (
                 <div
                   key={product._id}
-                  className="relative transition-shadow bg-white shadow-sm hover:shadow-lg group"
+                  onClick={() => setSelectedProduct(product)}
+                  className="cursor-pointer "
                 >
-                  <Link to={`/product/${product._id}`}>
-                    <img
-                      src={product.primaryImage}
-                      alt={product.name}
-                      className="object-cover w-full h-72"
-                    />
-                  </Link>
-
-                  <div className="p-4">
-                    <h5 className="mb-2 text-base font-normal text-gray-400">
-                      {product.subcategory}
-                    </h5>
-                    <h3 className="mb-2 text-sm font-semibold">
-                      {product.name}
-                    </h3>
-                    <div className="flex mb-2">
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <Star
-                          key={i}
-                          filled={i <= Math.round(product.rating || 0)}
-                        />
-                      ))}
-                    </div>
-                    <p className="text-sm font-semibold text-gray-800">
-                      ${product.price?.toFixed(2)}
-                    </p>
-                  </div>
+                  <ProductCard product={product} showQuickView={true} />
                 </div>
               ))}
         </div>
       </div>
+
+      {/* Quick View Modal */}
+      {selectedProduct && (
+        <ProductQuickViewModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </div>
   );
 };
