@@ -17,6 +17,7 @@ import Payment from "./pages/Payment/Payment.jsx";
 import OrderComplete from "./pages/OrderComplete/OrderComplete.jsx";
 import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 import AllProducts from "./pages/AllProduct/AllProducts.jsx";
+import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -55,6 +56,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/wishlist" element={<Wishlist />} />
 
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

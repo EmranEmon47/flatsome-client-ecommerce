@@ -10,7 +10,7 @@ const ProductQuickViewModal = ({ product, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-xl p-6 bg-white rounded-lg shadow-lg"
+        className="relative w-full max-w-xl p-6 transition-shadow bg-white rounded-lg shadow-lg hover:shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button

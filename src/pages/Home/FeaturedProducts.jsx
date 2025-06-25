@@ -51,7 +51,7 @@ const FeaturedProducts = () => {
   ].slice(0, ITEMS_PER_VIEW);
 
   return (
-    <div className="relative  w-full max-w-[calc(100%-440px)] mx-auto">
+    <div className="relative py-4 w-full max-w-[calc(100%-440px)] mx-auto">
       {/* Heading */}
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
@@ -62,19 +62,19 @@ const FeaturedProducts = () => {
       </div>
 
       {/* Carousel Wrapper */}
-      <div className="relative overflow-hidden ">
+      <div className="relative overflow-hidden group/card">
         {/* Arrow Buttons */}
         {products.length > ITEMS_PER_VIEW && (
           <>
             <button
               onClick={handlePrev}
-              className="absolute left-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 top-1/2 group-hover:opacity-100"
+              className="absolute left-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 top-1/3 group-hover/card:opacity-100"
             >
               <ChevronLeft />
             </button>
             <button
               onClick={handleNext}
-              className="absolute right-0 z-10 p-2 transition-opacity -translate-y-1/2 bg-white border shadow opacity-0 top-1/2 hover:bg-gray-100 group-hover:opacity-100"
+              className="absolute right-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 top-1/3 group-hover/card:opacity-100"
             >
               <ChevronRight />
             </button>
@@ -91,7 +91,7 @@ const FeaturedProducts = () => {
                 <div
                   key={product._id}
                   onClick={() => setSelectedProduct(product)}
-                  className="cursor-pointer "
+                  className="relative transition-shadow cursor-pointer hover:shadow-lg "
                 >
                   <ProductCard product={product} showQuickView={true} />
                 </div>

@@ -7,13 +7,16 @@ import { ThemeProvider } from "./Context/ThemeProvider";
 import { CartProvider } from "./Context/CartProvider";
 
 import "./index.css";
+import { WishlistProvider } from "./Context/WishlistContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
-      <CartProvider>
-        <App />
-      </CartProvider>
+      <WishlistProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </WishlistProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

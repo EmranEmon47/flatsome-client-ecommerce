@@ -7,6 +7,8 @@ import { useAuth } from "../../Context/AuthContext.jsx";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import DarkModeToggle from "./DarkModeToggle.jsx";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import { useWishlist } from "../../Context/WishlistContext.jsx";
 
 const Nav = () => {
   const { currentUser } = useAuth();
@@ -46,15 +48,27 @@ const Nav = () => {
     }, 200);
   };
   const [open, setOpen] = useState(false);
+  // wishlistCount
+  const { wishlist } = useWishlist();
+  // Update and animate badge
+  // useEffect(() => {
+  //   const stored = localStorage.getItem("wishlist");
+  //   const parsed = stored ? JSON.parse(stored) : [];
+  //   setWishlistCount(parsed.length);
+
+  //   setAnimateBadge(true);
+  //   const timeout = setTimeout(() => setAnimateBadge(false), 500);
+  //   return () => clearTimeout(timeout);
+  // }, [location]); // animate on route change or wishlist update
   return (
-    <div className="navbar bg-white fixed top-0  z-50  w-full">
-      <div className="flex items-center justify-center w-full max-w-[calc(100%-440px)]  mx-auto font-semibold tracking-wide py-2  text-gray-500 uppercase   ">
+    <div className="fixed top-0 z-50 w-full bg-white navbar">
+      <div className="flex items-center justify-center w-full max-w-[calc(100%-440px)]  mx-auto font-semibold tracking-wide py-4  text-gray-500 uppercase   ">
         <div className="navbar-start ">
           {/* <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="w-5 h-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -69,7 +83,7 @@ const Nav = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content  bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="p-2 mt-3 shadow menu menu-sm dropdown-content bg-base-100 rounded-box z-1 w-52"
             >
               <li>
                 <a>Item 1</a>
@@ -92,14 +106,14 @@ const Nav = () => {
           </div> */}
           <a
             href="/"
-            className="block absolute left-1/2 transform -translate-x-1/2 lg:static lg:translate-x-0"
+            className="absolute block transform -translate-x-1/2 left-1/2 lg:static lg:translate-x-0"
           >
-            <img src={logo} className="h-10 block" alt="Logo" />
+            <img src={logo} className="block h-10" alt="Logo" />
           </a>
         </div>
 
-        <div className="navbar-center hidden lg:flex">
-          <ul className="flex items-center font-medium text-sm gap-2">
+        <div className="hidden navbar-center lg:flex">
+          <ul className="flex items-center gap-2 text-sm font-medium">
             {/* Product Dropdown */}
             <li
               className="relative"
@@ -111,7 +125,7 @@ const Nav = () => {
               </span>
 
               {open && (
-                <ul className="absolute left-0 mt-2 w-48 bg-white shadow-lg  border">
+                <ul className="absolute left-0 w-48 mt-2 bg-white border shadow-lg">
                   <li>
                     <Link
                       to="/all-products"
@@ -170,17 +184,17 @@ const Nav = () => {
           </ul>
         </div>
 
-        <div className="navbar-end flex items-center gap-4">
+        <div className="flex items-center gap-4 navbar-end">
           {currentUser ? (
-            <div className="relative group text-sm font-semibold text-gray-500 lg:block hidden">
+            <div className="relative hidden text-sm font-semibold text-gray-500 group lg:block">
               <button className="cursor-pointer py-2 rounded text-[#6184b8] transition">
                 {getFirstName(currentUser.displayName || currentUser.email)}
               </button>
-              <ul className="absolute right-0 w-32 bg-white border rounded shadow-md hidden group-hover:block z-50">
+              <ul className="absolute right-0 z-50 hidden w-32 bg-white border rounded shadow-md group-hover:block">
                 <li>
                   <Link
                     to="/profile"
-                    className="block px-4 py-2 hover:bg-gray-100 text-sm"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
                   >
                     Profile
                   </Link>
@@ -188,7 +202,7 @@ const Nav = () => {
                 <li>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+                    className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
                   >
                     Logout
                   </button>
@@ -198,26 +212,26 @@ const Nav = () => {
           ) : (
             <Link
               to="/login"
-              className="text-xs lg:block hidden font-semibold cursor-pointer"
+              className="hidden text-xs font-semibold cursor-pointer lg:block"
             >
               Login
             </Link>
           )}
 
-          <div className="w-px h-5 lg:flex items-center hidden bg-gray-300 mx-1"></div>
+          <div className="items-center hidden w-px h-5 mx-1 bg-gray-300 lg:flex"></div>
 
           <ul
-            className="text-xs font-semibold lg:flex lg:items-center gap-2 cursor-pointer select-none"
+            className="gap-2 text-xs font-semibold cursor-pointer select-none lg:flex lg:items-center"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             aria-haspopup="true"
             aria-expanded={isCartOpen}
           >
-            <li className="hidden lg:flex items-center">
+            <li className="items-center hidden lg:flex">
               <a>Cart</a>
             </li>
-            <li className="text-gray-400 lg:flex items-center hidden">/</li>
-            <li className="lg:flex items-center hidden">
+            <li className="items-center hidden text-gray-400 lg:flex">/</li>
+            <li className="items-center hidden lg:flex">
               <a href="#">
                 {totalQuantity} item{totalQuantity !== 1 ? "s" : ""} - $
                 {totalPrice.toFixed(2)}
@@ -232,30 +246,47 @@ const Nav = () => {
               )}
             </li>
           </ul>
+          {/* wishlist button */}
+          {/* Right side: Wishlist */}
+          <div className="flex items-center gap-6">
+            <Link
+              to="/wishlist"
+              className="relative p-2 transition rounded-full group hover:bg-gray-100"
+            >
+              <HeartIcon className="w-6 h-6 text-gray-600 transition group-hover:text-red-500" />
+
+              {wishlist.length > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full flex items-center justify-center animate-ping-fast">
+                  {wishlist.length}
+                </span>
+              )}
+            </Link>
+          </div>
+
           <DarkModeToggle />
 
           {/* Cart dropdown */}
           {isCartOpen && (
             <div
-              className="absolute right-0 top-0 mt-2 w-80 max-h-96 overflow-auto bg-white shadow-lg rounded border border-gray-200 z-50"
+              className="absolute top-0 right-0 z-50 mt-2 overflow-auto bg-white border border-gray-200 rounded shadow-lg w-80 max-h-96"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               role="menu"
               aria-label="Cart dropdown"
             >
               <div className="p-4">
-                <h2 className="text-lg font-bold mb-3 border-b pb-2">
+                <h2 className="pb-2 mb-3 text-lg font-bold border-b">
                   Your Cart
                 </h2>
 
                 {cartItems.length === 0 ? (
                   <p className="text-gray-500">Your cart is empty.</p>
                 ) : (
-                  <ul className="divide-y divide-gray-200 max-h-60 overflow-y-auto">
+                  <ul className="overflow-y-auto divide-y divide-gray-200 max-h-60">
                     {cartItems.map((item) => (
                       <li
                         key={`${item.id}-${item.selectedColor}-${item.selectedSize}`}
-                        className="py-2 flex justify-between items-center"
+                        className="flex items-center justify-between py-2"
                       >
                         <div className="flex flex-col">
                           <span className="font-semibold">{item.name}</span>
@@ -319,7 +350,7 @@ const Nav = () => {
                                 item.selectedSize
                               )
                             }
-                            className="ml-2 text-red-500 hover:text-red-700 font-bold"
+                            className="ml-2 font-bold text-red-500 hover:text-red-700"
                           >
                             &times;
                           </button>
@@ -329,7 +360,7 @@ const Nav = () => {
                   </ul>
                 )}
 
-                <div className="mt-4 border-t py-3 text-right font-semibold">
+                <div className="py-3 mt-4 font-semibold text-right border-t">
                   Total: ${totalPrice.toFixed(2)}
                 </div>
 
