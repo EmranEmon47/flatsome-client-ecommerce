@@ -221,7 +221,7 @@ const Nav = () => {
           <div className="items-center hidden w-px h-5 mx-1 bg-gray-300 lg:flex"></div>
 
           <ul
-            className="gap-2 text-xs font-semibold cursor-pointer select-none lg:flex lg:items-center"
+            className="gap-2 text-xs font-semibold cursor-pointer select-none text-secondary lg:flex lg:items-center"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             aria-haspopup="true"
