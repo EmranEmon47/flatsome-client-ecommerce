@@ -104,12 +104,12 @@ const Nav = () => {
               </li>
             </ul>
           </div> */}
-          <a
-            href="/"
+          <Link
+            to="/"
             className="absolute block transform -translate-x-1/2 left-1/2 lg:static lg:translate-x-0"
           >
             <img src={logo} className="block h-10" alt="Logo" />
-          </a>
+          </Link>
         </div>
 
         <div className="hidden navbar-center lg:flex">
@@ -248,7 +248,7 @@ const Nav = () => {
           </ul>
           {/* wishlist button */}
           {/* Right side: Wishlist */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center ">
             <Link
               to="/wishlist"
               className="relative p-2 transition rounded-full group hover:bg-gray-100"
