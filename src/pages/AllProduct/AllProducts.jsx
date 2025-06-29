@@ -1,4 +1,3 @@
-// src/pages/AllProducts.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Nav from "../../Components/Shared/Nav";
@@ -7,6 +6,8 @@ import ProductCardModal from "../../Components/Product/ProductQuickViewModal";
 import ProductCardSkeleton from "../../Components/Product/ProductCardSkeleton";
 import Pagination from "../../Components/Common/Pagination";
 import ProductFilter from "../../Components/Product/ProductFilter";
+import ProductSearch from "../../Components/Product/ProductSearch";
+import { useSearchParams } from "react-router";
 
 const categories = ["Men", "Women", "Child"];
 const subcategories = ["T-Shirts", "Jeans", "Shoes", "Jackets", "Tops"];
@@ -17,6 +18,11 @@ const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") || ""
+  );
 
   const [filters, setFilters] = useState({
     category: [],
@@ -47,34 +53,49 @@ const AllProducts = () => {
     fetchProducts();
   }, []);
 
+  const highlightMatch = (text, query) => {
+    if (!query) return text;
+    const regex = new RegExp(`(${query})`, "gi");
+    const parts = text.split(regex);
+    return parts.map((part, index) =>
+      regex.test(part) ? (
+        <mark key={index} className="px-1 bg-yellow-200 rounded">
+          {part}
+        </mark>
+      ) : (
+        part
+      )
+    );
+  };
+
   // Filtering logic
   const filteredProducts = products
     .filter((p) => {
-      // Category filter (if empty, show all)
-      if (filters.category.length > 0 && !filters.category.includes(p.category))
-        return false;
+      const matchesCategory =
+        filters.category.length === 0 || filters.category.includes(p.category);
 
-      // Subcategory filter
-      if (
-        filters.subcategory.length > 0 &&
-        !filters.subcategory.includes(p.subcategory)
-      )
-        return false;
+      const matchesSubcategory =
+        filters.subcategory.length === 0 ||
+        filters.subcategory.includes(p.subcategory);
 
-      // Availability filter
-      if (
-        filters.availability.length > 0 &&
-        !filters.availability.includes(p.availability)
-      )
-        return false;
+      const matchesAvailability =
+        filters.availability.length === 0 ||
+        filters.availability.includes(p.availability);
 
-      // Price filter
-      if (p.price < filters.price.min || p.price > filters.price.max)
-        return false;
+      const matchesPrice =
+        p.price >= filters.price.min && p.price <= filters.price.max;
 
-      return true;
+      const matchesSearch =
+        !searchTerm || p.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+      return (
+        matchesCategory &&
+        matchesSubcategory &&
+        matchesAvailability &&
+        matchesPrice &&
+        matchesSearch
+      );
     })
-    // Sort logic
     .sort((a, b) => {
       if (filters.sortBy === "priceLowHigh") return a.price - b.price;
       if (filters.sortBy === "priceHighLow") return b.price - a.price;
@@ -98,14 +119,13 @@ const AllProducts = () => {
     });
   };
 
-  // Collect active filters for badges
+  // Active filters
   const activeFilters = [
     ...filters.category.map((c) => ({ type: "Category", value: c })),
     ...filters.subcategory.map((sc) => ({ type: "Subcategory", value: sc })),
     ...filters.availability.map((a) => ({ type: "Availability", value: a })),
   ];
 
-  // Show price filter badge if not full range
   if (
     filters.price.min > priceRangeLimits.min ||
     filters.price.max < priceRangeLimits.max
@@ -116,18 +136,21 @@ const AllProducts = () => {
     });
   }
 
-  // Show sort filter badge if any
   if (filters.sortBy) {
-    let sortLabel =
+    const label =
       filters.sortBy === "priceLowHigh"
         ? "Price: Low to High"
         : filters.sortBy === "priceHighLow"
         ? "Price: High to Low"
         : filters.sortBy;
-    activeFilters.push({ type: "Sort", value: sortLabel });
+    activeFilters.push({ type: "Sort", value: label });
   }
 
-  // Remove single filter badge handler
+  if (searchTerm) {
+    activeFilters.push({ type: "Search", value: searchTerm });
+  }
+
+  // Remove filter
   const removeFilter = (type, value) => {
     if (type === "Category") {
       setFilters((prev) => ({
@@ -151,6 +174,10 @@ const AllProducts = () => {
       }));
     } else if (type === "Sort") {
       setFilters((prev) => ({ ...prev, sortBy: "" }));
+    } else if (type === "Search") {
+      setSearchTerm("");
+      searchParams.delete("search");
+      setSearchParams(searchParams);
     }
   };
 
@@ -158,7 +185,7 @@ const AllProducts = () => {
     <div>
       <Nav />
       <div className="w-full max-w-[calc(100%-440px)] mt-20 mx-auto flex gap-6">
-        {/* Left Filter Sidebar */}
+        {/* Sidebar */}
         <aside className="w-72">
           <ProductFilter
             filters={filters}
@@ -172,7 +199,12 @@ const AllProducts = () => {
 
         {/* Main content */}
         <main className="flex-1">
-          {/* Filters summary & badges */}
+          <ProductSearch
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
+
+          {/* Filter summary & badges */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <div className="mr-auto font-semibold text-gray-600">
               {filteredProducts.length} Products Found
@@ -199,7 +231,7 @@ const AllProducts = () => {
             )}
           </div>
 
-          {/* Products grid */}
+          {/* Product grid */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
             {loading
               ? Array.from({ length: productsPerPage }).map((_, i) => (
@@ -208,7 +240,10 @@ const AllProducts = () => {
               : currentProducts.map((product) => (
                   <ProductCard
                     key={product._id}
-                    product={product}
+                    product={{
+                      ...product,
+                      name: highlightMatch(product.name, searchTerm),
+                    }}
                     onQuickView={() => setSelectedProduct(product)}
                   />
                 ))}
@@ -221,7 +256,7 @@ const AllProducts = () => {
             onPageChange={setCurrentPage}
           />
 
-          {/* Quick view modal */}
+          {/* Modal */}
           {selectedProduct && (
             <ProductCardModal
               product={selectedProduct}
