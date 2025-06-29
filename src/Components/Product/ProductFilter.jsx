@@ -1,155 +1,153 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import PriceSlider from "./PriceSlider";
 
-const categories = ["Men", "Women", "Child"];
-const subcategories = ["T-Shirts", "Jeans", "Shoes", "Jackets", "Tops"];
+const ProductFilter = ({
+  filters,
+  setFilters,
+  categories,
+  subcategories,
+  availabilityOptions,
+  priceRange,
+}) => {
+  // Multi-select handler
+  const handleMultiSelect = (filterKey, value) => {
+    const currentValues = filters[filterKey];
+    const newValues = currentValues.includes(value)
+      ? currentValues.filter((v) => v !== value)
+      : [...currentValues, value];
 
-const ProductFilter = ({ filters, setFilters }) => {
-  const [priceRange, setPriceRange] = useState([0, 500]); // Initial range
-  const [sortOrder, setSortOrder] = useState(""); // "asc" or "desc"
+    setFilters((prev) => ({ ...prev, [filterKey]: newValues }));
+  };
 
-  useEffect(() => {
+  // Price input box handlers
+  const handlePriceMinChange = (e) => {
+    let val = Number(e.target.value);
+    if (val < priceRange.min) val = priceRange.min;
+    if (val > filters.price.max - 10) val = filters.price.max - 10;
     setFilters((prev) => ({
       ...prev,
-      price: priceRange,
-      sort: sortOrder,
-    }));
-  }, [priceRange, sortOrder]);
-
-  const handleCategoryChange = (value) => {
-    setFilters((prev) => ({
-      ...prev,
-      category: prev.category === value ? "" : value,
+      price: { min: val, max: prev.price.max },
     }));
   };
 
-  const handleSubcategoryChange = (value) => {
+  const handlePriceMaxChange = (e) => {
+    let val = Number(e.target.value);
+    if (val > priceRange.max) val = priceRange.max;
+    if (val < filters.price.min + 10) val = filters.price.min + 10;
     setFilters((prev) => ({
       ...prev,
-      subcategory: prev.subcategory === value ? "" : value,
+      price: { min: prev.price.min, max: val },
     }));
   };
 
-  const handleReset = () => {
-    setFilters({ category: "", subcategory: "", price: [0, 500], sort: "" });
-    setPriceRange([0, 500]);
-    setSortOrder("");
+  const handleSortChange = (e) => {
+    setFilters((prev) => ({ ...prev, sortBy: e.target.value }));
+  };
+
+  const handlePriceSliderChange = (range) => {
+    setFilters((prev) => ({ ...prev, price: range }));
   };
 
   return (
-    <div className="sticky p-4 bg-white border rounded shadow-sm top-24 h-fit">
-      <h3 className="mb-4 text-lg font-semibold text-[#001d49]">Filters</h3>
+    <div className="p-4 bg-white rounded-md shadow-sm sticky top-24 w-full max-w-[240px] h-fit">
+      <h3 className="mb-4 text-lg font-semibold">Filter Products</h3>
 
-      {/* Category */}
+      {/* Category Filter */}
       <div className="mb-4">
         <h4 className="mb-2 font-medium">Category</h4>
         {categories.map((cat) => (
-          <div key={cat}>
-            <label className="inline-flex items-center gap-2">
-              <input
-                type="radio"
-                name="category"
-                value={cat}
-                checked={filters.category === cat}
-                onChange={() => handleCategoryChange(cat)}
-              />
-              <span>{cat}</span>
-            </label>
-          </div>
+          <label key={cat} className="flex items-center mb-1 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={filters.category.includes(cat)}
+              onChange={() => handleMultiSelect("category", cat)}
+              className="mr-2"
+            />
+            {cat}
+          </label>
         ))}
       </div>
 
-      {/* Subcategory */}
+      {/* Subcategory Filter */}
       <div className="mb-4">
         <h4 className="mb-2 font-medium">Subcategory</h4>
-        {subcategories.map((sub) => (
-          <div key={sub}>
-            <label className="inline-flex items-center gap-2">
-              <input
-                type="radio"
-                name="subcategory"
-                value={sub}
-                checked={filters.subcategory === sub}
-                onChange={() => handleSubcategoryChange(sub)}
-              />
-              <span>{sub}</span>
-            </label>
-          </div>
+        {subcategories.map((subcat) => (
+          <label key={subcat} className="flex items-center mb-1 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={filters.subcategory.includes(subcat)}
+              onChange={() => handleMultiSelect("subcategory", subcat)}
+              className="mr-2"
+            />
+            {subcat}
+          </label>
         ))}
       </div>
 
-      {/* Price Range */}
+      {/* Availability Filter */}
       <div className="mb-4">
-        <h4 className="mb-2 font-medium">Price Range</h4>
-        <div className="flex items-center gap-2">
-          <span>${priceRange[0]}</span>
-          <input
-            type="range"
-            min={0}
-            max={1000}
-            value={priceRange[0]}
-            onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
-          />
-        </div>
-        <div className="flex items-center gap-2 mt-2">
-          <span>${priceRange[1]}</span>
-          <input
-            type="range"
-            min={0}
-            max={1000}
-            value={priceRange[1]}
-            onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
-          />
-        </div>
+        <h4 className="mb-2 font-medium">Availability</h4>
+        {availabilityOptions.map((avail) => (
+          <label key={avail} className="flex items-center mb-1 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={filters.availability.includes(avail)}
+              onChange={() => handleMultiSelect("availability", avail)}
+              className="mr-2"
+            />
+            {avail}
+          </label>
+        ))}
       </div>
 
-      {/* Sort */}
-      <div className="mb-4">
-        <h4 className="mb-2 font-medium">Sort by</h4>
+      {/* Price Filter Section */}
+      <div className="mb-6">
+        <h4 className="mb-2 font-medium">Price Range</h4>
+
+        {/* Input boxes */}
+        <div className="flex gap-4 mb-3">
+          <input
+            type="number"
+            min={priceRange.min}
+            max={filters.price.max - 10}
+            value={filters.price.min}
+            onChange={handlePriceMinChange}
+            className="w-1/2 p-1 border rounded"
+            aria-label="Minimum price"
+          />
+          <input
+            type="number"
+            min={filters.price.min + 10}
+            max={priceRange.max}
+            value={filters.price.max}
+            onChange={handlePriceMaxChange}
+            className="w-1/2 p-1 border rounded"
+            aria-label="Maximum price"
+          />
+        </div>
+
+        {/* Dual Thumb Slider */}
+        <PriceSlider
+          min={priceRange.min}
+          max={priceRange.max}
+          value={filters.price}
+          onChange={handlePriceSliderChange}
+        />
+      </div>
+
+      {/* Sort By */}
+      <div>
+        <h4 className="mb-2 font-medium">Sort By</h4>
         <select
-          className="w-full p-1 border rounded"
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
+          value={filters.sortBy}
+          onChange={handleSortChange}
+          className="w-full p-2 border rounded"
         >
-          <option value="">Default</option>
-          <option value="asc">Price: Low → High</option>
-          <option value="desc">Price: High → Low</option>
+          <option value="">None</option>
+          <option value="priceLowHigh">Price: Low to High</option>
+          <option value="priceHighLow">Price: High to Low</option>
         </select>
       </div>
-
-      {/* Active Filters */}
-      <div className="mb-4">
-        <h4 className="mb-2 font-medium">Active Filters</h4>
-        <div className="flex flex-wrap gap-2">
-          {filters.category && (
-            <span className="px-2 py-1 text-sm text-white bg-blue-500 rounded">
-              {filters.category}
-            </span>
-          )}
-          {filters.subcategory && (
-            <span className="px-2 py-1 text-sm text-white bg-green-500 rounded">
-              {filters.subcategory}
-            </span>
-          )}
-          {(filters.price[0] > 0 || filters.price[1] < 500) && (
-            <span className="px-2 py-1 text-sm text-white bg-purple-500 rounded">
-              ${filters.price[0]} - ${filters.price[1]}
-            </span>
-          )}
-          {filters.sort && (
-            <span className="px-2 py-1 text-sm text-white bg-yellow-500 rounded">
-              {filters.sort === "asc" ? "Low → High" : "High → Low"}
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Reset Button */}
-      <button
-        className="w-full px-4 py-2 mt-2 text-sm text-white bg-red-500 rounded hover:bg-red-600"
-        onClick={handleReset}
-      >
-        Reset Filters
-      </button>
     </div>
   );
 };
