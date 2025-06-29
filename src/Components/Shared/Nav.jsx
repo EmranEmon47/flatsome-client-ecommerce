@@ -80,7 +80,7 @@ const Nav = () => {
               onMouseEnter={() => setOpen(true)}
               onMouseLeave={() => setOpen(false)}
             >
-              <span className="cursor-pointer  hover:text-[#FF6347]">
+              <span className="cursor-pointer py-4 hover:text-[#FF6347]">
                 Product
               </span>
 
