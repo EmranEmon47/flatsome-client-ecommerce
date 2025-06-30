@@ -135,7 +135,7 @@ const Nav = () => {
             {/* About Us */}
             <li>
               <Link
-                to="/about"
+                to="/aboutUs"
                 className="hover:text-[#FF6347]  p-2 transition duration-200"
               >
                 About Us
