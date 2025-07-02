@@ -132,6 +132,10 @@ const ProductDetails = () => {
                 <h4 className="text-base font-medium">Description:</h4>
                 <p className="text-sm text-gray-600">{product.description}</p>
               </div>
+              <div>
+                <h4 className="text-base font-medium">Material:</h4>
+                <p className="text-sm text-gray-600">{product.materialInfo}</p>
+              </div>
 
               <ColorSelector
                 colors={uniqueColors}

@@ -20,6 +20,7 @@ const AllProducts = () => {
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // search box
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("search") || ""
   );
@@ -32,7 +33,6 @@ const AllProducts = () => {
     sortBy: "",
   });
 
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
 
@@ -54,7 +54,7 @@ const AllProducts = () => {
   }, []);
 
   const highlightMatch = (text, query) => {
-    if (!query) return text;
+    if (!query || !text) return text;
     const regex = new RegExp(`(${query})`, "gi");
     const parts = text.split(regex);
     return parts.map((part, index) =>
@@ -68,7 +68,6 @@ const AllProducts = () => {
     );
   };
 
-  // Filtering logic
   const filteredProducts = products
     .filter((p) => {
       const matchesCategory =
@@ -86,7 +85,10 @@ const AllProducts = () => {
         p.price >= filters.price.min && p.price <= filters.price.max;
 
       const matchesSearch =
-        !searchTerm || p.name.toLowerCase().includes(searchTerm.toLowerCase());
+        !searchTerm ||
+        [p.name, p.description, p.category, p.subcategory].some((field) =>
+          new RegExp(`\\b${searchTerm}\\b`, "i").test(field)
+        );
 
       return (
         matchesCategory &&
@@ -102,13 +104,11 @@ const AllProducts = () => {
       return 0;
     });
 
-  // Pagination slicing
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const indexOfLast = currentPage * productsPerPage;
   const indexOfFirst = indexOfLast - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirst, indexOfLast);
 
-  // Clear all filters handler
   const clearAllFilters = () => {
     setFilters({
       category: [],
@@ -119,7 +119,6 @@ const AllProducts = () => {
     });
   };
 
-  // Active filters
   const activeFilters = [
     ...filters.category.map((c) => ({ type: "Category", value: c })),
     ...filters.subcategory.map((sc) => ({ type: "Subcategory", value: sc })),
@@ -150,7 +149,6 @@ const AllProducts = () => {
     activeFilters.push({ type: "Search", value: searchTerm });
   }
 
-  // Remove filter
   const removeFilter = (type, value) => {
     if (type === "Category") {
       setFilters((prev) => ({
@@ -185,7 +183,6 @@ const AllProducts = () => {
     <div>
       <Nav />
       <div className="w-full max-w-[calc(100%-440px)] mt-20 mx-auto flex gap-6">
-        {/* Sidebar */}
         <aside className="w-72">
           <ProductFilter
             filters={filters}
@@ -197,14 +194,12 @@ const AllProducts = () => {
           />
         </aside>
 
-        {/* Main content */}
         <main className="flex-1">
           <ProductSearch
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
           />
 
-          {/* Filter summary & badges */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <div className="mr-auto font-semibold text-gray-600">
               {filteredProducts.length} Products Found
@@ -231,7 +226,6 @@ const AllProducts = () => {
             )}
           </div>
 
-          {/* Product grid */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
             {loading
               ? Array.from({ length: productsPerPage }).map((_, i) => (
@@ -243,20 +237,22 @@ const AllProducts = () => {
                     product={{
                       ...product,
                       name: highlightMatch(product.name, searchTerm),
+                      description: highlightMatch(
+                        product.description,
+                        searchTerm
+                      ),
                     }}
                     onQuickView={() => setSelectedProduct(product)}
                   />
                 ))}
           </div>
 
-          {/* Pagination */}
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />
 
-          {/* Modal */}
           {selectedProduct && (
             <ProductCardModal
               product={selectedProduct}
