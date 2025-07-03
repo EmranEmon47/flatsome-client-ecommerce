@@ -166,11 +166,11 @@ const AllProducts = () => {
                 }
                 className="p-2 border border-gray-300 rounded"
               >
-                <option value="">Sort By</option>
+                <option value="">Default sorting</option>
                 <option value="priceLowHigh">Price: Low to High</option>
                 <option value="priceHighLow">Price: High to Low</option>
-                <option value="nameAZ">Name: A–Z</option>
-                <option value="nameZA">Name: Z–A</option>
+                <option value="nameAZ">A–Z</option>
+                <option value="nameZA">Z–A</option>
                 <option value="bestSelling">Best Selling</option>
                 <option value="newest">Newest</option>
                 <option value="oldest">Oldest</option>

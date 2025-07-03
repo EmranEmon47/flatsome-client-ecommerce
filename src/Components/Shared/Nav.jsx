@@ -188,7 +188,7 @@ const Nav = () => {
               aria-haspopup="true"
               aria-expanded={isCartOpen}
             >
-              <li className="items-center hidden lg:flex">
+              <li className="items-center hidden text-black dark:text-amber-500 lg:flex">
                 <a>Cart</a>
               </li>
               <li className="items-center hidden text-gray-400 lg:flex">/</li>
