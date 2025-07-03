@@ -18,9 +18,8 @@ const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  // search box
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("search") || ""
   );
@@ -99,85 +98,30 @@ const AllProducts = () => {
       );
     })
     .sort((a, b) => {
-      if (filters.sortBy === "priceLowHigh") return a.price - b.price;
-      if (filters.sortBy === "priceHighLow") return b.price - a.price;
-      return 0;
+      switch (filters.sortBy) {
+        case "priceLowHigh":
+          return a.price - b.price;
+        case "priceHighLow":
+          return b.price - a.price;
+        case "nameAZ":
+          return a.name.localeCompare(b.name);
+        case "nameZA":
+          return b.name.localeCompare(a.name);
+        case "bestSelling":
+          return (b.sold || 0) - (a.sold || 0);
+        case "newest":
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        case "oldest":
+          return new Date(a.createdAt) - new Date(b.createdAt);
+        default:
+          return 0;
+      }
     });
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const indexOfLast = currentPage * productsPerPage;
   const indexOfFirst = indexOfLast - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirst, indexOfLast);
-
-  const clearAllFilters = () => {
-    setFilters({
-      category: [],
-      subcategory: [],
-      availability: [],
-      price: { min: priceRangeLimits.min, max: priceRangeLimits.max },
-      sortBy: "",
-    });
-  };
-
-  const activeFilters = [
-    ...filters.category.map((c) => ({ type: "Category", value: c })),
-    ...filters.subcategory.map((sc) => ({ type: "Subcategory", value: sc })),
-    ...filters.availability.map((a) => ({ type: "Availability", value: a })),
-  ];
-
-  if (
-    filters.price.min > priceRangeLimits.min ||
-    filters.price.max < priceRangeLimits.max
-  ) {
-    activeFilters.push({
-      type: "Price",
-      value: `$${filters.price.min} - $${filters.price.max}`,
-    });
-  }
-
-  if (filters.sortBy) {
-    const label =
-      filters.sortBy === "priceLowHigh"
-        ? "Price: Low to High"
-        : filters.sortBy === "priceHighLow"
-        ? "Price: High to Low"
-        : filters.sortBy;
-    activeFilters.push({ type: "Sort", value: label });
-  }
-
-  if (searchTerm) {
-    activeFilters.push({ type: "Search", value: searchTerm });
-  }
-
-  const removeFilter = (type, value) => {
-    if (type === "Category") {
-      setFilters((prev) => ({
-        ...prev,
-        category: prev.category.filter((c) => c !== value),
-      }));
-    } else if (type === "Subcategory") {
-      setFilters((prev) => ({
-        ...prev,
-        subcategory: prev.subcategory.filter((sc) => sc !== value),
-      }));
-    } else if (type === "Availability") {
-      setFilters((prev) => ({
-        ...prev,
-        availability: prev.availability.filter((a) => a !== value),
-      }));
-    } else if (type === "Price") {
-      setFilters((prev) => ({
-        ...prev,
-        price: { min: priceRangeLimits.min, max: priceRangeLimits.max },
-      }));
-    } else if (type === "Sort") {
-      setFilters((prev) => ({ ...prev, sortBy: "" }));
-    } else if (type === "Search") {
-      setSearchTerm("");
-      searchParams.delete("search");
-      setSearchParams(searchParams);
-    }
-  };
 
   return (
     <div>
@@ -191,6 +135,8 @@ const AllProducts = () => {
             subcategories={subcategories}
             availabilityOptions={availabilityOptions}
             priceRange={priceRangeLimits}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
           />
         </aside>
 
@@ -200,30 +146,36 @@ const AllProducts = () => {
             setSearchTerm={setSearchTerm}
           />
 
-          <div className="flex flex-wrap items-center gap-3 mb-4">
+          {/* Sort By (top of grid) */}
+          <div className="flex items-center justify-end mb-4">
             <div className="mr-auto font-semibold text-gray-600">
               {filteredProducts.length} Products Found
             </div>
-
-            {activeFilters.length > 0 && (
-              <>
-                {activeFilters.map(({ type, value }, i) => (
-                  <button
-                    key={`${type}-${value}-${i}`}
-                    onClick={() => removeFilter(type, value)}
-                    className="flex items-center gap-1 px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 rounded hover:bg-gray-300"
-                  >
-                    {type}: {value} &times;
-                  </button>
-                ))}
-                <button
-                  onClick={clearAllFilters}
-                  className="px-3 py-1 ml-2 text-sm font-semibold text-white bg-red-600 rounded hover:bg-red-700"
-                >
-                  Clear All
-                </button>
-              </>
-            )}
+            <div className="flex items-center gap-2">
+              <label
+                htmlFor="sortBy"
+                className="text-sm font-medium text-gray-700"
+              >
+                Sort By:
+              </label>
+              <select
+                id="sortBy"
+                value={filters.sortBy}
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, sortBy: e.target.value }))
+                }
+                className="p-2 border border-gray-300 rounded"
+              >
+                <option value="">Sort By</option>
+                <option value="priceLowHigh">Price: Low to High</option>
+                <option value="priceHighLow">Price: High to Low</option>
+                <option value="nameAZ">Name: A–Z</option>
+                <option value="nameZA">Name: Z–A</option>
+                <option value="bestSelling">Best Selling</option>
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+              </select>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">

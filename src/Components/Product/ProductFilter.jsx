@@ -8,6 +8,8 @@ const ProductFilter = ({
   subcategories,
   availabilityOptions,
   priceRange,
+  searchTerm,
+  setSearchTerm,
 }) => {
   // Multi-select handler
   const handleMultiSelect = (filterKey, value) => {
@@ -40,17 +42,163 @@ const ProductFilter = ({
     }));
   };
 
-  const handleSortChange = (e) => {
-    setFilters((prev) => ({ ...prev, sortBy: e.target.value }));
-  };
-
   const handlePriceSliderChange = (range) => {
     setFilters((prev) => ({ ...prev, price: range }));
   };
 
+  // for active filer
+  const clearAllFilters = () => {
+    setFilters({
+      category: [],
+      subcategory: [],
+      availability: [],
+      price: { min: priceRange.min, max: priceRange.max },
+      sortBy: "",
+    });
+    setSearchTerm("");
+  };
+
+  const removeFilter = (type, value) => {
+    if (type === "Category") {
+      setFilters((prev) => ({
+        ...prev,
+        category: prev.category.filter((c) => c !== value),
+      }));
+    } else if (type === "Subcategory") {
+      setFilters((prev) => ({
+        ...prev,
+        subcategory: prev.subcategory.filter((sc) => sc !== value),
+      }));
+    } else if (type === "Availability") {
+      setFilters((prev) => ({
+        ...prev,
+        availability: prev.availability.filter((a) => a !== value),
+      }));
+    } else if (type === "Price") {
+      setFilters((prev) => ({
+        ...prev,
+        price: { min: priceRange.min, max: priceRange.max },
+      }));
+    } else if (type === "Sort") {
+      setFilters((prev) => ({ ...prev, sortBy: "" }));
+    } else if (type === "Search") {
+      setSearchTerm("");
+    }
+  };
+
+  const activeFilters = [
+    ...filters.category.map((c) => ({ type: "Category", value: c })),
+    ...filters.subcategory.map((sc) => ({ type: "Subcategory", value: sc })),
+    ...filters.availability.map((a) => ({ type: "Availability", value: a })),
+  ];
+
+  if (
+    filters.price.min > priceRange.min ||
+    filters.price.max < priceRange.max
+  ) {
+    activeFilters.push({
+      type: "Price",
+      value: `$${filters.price.min} - ${filters.price.max}`,
+    });
+  }
+
+  const sortLabels = {
+    priceLowHigh: "Price: Low to High",
+    priceHighLow: "Price: High to Low",
+    nameAZ: "Name: A–Z",
+    nameZA: "Name: Z–A",
+    bestSelling: "Best Selling",
+    newest: "Newest",
+    oldest: "Oldest",
+  };
+
+  if (filters.sortBy) {
+    activeFilters.push({
+      type: "Sort",
+      value: sortLabels[filters.sortBy] || filters.sortBy,
+    });
+  }
+  if (searchTerm) {
+    activeFilters.push({ type: "Search", value: searchTerm });
+  }
+
   return (
     <div className="p-4 bg-white rounded-md shadow-sm sticky top-24 w-full max-w-[240px] h-fit">
       <h3 className="mb-4 text-lg font-semibold">Filter Products</h3>
+
+      {/* Active filters */}
+      {activeFilters.length > 0 && (
+        <div className="mb-4">
+          <h4 className="mb-2 font-semibold text-gray-700">Active Filters</h4>
+          <div className="flex flex-wrap gap-2">
+            {activeFilters.map(({ type, value }, i) => (
+              <button
+                key={`${type}-${value}-${i}`}
+                onClick={() => removeFilter(type, value)}
+                className="flex items-center gap-1 px-2 py-1 text-sm bg-gray-200 rounded hover:bg-gray-300"
+              >
+                {type}: {value} &times;
+              </button>
+            ))}
+            <button
+              onClick={clearAllFilters}
+              className="px-2 py-1 text-sm font-semibold text-white bg-red-600 rounded hover:bg-red-700"
+            >
+              Clear All
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Price Filter Section */}
+      <div className="mb-2">
+        <h4 className="mb-2 font-medium">Price Range</h4>
+
+        {/* Input boxes */}
+        <div className="flex gap-4 ">
+          <input
+            type="number"
+            min={priceRange.min}
+            max={filters.price.max - 10}
+            value={filters.price.min}
+            onChange={handlePriceMinChange}
+            className="w-1/2 p-1 border rounded"
+            aria-label="Minimum price"
+          />
+          <input
+            type="number"
+            min={filters.price.min + 10}
+            max={priceRange.max}
+            value={filters.price.max}
+            onChange={handlePriceMaxChange}
+            className="w-1/2 p-1 border rounded"
+            aria-label="Maximum price"
+          />
+        </div>
+
+        {/* Dual Thumb Slider */}
+        <PriceSlider
+          min={priceRange.min}
+          max={priceRange.max}
+          value={filters.price}
+          onChange={handlePriceSliderChange}
+        />
+      </div>
+      {/* Availability Filter */}
+      <div className="mb-4">
+        <h4 className="mb-2 font-medium">Availability</h4>
+        {availabilityOptions.map((avail) => (
+          <label key={avail} className="flex items-center mb-1 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={filters.availability.includes(avail)}
+              onChange={() => handleMultiSelect("availability", avail)}
+              className="mr-2"
+            />
+            {avail}
+          </label>
+        ))}
+      </div>
 
       {/* Category Filter */}
       <div className="mb-4">
@@ -82,71 +230,6 @@ const ProductFilter = ({
             {subcat}
           </label>
         ))}
-      </div>
-
-      {/* Availability Filter */}
-      <div className="mb-4">
-        <h4 className="mb-2 font-medium">Availability</h4>
-        {availabilityOptions.map((avail) => (
-          <label key={avail} className="flex items-center mb-1 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={filters.availability.includes(avail)}
-              onChange={() => handleMultiSelect("availability", avail)}
-              className="mr-2"
-            />
-            {avail}
-          </label>
-        ))}
-      </div>
-
-      {/* Price Filter Section */}
-      <div className="mb-6">
-        <h4 className="mb-2 font-medium">Price Range</h4>
-
-        {/* Input boxes */}
-        <div className="flex gap-4 mb-3">
-          <input
-            type="number"
-            min={priceRange.min}
-            max={filters.price.max - 10}
-            value={filters.price.min}
-            onChange={handlePriceMinChange}
-            className="w-1/2 p-1 border rounded"
-            aria-label="Minimum price"
-          />
-          <input
-            type="number"
-            min={filters.price.min + 10}
-            max={priceRange.max}
-            value={filters.price.max}
-            onChange={handlePriceMaxChange}
-            className="w-1/2 p-1 border rounded"
-            aria-label="Maximum price"
-          />
-        </div>
-
-        {/* Dual Thumb Slider */}
-        <PriceSlider
-          min={priceRange.min}
-          max={priceRange.max}
-          value={filters.price}
-          onChange={handlePriceSliderChange}
-        />
-      </div>
-
-      {/* Sort By */}
-      <div>
-        <h4 className="mb-2 font-medium">Sort By</h4>
-        <select
-          value={filters.sortBy}
-          onChange={handleSortChange}
-          className="w-full p-2 border rounded"
-        >
-          <option value="">None</option>
-          <option value="priceLowHigh">Price: Low to High</option>
-          <option value="priceHighLow">Price: High to Low</option>
-        </select>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ const PriceSlider = ({ min, max, value, onChange }) => {
   };
 
   return (
-    <div className="relative w-full h-12">
+    <div className="relative w-full h-12 ">
       {/* Track */}
       <div className="absolute w-full h-1 -translate-y-1/2 bg-gray-300 rounded top-1/2" />
 
@@ -47,7 +47,7 @@ const PriceSlider = ({ min, max, value, onChange }) => {
 
       {/* Min tooltip */}
       <div
-        className={`absolute -top-8 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-black rounded transition-opacity ${
+        className={`absolute -top-2 transform -translate-x-1/2 px-2 py-1 text-xs text-black bg-none rounded transition-opacity ${
           isDragging === "min" ? "opacity-100" : "opacity-50"
         }`}
         style={{ left: `${minPercent}%` }}
@@ -57,7 +57,7 @@ const PriceSlider = ({ min, max, value, onChange }) => {
 
       {/* Max tooltip */}
       <div
-        className={`absolute -top-8 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-black rounded transition-opacity ${
+        className={`absolute -top-2 transform -translate-x-1/2 px-2 py-1 text-xs text-black bg-none rounded transition-opacity ${
           isDragging === "max" ? "opacity-100" : "opacity-50"
         }`}
         style={{ left: `${maxPercent}%` }}
