@@ -1,113 +1,120 @@
-import React, { useState, useEffect, useRef } from "react";
-import debounce from "lodash.debounce";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const PriceSlider = ({ min, max, value, onChange }) => {
   const [minVal, setMinVal] = useState(value.min);
   const [maxVal, setMaxVal] = useState(value.max);
-  const [isDragging, setIsDragging] = useState(null);
+  const minValRef = useRef(min);
+  const maxValRef = useRef(max);
+  const rangeRef = useRef(null);
   const minGap = 10;
 
-  const debouncedChange = useRef(
-    debounce((newMin, newMax) => {
-      onChange({ min: newMin, max: newMax });
-    }, 200)
-  ).current;
-
-  // Sync from parent
-  useEffect(() => {
-    setMinVal(value.min);
-    setMaxVal(value.max);
-  }, [value]);
+  const getPercent = useCallback(
+    (val) => Math.round(((val - min) / (max - min)) * 100),
+    [min, max]
+  );
 
   useEffect(() => {
-    debouncedChange(minVal, maxVal);
-  }, [minVal, maxVal, debouncedChange]);
+    const minPercent = getPercent(minVal);
+    const maxPercent = getPercent(maxValRef.current);
+    if (rangeRef.current) {
+      rangeRef.current.style.left = `${minPercent}%`;
+      rangeRef.current.style.width = `${maxPercent - minPercent}%`;
+    }
+  }, [minVal, getPercent]);
 
-  const getPercent = (val) => ((val - min) / (max - min)) * 100;
-  const minPercent = getPercent(minVal);
-  const maxPercent = getPercent(maxVal);
+  useEffect(() => {
+    const minPercent = getPercent(minValRef.current);
+    const maxPercent = getPercent(maxVal);
+    if (rangeRef.current) {
+      rangeRef.current.style.width = `${maxPercent - minPercent}%`;
+    }
+  }, [maxVal, getPercent]);
 
-  const handleMinChange = (e) => {
-    const val = Math.min(Number(e.target.value), maxVal - minGap);
-    setMinVal(val);
-  };
-
-  const handleMaxChange = (e) => {
-    const val = Math.max(Number(e.target.value), minVal + minGap);
-    setMaxVal(val);
-  };
+  useEffect(() => {
+    if (minVal !== minValRef.current || maxVal !== maxValRef.current) {
+      onChange({ min: minVal, max: maxVal });
+      minValRef.current = minVal;
+      maxValRef.current = maxVal;
+    }
+  }, [minVal, maxVal, onChange]);
 
   return (
-    <div className="relative w-full h-10">
-      {/* Background track */}
-      <div className="absolute w-full h-1 -translate-y-1/2 bg-gray-300 rounded top-1/2" />
+    <div className="relative w-full h-12 select-none">
+      {/* Full track */}
+      <div className="absolute z-10 w-full h-1 -translate-y-1/2 bg-gray-300 rounded top-1/2" />
 
-      {/* Active range bar */}
+      {/* Active range */}
       <div
-        className="absolute h-1 -translate-y-1/2 bg-blue-500 rounded top-1/2"
-        style={{
-          left: `${minPercent}%`,
-          width: `${maxPercent - minPercent}%`,
-        }}
+        ref={rangeRef}
+        className="absolute z-20 h-1 transition-all duration-150 -translate-y-1/2 bg-blue-500 rounded top-1/2"
       />
 
-      {/* Min tooltip */}
-      <div
-        className={`absolute -top-5 transform -translate-x-1/2 px-2 py-1 text-xs text-black transition-opacity ${
-          isDragging === "min" ? "opacity-100" : "opacity-50"
-        }`}
-        style={{ left: `${minPercent}%` }}
-      >
-        ${minVal}
-      </div>
-
-      {/* Max tooltip */}
-      <div
-        className={`absolute -top-5 transform -translate-x-1/2 px-2 py-1 text-xs text-black transition-opacity ${
-          isDragging === "max" ? "opacity-100" : "opacity-50"
-        }`}
-        style={{ left: `${maxPercent}%` }}
-      >
-        ${maxVal}
-      </div>
-
-      {/* Min slider */}
+      {/* Min range input */}
       <input
         type="range"
         min={min}
         max={max}
+        step={1}
         value={minVal}
-        step={1}
-        onChange={handleMinChange}
-        onMouseDown={() => setIsDragging("min")}
-        onMouseUp={() => setIsDragging(null)}
-        className="absolute w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto top-1/2"
-        style={{
-          zIndex: minVal > max - 100 ? 6 : 7,
-        }}
+        onChange={(e) =>
+          setMinVal(Math.min(Number(e.target.value), maxVal - minGap))
+        }
+        className="absolute z-30 w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto thumb top-1/2"
+        style={{ zIndex: minVal > max - 100 ? 5 : 3 }}
       />
 
-      {/* Max slider */}
+      {/* Max range input */}
       <input
         type="range"
         min={min}
         max={max}
-        value={maxVal}
         step={1}
-        onChange={handleMaxChange}
-        onMouseDown={() => setIsDragging("max")}
-        onMouseUp={() => setIsDragging(null)}
-        className="absolute w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto top-1/2"
-        style={{
-          zIndex: maxVal <= min + 100 ? 8 : 5,
-        }}
+        value={maxVal}
+        onChange={(e) =>
+          setMaxVal(Math.max(Number(e.target.value), minVal + minGap))
+        }
+        className="absolute z-20 w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto thumb top-1/2"
+        style={{ zIndex: minVal > max - 100 || minVal === maxVal ? 4 : 2 }}
       />
 
-      {/* Optional min/max labels below slider */}
-      <div className="flex justify-between px-1 mt-3 text-xs text-gray-500">
-        <span>${min}</span>
-        <span>${max}</span>
+      {/* Labels */}
+      <div className="flex justify-between px-1 mt-2 text-sm font-medium text-gray-700">
+        <span>${minVal}</span>
+        <span>${maxVal}</span>
       </div>
+
+      {/* Styling for range thumbs (Tailwind + custom) */}
+      <style jsx>{`
+        input[type="range"].thumb::-webkit-slider-thumb {
+          height: 16px;
+          width: 16px;
+          border-radius: 9999px;
+          background-color: #3b82f6;
+          border: 2px solid white;
+          cursor: pointer;
+          margin-top: -7px;
+          -webkit-appearance: none;
+        }
+
+        input[type="range"].thumb::-moz-range-thumb {
+          height: 16px;
+          width: 16px;
+          border-radius: 9999px;
+          background-color: #3b82f6;
+          border: 2px solid white;
+          cursor: pointer;
+        }
+
+        input[type="range"].thumb::-webkit-slider-runnable-track {
+          height: 1px;
+          background: transparent;
+        }
+
+        input[type="range"].thumb::-moz-range-track {
+          height: 1px;
+          background: transparent;
+        }
+      `}</style>
     </div>
   );
 };
