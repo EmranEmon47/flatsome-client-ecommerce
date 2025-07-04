@@ -13,6 +13,12 @@ const PriceSlider = ({ min, max, value, onChange }) => {
     }, 200)
   ).current;
 
+  // Sync from parent
+  useEffect(() => {
+    setMinVal(value.min);
+    setMaxVal(value.max);
+  }, [value]);
+
   useEffect(() => {
     debouncedChange(minVal, maxVal);
   }, [minVal, maxVal, debouncedChange]);
@@ -32,13 +38,13 @@ const PriceSlider = ({ min, max, value, onChange }) => {
   };
 
   return (
-    <div className="relative w-full h-12 ">
-      {/* Track */}
+    <div className="relative w-full h-10">
+      {/* Background track */}
       <div className="absolute w-full h-1 -translate-y-1/2 bg-gray-300 rounded top-1/2" />
 
-      {/* Active range highlight */}
+      {/* Active range bar */}
       <div
-        className="absolute h-1 -translate-y-1/2 rounded top-1/2 bg-primary"
+        className="absolute h-1 -translate-y-1/2 bg-blue-500 rounded top-1/2"
         style={{
           left: `${minPercent}%`,
           width: `${maxPercent - minPercent}%`,
@@ -47,7 +53,7 @@ const PriceSlider = ({ min, max, value, onChange }) => {
 
       {/* Min tooltip */}
       <div
-        className={`absolute -top-2 transform -translate-x-1/2 px-2 py-1 text-xs text-black bg-none rounded transition-opacity ${
+        className={`absolute -top-5 transform -translate-x-1/2 px-2 py-1 text-xs text-black transition-opacity ${
           isDragging === "min" ? "opacity-100" : "opacity-50"
         }`}
         style={{ left: `${minPercent}%` }}
@@ -57,7 +63,7 @@ const PriceSlider = ({ min, max, value, onChange }) => {
 
       {/* Max tooltip */}
       <div
-        className={`absolute -top-2 transform -translate-x-1/2 px-2 py-1 text-xs text-black bg-none rounded transition-opacity ${
+        className={`absolute -top-5 transform -translate-x-1/2 px-2 py-1 text-xs text-black transition-opacity ${
           isDragging === "max" ? "opacity-100" : "opacity-50"
         }`}
         style={{ left: `${maxPercent}%` }}
@@ -65,33 +71,43 @@ const PriceSlider = ({ min, max, value, onChange }) => {
         ${maxVal}
       </div>
 
-      {/* Min input slider (higher z-index when needed) */}
+      {/* Min slider */}
       <input
         type="range"
         min={min}
         max={max}
-        step={1}
         value={minVal}
+        step={1}
         onChange={handleMinChange}
         onMouseDown={() => setIsDragging("min")}
         onMouseUp={() => setIsDragging(null)}
-        className="absolute z-30 w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto top-1/2"
-        style={{ zIndex: minVal > maxVal - 100 ? 35 : 25 }}
+        className="absolute w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto top-1/2"
+        style={{
+          zIndex: minVal > max - 100 ? 6 : 7,
+        }}
       />
 
-      {/* Max input slider */}
+      {/* Max slider */}
       <input
         type="range"
         min={min}
         max={max}
-        step={1}
         value={maxVal}
+        step={1}
         onChange={handleMaxChange}
         onMouseDown={() => setIsDragging("max")}
         onMouseUp={() => setIsDragging(null)}
-        className="absolute z-20 w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto top-1/2"
-        style={{ zIndex: maxVal <= minVal + 100 ? 34 : 24 }}
+        className="absolute w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto top-1/2"
+        style={{
+          zIndex: maxVal <= min + 100 ? 8 : 5,
+        }}
       />
+
+      {/* Optional min/max labels below slider */}
+      <div className="flex justify-between px-1 mt-3 text-xs text-gray-500">
+        <span>${min}</span>
+        <span>${max}</span>
+      </div>
     </div>
   );
 };

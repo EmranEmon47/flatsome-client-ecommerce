@@ -148,7 +148,7 @@ const Nav = () => {
           <div className="flex items-center justify-center gap-2">
             {currentUser ? (
               <div className="relative hidden text-sm font-semibold text-gray-500 group lg:block">
-                <button className="cursor-pointer py-2 rounded text-[#6184b8] transition">
+                <button className="py-2 text-black transition rounded cursor-pointer dark:text-amber-500">
                   {getFirstName(currentUser.displayName || currentUser.email)}
                 </button>
                 <ul className="absolute right-0 z-50 hidden w-32 bg-white border rounded shadow-md group-hover:block">
@@ -188,7 +188,7 @@ const Nav = () => {
               aria-haspopup="true"
               aria-expanded={isCartOpen}
             >
-              <li className="items-center hidden text-black dark:text-amber-500 lg:flex">
+              <li className="items-center hidden lg:flex">
                 <a>Cart</a>
               </li>
               <li className="items-center hidden text-gray-400 lg:flex">/</li>
