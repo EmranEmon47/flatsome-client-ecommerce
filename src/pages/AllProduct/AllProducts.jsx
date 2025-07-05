@@ -12,7 +12,7 @@ import { useSearchParams } from "react-router";
 const categories = ["Men", "Women", "Child"];
 const subcategories = ["T-Shirts", "Jeans", "Shoes", "Jackets", "Tops"];
 const availabilityOptions = ["In Stock", "Out of Stock"];
-const priceRangeLimits = { min: 0, max: 1000 };
+const priceRangeLimits = { min: 0, max: 500 };
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
