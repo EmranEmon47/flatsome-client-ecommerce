@@ -41,7 +41,7 @@ const PriceSlider = ({ min, max, value, onChange }) => {
   return (
     <div className="relative w-full h-12 select-none">
       {/* Full track */}
-      <div className="absolute z-10 w-full h-1 -translate-y-1/2 bg-gray-300 rounded top-1/2" />
+      <div className="absolute z-10 w-full h-1 -translate-y-1/2 bg-gray-100 rounded top-1/2" />
 
       {/* Active range */}
       <div
@@ -59,7 +59,7 @@ const PriceSlider = ({ min, max, value, onChange }) => {
         onChange={(e) =>
           setMinVal(Math.min(Number(e.target.value), maxVal - minGap))
         }
-        className="absolute z-30 w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto thumb top-1/2"
+        className="absolute z-20 w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto thumb top-1/2"
         style={{ zIndex: minVal > max - 100 ? 5 : 3 }}
       />
 
@@ -86,13 +86,14 @@ const PriceSlider = ({ min, max, value, onChange }) => {
       {/* Styling for range thumbs (Tailwind + custom) */}
       <style jsx>{`
         input[type="range"].thumb::-webkit-slider-thumb {
-          height: 16px;
-          width: 16px;
+          height: 18px;
+          width: 18px;
           border-radius: 9999px;
+          padding: 2px;
           background-color: #3b82f6;
           border: 2px solid white;
           cursor: pointer;
-          margin-top: -7px;
+          margin-top: -8px;
           -webkit-appearance: none;
         }
 

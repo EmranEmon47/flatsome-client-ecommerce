@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Nav from "../../Components/Shared/Nav";
+import Footer from "../../Components/Shared/Footer";
 import ProductCard from "../../Components/Product/ProductCard";
 import ProductCardModal from "../../Components/Product/ProductQuickViewModal";
 import ProductCardSkeleton from "../../Components/Product/ProductCardSkeleton";
@@ -213,6 +214,7 @@ const AllProducts = () => {
           )}
         </main>
       </div>
+      <Footer />
     </div>
   );
 };
