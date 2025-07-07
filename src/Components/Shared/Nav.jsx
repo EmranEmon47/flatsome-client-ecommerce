@@ -61,7 +61,7 @@ const Nav = () => {
   //   return () => clearTimeout(timeout);
   // }, [location]); // animate on route change or wishlist update
   return (
-    <div className="fixed top-0 z-50 w-full text-gray-800 transition duration-300 bg-white dark:bg-gray-900 dark:text-white navbar">
+    <div className="fixed top-0 z-50 w-full text-gray-800 transition duration-300 bg-white dark:bg-black dark:text-white navbar">
       <div className="grid items-center w-full grid-cols-3 max-w-[calc(100%-440px)] mx-auto py-4 font-semibold text-gray-500 uppercase ">
         <div className="justify-self-start">
           <Link
@@ -229,7 +229,7 @@ const Nav = () => {
             {/* Cart dropdown */}
             {isCartOpen && (
               <div
-                className="absolute top-0 right-0 z-50 p-4 mr-10 overflow-auto bg-white border border-gray-200 rounded shadow-lg mt-18 w-80 max-h-96"
+                className="absolute top-0 right-0 z-50 p-4 mt-20 mr-10 overflow-auto bg-white border border-gray-200 rounded shadow-lg mt-18 w-80 max-h-96"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 role="menu"

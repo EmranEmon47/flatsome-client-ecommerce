@@ -13,8 +13,6 @@
     "@heroicons/react": "^2.2.0",
     "@stripe/react-stripe-js": "^3.7.0",
     "@stripe/stripe-js": "^7.3.1",
-    "@tailwindcss/postcss": "^4.1.10",
-    "@tailwindcss/vite": "^4.1.7",
     "axios": "^1.10.0",
     "firebase": "^11.9.0",
     "framer-motion": "^12.12.1",
@@ -25,8 +23,7 @@
     "react-hot-toast": "^2.5.2",
     "react-medium-image-zoom": "^5.2.14",
     "react-responsive-carousel": "^3.2.23",
-    "react-router": "^7.6.0",
-    "tailwindcss": "^4.1.10"
+    "react-router": "^7.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
@@ -39,6 +36,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.3",
     "vite": "^6.3.5"
   }
 }

@@ -53,7 +53,7 @@ const ProductCard = ({ product, onQuickView }) => {
 
       {/* Product Link and Images */}
       <Link to={`/product/${product._id}`}>
-        <div className="relative w-full overflow-hidden h-84">
+        <div className="relative w-full overflow-hidden h-80">
           <div className="relative w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105">
             <img
               src={product.primaryImage}
