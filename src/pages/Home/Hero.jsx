@@ -59,7 +59,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-screen h-[88vh] mt-18 overflow-hidden">
+    <div className="relative w-screen h-[88vh] mt-16 overflow-hidden">
       {images.map((slide, index) => (
         <div
           key={index}
@@ -73,13 +73,13 @@ const Hero = () => {
               autoPlay
               loop
               muted
-              className="w-full h-full object-cover"
+              className="object-cover w-full h-full"
             />
           ) : (
             <img
               src={slide.url}
               alt={`Slide ${index + 1}`}
-              className="w-full h-full object-cover"
+              className="object-cover w-full h-full"
             />
           )}
 
@@ -92,7 +92,7 @@ const Hero = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               style={{ fontFamily: '"Dancing Script", cursive' }}
-              className="text-4xl   font-medium  mb-2"
+              className="mb-2 text-4xl font-medium"
             >
               {slide.subheading}
             </motion.h2>
@@ -100,7 +100,7 @@ const Hero = () => {
               initial={{ opacity: 0, x: -60 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl md:text-6xl   font-medium mb-4 text-center leading-snug"
+              className="mb-4 text-4xl font-medium leading-snug text-center md:text-6xl"
             >
               {slide.heading.split("\n").map((line, idx) => (
                 <div
@@ -115,7 +115,7 @@ const Hero = () => {
               initial={{ opacity: 0, x: -70 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg md:text-xl mb-6"
+              className="mb-6 text-lg md:text-xl"
             >
               {slide.text}
             </motion.p>
@@ -151,14 +151,14 @@ const Hero = () => {
       {/* Left Arrow */}
       <button
         onClick={prevSlide}
-        className="absolute top-1/2 left-4 transform text-2xl text-gray-600 hover:text-white  -translate-y-1/2 bg-none bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition z-20"
+        className="absolute z-20 p-2 text-2xl text-gray-600 transition transform -translate-y-1/2 bg-opacity-50 rounded-full top-1/2 left-4 hover:text-white bg-none hover:bg-opacity-80"
       >
         ❮
       </button>
       s{/* Right Arrow */}
       <button
         onClick={nextSlide}
-        className="absolute top-1/2 right-4 transform text-2xl text-gray-600 hover:text-white -translate-y-1/2 bg-none bg-opacity-50 p-2 rounded-full hover:bg-opacity-80 transition z-20"
+        className="absolute z-20 p-2 text-2xl text-gray-600 transition transform -translate-y-1/2 bg-opacity-50 rounded-full top-1/2 right-4 hover:text-white bg-none hover:bg-opacity-80"
       >
         ❯
       </button>

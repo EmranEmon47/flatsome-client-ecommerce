@@ -61,7 +61,7 @@ const Nav = () => {
   //   return () => clearTimeout(timeout);
   // }, [location]); // animate on route change or wishlist update
   return (
-    <div className="fixed top-0 z-50 w-full text-gray-800 transition duration-300 bg-white dark:bg-black dark:text-white navbar">
+    <div className="fixed top-0 z-50 w-full text-gray-800 transition duration-300 bg-white border-b border-gray-200 dark:bg-black dark:text-white navbar">
       <div className="grid items-center w-full grid-cols-3 max-w-[calc(100%-440px)] mx-auto py-4 font-semibold text-gray-500 uppercase ">
         <div className="justify-self-start">
           <Link

@@ -39,9 +39,9 @@ const PriceSlider = ({ min, max, value, onChange }) => {
   }, [minVal, maxVal, onChange]);
 
   return (
-    <div className="relative w-full h-12 select-none">
+    <div className="relative w-full select-none h-14">
       {/* Full track */}
-      <div className="absolute z-10 w-full h-1 -translate-y-1/2 bg-gray-100 rounded top-1/2" />
+      <div className="absolute left-0 right-0 z-10 h-1 -translate-y-1/2 bg-gray-200 rounded top-1/2" />
 
       {/* Active range */}
       <div
@@ -49,7 +49,7 @@ const PriceSlider = ({ min, max, value, onChange }) => {
         className="absolute z-20 h-1 transition-all duration-150 -translate-y-1/2 bg-blue-500 rounded top-1/2"
       />
 
-      {/* Min range input */}
+      {/* Range Inputs */}
       <input
         type="range"
         min={min}
@@ -59,11 +59,11 @@ const PriceSlider = ({ min, max, value, onChange }) => {
         onChange={(e) =>
           setMinVal(Math.min(Number(e.target.value), maxVal - minGap))
         }
-        className="absolute z-20 w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto thumb top-1/2"
-        style={{ zIndex: minVal > max - 100 ? 5 : 3 }}
+        className="absolute w-full top-1/2 -translate-y-1/2 appearance-none bg-transparent pointer-events-none z-30 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-500 [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:-mt-0
+          [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-blue-500 [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto"
+        style={{ zIndex: minVal > max - 100 ? 50 : 30 }}
       />
 
-      {/* Max range input */}
       <input
         type="range"
         min={min}
@@ -73,49 +73,16 @@ const PriceSlider = ({ min, max, value, onChange }) => {
         onChange={(e) =>
           setMaxVal(Math.max(Number(e.target.value), minVal + minGap))
         }
-        className="absolute z-20 w-full -translate-y-1/2 bg-transparent appearance-none pointer-events-auto thumb top-1/2"
-        style={{ zIndex: minVal > max - 100 || minVal === maxVal ? 4 : 2 }}
+        className="absolute w-full top-1/2 -translate-y-1/2 appearance-none bg-transparent pointer-events-none z-30 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-500 [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:-mt-0
+          [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-blue-500 [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto"
+        style={{ zIndex: minVal > max - 100 || minVal === maxVal ? 40 : 20 }}
       />
 
-      {/* Labels */}
-      <div className="flex justify-between px-1 mt-2 text-sm font-medium text-gray-700">
+      {/* Min and Max labels */}
+      <div className="flex justify-between px-1 mt-3 text-sm font-medium text-gray-700">
         <span>${minVal}</span>
         <span>${maxVal}</span>
       </div>
-
-      {/* Styling for range thumbs (Tailwind + custom) */}
-      <style jsx>{`
-        input[type="range"].thumb::-webkit-slider-thumb {
-          height: 18px;
-          width: 18px;
-          border-radius: 9999px;
-          padding: 2px;
-          background-color: #3b82f6;
-          border: 2px solid white;
-          cursor: pointer;
-          margin-top: -8px;
-          -webkit-appearance: none;
-        }
-
-        input[type="range"].thumb::-moz-range-thumb {
-          height: 16px;
-          width: 16px;
-          border-radius: 9999px;
-          background-color: #3b82f6;
-          border: 2px solid white;
-          cursor: pointer;
-        }
-
-        input[type="range"].thumb::-webkit-slider-runnable-track {
-          height: 1px;
-          background: transparent;
-        }
-
-        input[type="range"].thumb::-moz-range-track {
-          height: 1px;
-          background: transparent;
-        }
-      `}</style>
     </div>
   );
 };

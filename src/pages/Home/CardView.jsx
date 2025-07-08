@@ -12,23 +12,23 @@ export const CardView = () => {
 
   return (
     <div className="w-full lg:max-w-[calc(100%-440px)] py-10 mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
         {cards.map((card, index) => (
           <div
             key={index}
-            className="relative w-84 h-40 overflow-hidden group flex items-center justify-center cursor-pointer "
+            className="relative flex items-center justify-center h-40 overflow-hidden cursor-pointer w-80 group "
           >
             {/* Always visible background image */}
             <div
-              className="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
+              className="absolute inset-0 transition-transform duration-500 bg-center bg-cover group-hover:scale-110"
               style={{ backgroundImage: `url(${card.image})` }}
             ></div>
 
             {/* Dark overlay on hover */}
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500"></div>
+            <div className="absolute inset-0 transition-colors duration-500 bg-black/0 group-hover:bg-black/20"></div>
 
             {/* Text */}
-            <div className="relative z-10 text-white text-2xl font-semibold text-center px-4 flex flex-col items-center">
+            <div className="relative z-10 flex flex-col items-center px-4 text-2xl font-semibold text-center text-white">
               {card.heading.split("\n").map((line, i) => (
                 <div key={i}>{line}</div>
               ))}
