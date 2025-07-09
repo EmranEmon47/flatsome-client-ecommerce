@@ -45,29 +45,29 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex relative">
+    <div className="relative flex min-h-screen">
       {/* 🔙 Back to Home Button */}
       <button
         onClick={() => navigate("/")}
-        className="absolute top-4 left-4 bg-gray-200 text-gray-800 px-4 py-1 rounded hover:bg-gray-300 text-sm z-10"
+        className="absolute z-10 px-4 py-1 text-sm text-gray-800 bg-gray-200 rounded top-4 left-4 hover:bg-gray-300"
       >
         ← Back to Home
       </button>
 
       {/* Left image section */}
-      <div className="hidden md:flex w-1/2">
+      <div className="hidden w-1/2 md:flex">
         <img
           src={loginImage}
           alt="Login Visual"
-          className="w-full h-full object-cover"
+          className="object-cover w-full h-full"
         />
       </div>
 
       {/* Right form section */}
-      <div className="flex flex-col justify-center items-center w-full md:w-1/2 bg-white px-8 py-12">
+      <div className="flex flex-col items-center justify-center w-full px-8 py-12 bg-white md:w-1/2">
         <div className="w-full max-w-md">
           <div className="flex flex-col items-center ">
-            <img src={logo} alt="Logo" className=" h-12 mb-12" />
+            <img src={logo} alt="Logo" className="h-12 mb-12 " />
             <h2 className="text-xl font-semibold text-green-700">
               Welcome Back
             </h2>
@@ -81,7 +81,7 @@ const Login = () => {
               <input
                 type="email"
                 autoComplete="username"
-                className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -95,7 +95,7 @@ const Login = () => {
               <input
                 type="password"
                 autoComplete="current-password"
-                className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-400"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -105,18 +105,18 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-green-600 text-white py-2 rounded font-semibold hover:bg-green-700 transition"
+              className="w-full py-2 font-semibold text-white transition bg-green-600 rounded hover:bg-green-700"
             >
               Login
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-600">
+          <div className="mt-6 text-sm text-center text-gray-600">
             Don't have an account?{" "}
             <Link
               to="/signup"
               state={{ from }}
-              className="text-green-600 hover:underline font-medium"
+              className="font-medium text-green-600 hover:underline"
             >
               Sign up here
             </Link>
@@ -124,24 +124,24 @@ const Login = () => {
 
           {/* 🔹 Google login button */}
           <div className="mt-6">
-            <div className="relative text-center mb-4 text-sm text-gray-500">
-              <span className="px-2 bg-white z-10 relative">
+            <div className="relative mb-4 text-sm text-center text-gray-500">
+              <span className="relative z-10 px-2 bg-white">
                 or continue with
               </span>
-              <div className="absolute left-0 top-1/2 w-full border-t border-gray-300 -z-10" />
+              <div className="absolute left-0 w-full border-t border-gray-300 top-1/2 -z-10" />
             </div>
 
             <button
               onClick={handleGoogleLogin}
               type="button"
-              className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded hover:bg-gray-50"
+              className="flex items-center justify-center w-full gap-2 py-2 border border-gray-300 rounded hover:bg-gray-50"
             >
               <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
                 alt="Google logo"
                 className="w-5 h-5"
               />
-              <span className="text-sm text-gray-700 font-medium">
+              <span className="text-sm font-medium text-gray-700">
                 Sign in with Google
               </span>
             </button>

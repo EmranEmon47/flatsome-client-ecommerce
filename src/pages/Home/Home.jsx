@@ -9,8 +9,16 @@ import Services from "./Services.jsx";
 import Testimonial from "./Testimonial.jsx";
 import News from "./News.jsx";
 import Footer from "../../Components/Shared/Footer.jsx";
+// import { useEffect } from "react";
+// import { useAuth } from "../../Context/AuthContext.jsx";
 
 const Home = () => {
+  // const { firebaseUser, mongoUser } = useAuth();
+
+  // useEffect(() => {
+  //   console.log("📦 Firebase User:", firebaseUser);
+  //   console.log("🧠 MongoDB User:", mongoUser);
+  // }, [firebaseUser, mongoUser]);
   return (
     <div>
       <Nav />

@@ -18,6 +18,8 @@ import OrderComplete from "./pages/OrderComplete/OrderComplete.jsx";
 import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 import AllProducts from "./pages/AllProduct/AllProducts.jsx";
 import Wishlist from "./pages/Wishlist/Wishlist.jsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+import RequireAdmin from "./pages/Auth/RequireAdmin.jsx";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -63,6 +65,15 @@ function App() {
             <Route path="/aboutUs" element={<AboutUs />} />
 
             <Route path="*" element={<NotFound />} />
+            {/* admin */}
+            <Route
+              path="/admin"
+              element={
+                <RequireAdmin>
+                  <AdminDashboard />
+                </RequireAdmin>
+              }
+            />
           </Routes>
         </Router>
 

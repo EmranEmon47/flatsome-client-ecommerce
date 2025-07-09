@@ -1,21 +1,31 @@
 import React, { useState, useRef } from "react";
 import logo from "../../assets/logo.png";
-import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { ShoppingBagIcon, HeartIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../Context/CartProvider";
 import { Link } from "react-router";
-import { useAuth } from "../../Context/AuthContext.jsx";
+import { useAuth } from "../../Context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
-import DarkModeToggle from "./DarkModeToggle.jsx";
-import { HeartIcon } from "@heroicons/react/24/outline";
-import { useWishlist } from "../../Context/WishlistContext.jsx";
+import DarkModeToggle from "./DarkModeToggle";
+import { useWishlist } from "../../Context/WishlistContext";
 
 const Nav = () => {
-  const { currentUser } = useAuth();
+  const { firebaseUser, mongoUser, loading } = useAuth();
+  const {
+    cartItems,
+    totalQuantity,
+    totalPrice,
+    removeFromCart,
+    updateQuantity,
+  } = useCart();
+  const { wishlist } = useWishlist();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const timeoutRef = useRef(null);
 
-  const getFirstName = (fullNameOrEmail) => {
-    if (!fullNameOrEmail) return "User";
-    return fullNameOrEmail.split(" ")[0] || fullNameOrEmail.split("@")[0];
+  const getFirstName = (nameOrEmail) => {
+    if (!nameOrEmail) return "User";
+    return nameOrEmail.split(" ")[0] || nameOrEmail.split("@")[0];
   };
 
   const handleLogout = async () => {
@@ -25,17 +35,6 @@ const Nav = () => {
       console.error("Logout error:", error.message);
     }
   };
-
-  const {
-    cartItems,
-    totalQuantity,
-    totalPrice,
-    removeFromCart,
-    updateQuantity,
-  } = useCart();
-
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  let timeoutRef = useRef(null);
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -47,22 +46,13 @@ const Nav = () => {
       setIsCartOpen(false);
     }, 200);
   };
-  const [open, setOpen] = useState(false);
-  // wishlistCount
-  const { wishlist } = useWishlist();
-  // Update and animate badge
-  // useEffect(() => {
-  //   const stored = localStorage.getItem("wishlist");
-  //   const parsed = stored ? JSON.parse(stored) : [];
-  //   setWishlistCount(parsed.length);
 
-  //   setAnimateBadge(true);
-  //   const timeout = setTimeout(() => setAnimateBadge(false), 500);
-  //   return () => clearTimeout(timeout);
-  // }, [location]); // animate on route change or wishlist update
+  if (loading) return null; // Avoid showing before auth state resolved
+
   return (
     <div className="fixed top-0 z-50 w-full text-gray-800 transition duration-300 bg-white border-b border-gray-200 dark:bg-black dark:text-white navbar">
       <div className="grid items-center w-full grid-cols-3 max-w-[calc(100%-440px)] mx-auto py-4 font-semibold text-gray-500 uppercase ">
+        {/* Logo */}
         <div className="justify-self-start">
           <Link
             to="/"
@@ -72,6 +62,7 @@ const Nav = () => {
           </Link>
         </div>
 
+        {/* Center menu */}
         <div className="justify-self-center">
           <ul className="flex items-center justify-center gap-2 text-sm font-medium uppercase">
             {/* Product Dropdown */}
@@ -83,7 +74,6 @@ const Nav = () => {
               <span className="cursor-pointer py-4 hover:text-[#FF6347]">
                 Product
               </span>
-
               {open && (
                 <ul className="absolute left-0 w-48 mt-2 bg-white border shadow-lg">
                   <li>
@@ -144,12 +134,14 @@ const Nav = () => {
           </ul>
         </div>
 
+        {/* Right section */}
         <div className="justify-self-end ">
           <div className="flex items-center justify-center gap-2">
-            {currentUser ? (
+            {/* User Auth */}
+            {firebaseUser ? (
               <div className="relative hidden text-sm font-semibold text-gray-500 group lg:block">
                 <button className="py-2 text-black transition rounded cursor-pointer dark:text-amber-500">
-                  {getFirstName(currentUser.displayName || currentUser.email)}
+                  {getFirstName(mongoUser?.name || firebaseUser.email)}
                 </button>
                 <ul className="absolute right-0 z-50 hidden w-32 bg-white border rounded shadow-md group-hover:block">
                   <li>
@@ -160,6 +152,16 @@ const Nav = () => {
                       Profile
                     </Link>
                   </li>
+                  {mongoUser?.role === "admin" && (
+                    <li>
+                      <Link
+                        to="/admin"
+                        className="block px-4 py-2 text-sm hover:bg-gray-100"
+                      >
+                        Admin Panel
+                      </Link>
+                    </li>
+                  )}
                   <li>
                     <button
                       onClick={handleLogout}
@@ -181,6 +183,7 @@ const Nav = () => {
 
             <div className="items-center hidden w-px h-5 mx-1 bg-gray-300 lg:flex"></div>
 
+            {/* Cart */}
             <ul
               className="gap-2 text-xs font-semibold cursor-pointer select-none text-secondary lg:flex lg:items-center"
               onMouseEnter={handleMouseEnter}
@@ -207,15 +210,14 @@ const Nav = () => {
                 )}
               </li>
             </ul>
-            {/* wishlist button */}
-            {/* Right side: Wishlist */}
+
+            {/* Wishlist */}
             <div className="flex items-center ">
               <Link
                 to="/wishlist"
                 className="relative p-2 transition rounded-full group hover:bg-gray-100"
               >
                 <HeartIcon className="w-6 h-6 text-gray-600 transition group-hover:text-red-500" />
-
                 {wishlist.length > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full flex items-center justify-center animate-ping-fast">
                     {wishlist.length}
@@ -237,7 +239,6 @@ const Nav = () => {
               >
                 <div className="">
                   <h2 className="text-lg font-bold border-b ">Your Cart</h2>
-
                   {cartItems.length === 0 ? (
                     <p className="text-gray-500">Your cart is empty.</p>
                   ) : (
@@ -318,11 +319,9 @@ const Nav = () => {
                       ))}
                     </ul>
                   )}
-
                   <div className="py-3 mt-4 font-semibold text-right border-t">
                     Total: ${totalPrice.toFixed(2)}
                   </div>
-
                   <Link
                     to="/cart"
                     className="w-full block text-center bg-[#445e85] text-white py-2  hover:bg-[#2c3c53] transition"
