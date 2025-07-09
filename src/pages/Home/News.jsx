@@ -1,8 +1,5 @@
 import React from "react";
-import img1 from "../../assets/product1.jpg";
-import img2 from "../../assets/product2.jpg";
-import img3 from "../../assets/product3.jpg";
-import img4 from "../../assets/product4.jpg";
+
 const News = () => {
   const posts = [
     {
@@ -11,21 +8,21 @@ const News = () => {
       description:
         "Discover the beauty of nature as we explore the wild terrains.",
       date: { day: "12", month: "Aug" },
-      image: img1,
+      image: "https://picsum.photos/300/200?random=0",
     },
     {
       id: 2,
       title: "City Lights at Night",
       description: "The charm and chaos of city life seen after dark.",
       date: { day: "20", month: "Sep" },
-      image: img2,
+      image: "https://picsum.photos/300/200?random=1",
     },
     {
       id: 3,
       title: "Beachside Bliss",
       description: "Relax and recharge by the calming ocean waves.",
       date: { day: "08", month: "Jun" },
-      image: img3,
+      image: "https://picsum.photos/300/200?random=2",
     },
     {
       id: 4,
@@ -33,7 +30,7 @@ const News = () => {
       description:
         "Discover the beauty of nature as we explore the wild terrains.",
       date: { day: "11", month: "Feb" },
-      image: img4,
+      image: "https://picsum.photos/300/200?random=3",
     },
   ];
 
