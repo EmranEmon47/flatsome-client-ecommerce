@@ -143,7 +143,7 @@ const Nav = () => {
                 <button className="py-2 text-black transition rounded cursor-pointer dark:text-amber-500">
                   {getFirstName(mongoUser?.name || firebaseUser.email)}
                 </button>
-                <ul className="absolute right-0 z-50 hidden w-32 bg-white border rounded shadow-md group-hover:block">
+                <ul className="absolute right-0 z-50 hidden w-40 bg-white border rounded shadow-md group-hover:block">
                   <li>
                     <Link
                       to="/profile"

@@ -81,7 +81,6 @@ const Checkout = () => {
       return;
     }
 
-    const auth = getAuth();
     const user = auth.currentUser;
 
     if (!user) {
@@ -108,17 +107,25 @@ const Checkout = () => {
 
     try {
       const token = await user.getIdToken();
-      await axiosInstance.post("/orders", orderPayload, {
+      const res = await axiosInstance.post("/orders", orderPayload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
+      const savedOrder = res.data;
+
+      if (!savedOrder._id) {
+        throw new Error("Failed to get order ID from backend");
+      }
+
       toast.success("Order placed successfully!");
+
       navigate("/payment", {
         state: {
           shippingInfo: orderPayload.shippingInfo,
           totalAmount: Number(total.toFixed(2)),
+          orderId: savedOrder._id, // Pass actual order ID here
         },
       });
     } catch (error) {
