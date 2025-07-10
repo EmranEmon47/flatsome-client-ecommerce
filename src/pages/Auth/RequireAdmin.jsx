@@ -1,12 +1,13 @@
 // src/pages/Auth/RequireAdmin.jsx
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import axiosInstance from "../../api/axiosInstance";
 import toast from "react-hot-toast";
 
 const RequireAdmin = ({ children }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -16,7 +17,7 @@ const RequireAdmin = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         toast.error("Please login first");
-        navigate("/login");
+        navigate("/login", { state: { from: location }, replace: true });
         setLoading(false);
         return;
       }
@@ -43,7 +44,7 @@ const RequireAdmin = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [navigate]);
+  }, [navigate, location]);
 
   if (loading) {
     return <div className="p-6 text-center">Checking admin access...</div>;
