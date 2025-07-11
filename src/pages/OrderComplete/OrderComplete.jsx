@@ -83,7 +83,7 @@ const OrderComplete = () => {
   return (
     <div>
       <Nav />
-      <div className="max-w-3xl p-6 mx-auto bg-white rounded shadow">
+      <div className="max-w-3xl p-6 mx-auto mt-24 bg-white rounded shadow">
         <h1 className="mb-4 text-3xl font-bold text-green-600">
           Thank you for your order!
         </h1>

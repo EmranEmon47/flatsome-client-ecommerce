@@ -80,7 +80,7 @@ const Payment = () => {
   return (
     <div>
       <Nav />
-      <div className="max-w-md p-6 mx-auto mt-10 bg-white border rounded shadow">
+      <div className="max-w-md p-6 mx-auto bg-white border rounded shadow mt-28">
         <h2 className="mb-4 text-2xl font-semibold">Complete Your Payment</h2>
 
         <form onSubmit={handlePayment} className="space-y-4">
