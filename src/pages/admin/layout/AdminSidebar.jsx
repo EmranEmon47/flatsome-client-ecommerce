@@ -6,6 +6,7 @@ import {
   FiBox,
   FiGrid,
   FiHome,
+  FiFileText, // added for orders icon
 } from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router";
 import logo from "../../../assets/logo.png";
@@ -37,6 +38,9 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
     } else if (path === "/admin/users") {
       setActiveTab("Users");
       setOpenMenus((prev) => ({ ...prev, Products: false }));
+    } else if (path === "/admin/orders") {
+      setActiveTab("Orders");
+      setOpenMenus((prev) => ({ ...prev, Products: false }));
     }
   }, [location.pathname, setActiveTab]);
 
@@ -60,9 +64,13 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
         setActiveTab("Users");
         navigate("/admin/users");
         break;
+      case "Orders":
+        setActiveTab("Orders");
+        navigate("/admin/orders");
+        break;
       case "Shop":
         setActiveTab("Shop");
-        window.open("/", "_blank"); // open main website in new tab
+        window.open("/", "_blank");
         break;
       default:
         break;
@@ -163,6 +171,13 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
             </div>
           )}
         </div>
+
+        <NavButton
+          active={activeTab === "Orders"}
+          icon={FiFileText}
+          label="Orders"
+          onClick={() => handleTabClick("Orders")}
+        />
 
         <NavButton
           active={activeTab === "Users"}
