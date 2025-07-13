@@ -6,9 +6,9 @@ const axiosInstance = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
+    // Send cookies/auth headers for CORS requests
 });
 
-// 🔐 Intercept each request and attach Firebase token if available
 axiosInstance.interceptors.request.use(
     async (config) => {
         const auth = getAuth();
@@ -21,9 +21,7 @@ axiosInstance.interceptors.request.use(
 
         return config;
     },
-    (error) => {
-        return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
 );
 
 export default axiosInstance;

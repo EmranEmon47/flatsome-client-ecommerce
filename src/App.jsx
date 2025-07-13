@@ -18,8 +18,14 @@ import OrderComplete from "./pages/OrderComplete/OrderComplete.jsx";
 import AboutUs from "./pages/AboutUs/AboutUs.jsx";
 import AllProducts from "./pages/AllProduct/AllProducts.jsx";
 import Wishlist from "./pages/Wishlist/Wishlist.jsx";
-import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+import AdminDashboard from "./pages/admin/dashboard/DashboardHome.jsx";
 import RequireAdmin from "./pages/Auth/RequireAdmin.jsx";
+import AdminLayout from "./pages/admin/layout/AdminLayout.jsx";
+import DashboardHome from "./pages/admin/dashboard/DashboardHome.jsx";
+import AddProduct from "./pages/admin/products/AddProduct.jsx";
+import UpdateProduct from "./pages/admin/products/UpdateProduct.jsx";
+import AdminAllProducts from "./pages/admin/products/AdminAllProducts.jsx";
+import AdminAllUsers from "./pages/admin/Users/AdminAllUsers.jsx";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -70,10 +76,16 @@ function App() {
               path="/admin"
               element={
                 <RequireAdmin>
-                  <AdminDashboard />
+                  <AdminLayout />
                 </RequireAdmin>
               }
-            />
+            >
+              <Route index element={<DashboardHome />} /> {/* default route */}
+              <Route path="products/add" element={<AddProduct />} />
+              <Route path="products/all" element={<AdminAllProducts />} />
+              <Route path="products/update/:id" element={<UpdateProduct />} />
+              <Route path="users" element={<AdminAllUsers />} />
+            </Route>
           </Routes>
         </Router>
 
