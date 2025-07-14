@@ -120,7 +120,12 @@ const ManageOrders = () => {
                 <td className="p-2 text-sm border">{order._id}</td>
                 <td className="p-2 text-sm border">{order.email}</td>
                 <td className="p-2 text-sm border">{order.paymentStatus}</td>
-                <td className="p-2 text-sm border">{order.quantity}</td>
+                <td className="p-2 text-sm border">
+                  {order.cartItems?.reduce(
+                    (total, item) => total + item.quantity,
+                    0
+                  )}
+                </td>
                 <td className="p-2 text-sm border">{order.deliveryStatus}</td>
                 <td className="p-2 text-sm border">
                   {new Date(order.createdAt).toLocaleString()}
@@ -128,7 +133,7 @@ const ManageOrders = () => {
                 <td className="p-2 border">
                   <button
                     onClick={() => navigate(`/admin/orders/${order._id}`)}
-                    className="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700"
+                    className="px-3 py-1 text-sm text-white bg-blue-400 rounded hover:bg-blue-600"
                   >
                     View Details
                   </button>
