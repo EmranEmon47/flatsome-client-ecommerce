@@ -11,12 +11,12 @@ export const CardView = () => {
   ];
 
   return (
-    <div className="w-full lg:max-w-[calc(100%-440px)] py-10 mx-auto">
+    <div className="w-full lg:max-w-[calc(100%-440px)] py-10 px-2 mx-auto">
       <div className="flex flex-col items-center justify-between gap-4 lg:flex-row md:flex-row">
         {cards.map((card, index) => (
           <div
             key={index}
-            className="relative flex items-center justify-center h-40 overflow-hidden cursor-pointer w-80 group "
+            className="relative flex items-center justify-center w-full h-40 overflow-hidden cursor-pointer lg:w-80 group "
           >
             {/* Always visible background image */}
             <div

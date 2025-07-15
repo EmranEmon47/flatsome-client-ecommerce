@@ -43,16 +43,16 @@ export default function Testimonial() {
 
   return (
     <div
-      className="relative w-full h-full bg-cover bg-center flex flex-col justify-center items-center text-white transition-all duration-1000"
+      className="relative flex flex-col items-center justify-center w-full h-full text-white transition-all duration-1000 bg-center bg-cover"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       {/* Overlay for dark effect */}
-      <div className="absolute inset-0  bg-opacity-60 z-0"></div>
-      <div className="flex items-center absolute  gap-4  ">
+      <div className="absolute inset-0 z-0 bg-opacity-60"></div>
+      <div className="absolute flex items-center gap-4 ">
         <hr className="flex-grow border-t border-gray-300" />
         <h2
           style={{ fontFamily: '"Dancing Script", cursive' }}
-          className="text-3xl text-black font-semibold uppercase whitespace-nowrap"
+          className="text-lg font-semibold text-black uppercase lg:text-3xl md:text-xl whitespace-nowrap"
         >
           Testimonials
         </h2>
@@ -62,32 +62,32 @@ export default function Testimonial() {
       {/* Review box with fade and scale transition */}
       <div
         key={current}
-        className="relative group z-10 p-8 mt-8 bg-none bg-opacity-10 backdrop-blur-md rounded-xl max-w-[calc(100%-440px)] text-center transition-all duration-700 ease-in-out transform scale-100 opacity-100 animate-fade-in"
+        className="relative group z-10 p-8 mt-8 bg-none bg-opacity-10 backdrop-blur-md rounded-xl w-full lg:max-w-[calc(100%-440px)] text-center transition-all duration-700 ease-in-out transform scale-100 opacity-100 animate-fade-in"
       >
-        <p className="text-xl md:text-2xl font-semibold italic mb-4">
+        <p className="mb-4 text-xl italic font-semibold lg:text-2xl">
           “{reviews[current].text}”
         </p>
-        <div className="text-sm md:text-base text-gray-200">
+        <div className="text-sm text-gray-200 lg:text-base">
           — {reviews[current].name}, via {reviews[current].platform}
         </div>
 
         {/* Arrows */}
         <button
           onClick={goToPrev}
-          className="absolute left-[-3rem] top-1/2 transform -translate-y-1/2   p-2 "
+          className="absolute hidden lg:block lg:left-[-3rem] top-1/2 transform -translate-y-1/2   p-2 "
         >
-          <ChevronLeft className="w-6 h-6 text-white group-hover:block hidden" />
+          <ChevronLeft className="hidden w-6 h-6 text-white group-hover:block" />
         </button>
         <button
           onClick={goToNext}
-          className="absolute right-[-3rem] top-1/2 transform -translate-y-1/2  p-2 "
+          className="absolute hidden lg:block lg:right-[-3rem] top-1/2 transform -translate-y-1/2  p-2 "
         >
-          <ChevronRight className="w-6 h-6 text-white group-hover:block hidden" />
+          <ChevronRight className="hidden w-6 h-6 text-white group-hover:block" />
         </button>
       </div>
 
       {/* Dots */}
-      <div className="z-10 flex space-x-2 my-4">
+      <div className="z-10 flex my-4 space-x-2">
         {reviews.map((_, index) => (
           <button
             key={index}

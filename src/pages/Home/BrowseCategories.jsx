@@ -17,18 +17,18 @@ const BrowserCategories = () => {
   //   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
-    <div className=" w-full max-w-[calc(100%-440px)] mx-auto">
+    <div className=" w-full lg:max-w-[calc(100%-440px)] mx-auto">
       {/* Heading */}
-      <div className="flex items-center gap-4 mb-8">
+      <div className="flex items-center gap-4 lg:mb-8">
         <hr className="flex-grow border-t border-gray-300" />
-        <h2 className="text-2xl font-medium text-gray-600 uppercase whitespace-nowrap">
+        <h2 className="text-lg font-medium text-gray-600 uppercase lg:text-2xl whitespace-nowrap">
           Browse our categories
         </h2>
         <hr className="flex-grow border-t border-gray-300" />
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
         {products
           .sort((a, b) => b.id - a.id)
           .map((product) => (

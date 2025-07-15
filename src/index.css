@@ -37,27 +37,160 @@ body {
   }
 }
 
-/* Responsive Design Enhancements */
-.nav-link {
-  @apply px-3 py-2 font-medium text-gray-700 transition-all dark:text-gray-300 rounded-xl hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20;
+/* bolt */
+/* Floating Animation */
+@keyframes float {
+  0% {
+    transform: translateX(-50%) translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-50%) translateY(-8px) rotate(0.5deg);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-12px) rotate(0deg);
+  }
+  75% {
+    transform: translateX(-50%) translateY(-8px) rotate(-0.5deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0px) rotate(0deg);
+  }
 }
 
-.dropdown-menu {
-  @apply absolute left-0 w-48 py-2 mt-3 border shadow-2xl top-full bg-white/95 dark:bg-black/95 backdrop-blur-xl rounded-2xl border-white/30 dark:border-gray-700/30;
+.navbar {
+  animation: float 8s ease-in-out infinite;
 }
 
-.dropdown-item {
-  @apply block px-4 py-2 text-gray-700 transition-all rounded-lg dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-blue-900/30;
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.panel {
-  @apply absolute right-0 w-64 p-4 mt-2 border shadow-lg bg-white/95 dark:bg-black/95 backdrop-blur-xl rounded-2xl border-white/30 dark:border-gray-700/30;
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.badge {
-  @apply absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full -top-1 -right-1;
+.animate-in {
+  animation: fadeIn 0.2s ease-out;
 }
 
-.mobile-panel {
-  @apply px-6 py-6 border-t lg:hidden bg-white/90 dark:bg-black/90 backdrop-blur-xl rounded-b-3xl border-gray-200/30 dark:border-gray-700/30;
+.fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.slide-in-from-top-2 {
+  animation: slideInFromTop 0.2s ease-out;
+}
+
+/* Enhanced Shadow */
+.shadow-3xl {
+  box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Smooth Transitions */
+* {
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
+    backdrop-filter, scale;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Glass Morphism Enhancement */
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-xl {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to bottom,
+    rgba(59, 130, 246, 0.5),
+    rgba(147, 51, 234, 0.5)
+  );
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(59, 130, 246, 0.7),
+    rgba(147, 51, 234, 0.7)
+  );
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to bottom,
+    rgba(59, 130, 246, 0.4),
+    rgba(147, 51, 234, 0.4)
+  );
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(59, 130, 246, 0.6),
+    rgba(147, 51, 234, 0.6)
+  );
+}
+
+/* Focus Styles */
+input:focus,
+button:focus {
+  outline: none;
+}
+
+/* Smooth Dark Mode Transition */
+html {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Enhanced Hover Effects */
+.hover\:scale-\[1\.02\]:hover {
+  transform: scale(1.02);
+}
+
+/* Gradient Text Animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-gradient-to-r {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
 }

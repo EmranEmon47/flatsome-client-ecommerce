@@ -59,7 +59,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div className="relative w-full min-h-[100vh] overflow-hidden">
       {images.map((slide, index) => (
         <div
           key={index}
@@ -85,45 +85,67 @@ const Hero = () => {
 
           <motion.div
             key={current}
-            className={`absolute inset-0  flex flex-col justify-center items-center text-center px-4 ${slide.textColor}`}
+            className={`absolute inset-0 flex flex-col justify-center items-center text-center px-4 ${slide.textColor}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, ease: "easeInOut" }}
           >
+            {/* Subheading */}
             <motion.h2
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 1.1, delay: 0.2, ease: "linear" }}
               style={{ fontFamily: '"Dancing Script", cursive' }}
-              className="mb-2 text-4xl font-medium"
+              className="mb-2 text-lg font-medium md:text-xl lg:text-4xl"
             >
               {slide.subheading}
             </motion.h2>
+
+            {/* Heading */}
             <motion.h1
-              initial={{ opacity: 0, x: -60 }}
+              initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-4 text-4xl font-medium leading-snug text-center md:text-6xl"
+              transition={{
+                duration: 1.2,
+                delay: 0.4,
+                ease: [0.95, 1, 1, 1],
+              }}
+              className="mb-4 text-2xl font-medium leading-snug text-center md:text-2xl lg:text-6xl"
             >
               {slide.heading.split("\n").map((line, idx) => (
                 <div
                   key={idx}
-                  className={idx === 0 ? "text-6xl " : "text-3xl md:text-4xl"}
+                  className={
+                    idx === 0
+                      ? "lg:text-6xl"
+                      : "md:text-4xl text-2xl lg:text-4xl"
+                  }
                 >
                   {line}
                 </div>
               ))}
             </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, x: -70 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mb-6 text-lg md:text-xl"
+
+            {/* Optional Text Paragraph */}
+            {slide.text && (
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.9, ease: "easeInOut" }}
+                className="mb-6 text-lg lg:text-xl"
+              >
+                {slide.text}
+              </motion.p>
+            )}
+
+            {/* Buttons (only fade in, no motion) */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 1, ease: "easeInOut" }}
+              className="flex gap-4"
             >
-              {slide.text}
-            </motion.p>
-            <div className="flex gap-4">
-              <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 0.8 }}
+              <button
                 className={`uppercase px-6 py-2 font-semibold border-2 ${
                   slide.isVideo
                     ? "border-white text-white bg-transparent hover:bg-[#445e85] hover:border-[#445e85]"
@@ -131,11 +153,8 @@ const Hero = () => {
                 } transition`}
               >
                 Shop Men
-              </motion.button>
-              <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 0.8 }}
+              </button>
+              <button
                 className={`uppercase px-6 py-2 font-semibold border-2 ${
                   slide.isVideo
                     ? "border-white text-white bg-transparent hover:bg-[#445e85] hover:border-[#445e85]"
@@ -143,22 +162,22 @@ const Hero = () => {
                 } transition`}
               >
                 Shop Woman
-              </motion.button>
-            </div>
+              </button>
+            </motion.div>
           </motion.div>
         </div>
       ))}
       {/* Left Arrow */}
       <button
         onClick={prevSlide}
-        className="absolute z-20 p-2 text-2xl text-gray-600 transition transform -translate-y-1/2 bg-opacity-50 rounded-full top-1/2 left-4 hover:text-white bg-none hover:bg-opacity-80"
+        className="absolute z-20 p-2 text-xl text-gray-600 transition transform -translate-y-1/2 bg-opacity-50 rounded-full lg:text-2xl top-1/2 left-4 hover:text-white bg-none hover:bg-opacity-80"
       >
         ❮
       </button>
       s{/* Right Arrow */}
       <button
         onClick={nextSlide}
-        className="absolute z-20 p-2 text-2xl text-gray-600 transition transform -translate-y-1/2 bg-opacity-50 rounded-full top-1/2 right-4 hover:text-white bg-none hover:bg-opacity-80"
+        className="absolute z-20 p-2 text-xl text-gray-600 transition transform -translate-y-1/2 bg-opacity-50 rounded-full lg:text-2xl top-1/2 right-4 hover:text-white bg-none hover:bg-opacity-80"
       >
         ❯
       </button>

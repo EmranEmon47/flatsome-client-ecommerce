@@ -17,24 +17,24 @@ const BestSelling = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
-    <div className="pb-12 pt-4 w-full max-w-[calc(100%-440px)] mx-auto">
+    <div className="pb-12 pt-4 w-full lg:max-w-[calc(100%-440px)] mx-auto">
       {/* Heading */}
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
-        <h2 className="text-2xl text-gray-600 font-medium uppercase whitespace-nowrap">
+        <h2 className="text-lg font-medium text-gray-600 uppercase lg:text-2xl whitespace-nowrap">
           Best Selling Products
         </h2>
         <hr className="flex-grow border-t border-gray-300" />
       </div>
 
       {/* Product Grid */}
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
         {products
           .sort((a, b) => b.id - a.id)
           .map((product) => (
             <div
               key={product.id}
-              className="bg-white shadow-sm overflow-hidden hover:shadow-lg transition-shadow group relative"
+              className="relative overflow-hidden transition-shadow bg-white shadow-sm hover:shadow-lg group"
             >
               {/* Wrap image in link to product details */}
               <Link to={`/product/${product.id}`}>
@@ -42,7 +42,7 @@ const BestSelling = () => {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-84 object-cover object-top"
+                    className="object-cover object-top w-full h-84"
                   />
                 </div>
               </Link>
@@ -56,10 +56,10 @@ const BestSelling = () => {
                 >
                   Quick View
                 </button>
-                <h5 className="text-base text-gray-400 font-normal mb-2">
+                <h5 className="mb-2 text-base font-normal text-gray-400">
                   {product.span}
                 </h5>
-                <h3 className="text-sm font-normal mb-2">{product.name}</h3>
+                <h3 className="mb-2 text-sm font-normal">{product.name}</h3>
                 <div className="flex justify-start mb-2">
                   {[1, 2, 3, 4, 5].map((i) => (
                     <Star key={i} filled={i <= product.rating} />
@@ -76,16 +76,16 @@ const BestSelling = () => {
       {/* Modal */}
       {selectedProduct && (
         <div
-          className="fixed inset-0 bg-white/30 backdrop-blur-sm flex justify-center items-center z-50"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-white/30 backdrop-blur-sm"
           onClick={() => setSelectedProduct(null)}
         >
           <div
-            className="bg-white p-6 rounded-lg shadow-lg max-w-xl w-full relative"
+            className="relative w-full max-w-xl p-6 bg-white rounded-lg shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setSelectedProduct(null)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
+              className="absolute text-xl text-gray-500 top-2 right-2 hover:text-black"
             >
               &times;
             </button>
@@ -96,10 +96,10 @@ const BestSelling = () => {
               className="w-full h-auto mb-4 rounded object-contain max-h-[80vh]"
             />
 
-            <h3 className="text-xl font-semibold mb-2">
+            <h3 className="mb-2 text-xl font-semibold">
               {selectedProduct.name}
             </h3>
-            <p className="text-gray-600 text-lg">
+            <p className="text-lg text-gray-600">
               ${selectedProduct.price.toFixed(2)}
             </p>
           </div>

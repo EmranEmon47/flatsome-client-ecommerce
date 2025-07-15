@@ -11,12 +11,12 @@ import { WishlistProvider } from "./Context/WishlistContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ThemeProvider>
+    <CartProvider>
       <WishlistProvider>
-        <CartProvider>
+        <ThemeProvider>
           <App />
-        </CartProvider>
+        </ThemeProvider>
       </WishlistProvider>
-    </ThemeProvider>
+    </CartProvider>
   </React.StrictMode>
 );

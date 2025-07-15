@@ -24,19 +24,19 @@ const serviceData = [
 
 const Services = () => {
   return (
-    <div className="w-full py-16 px-4 max-w-screen-xl mx-auto">
-      <div className="flex flex-col md:flex-row gap-8 md:gap-0 justify-between">
+    <div className="w-full px-2 mx-auto lg:max-w-[calc(100%-440px)] py-4 lg:py-16">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {serviceData.map((service, index) => (
           <div
             key={index}
-            className={`flex flex-col items-center text-center gap-2 px-4 md:w-1/3 ${
+            className={`flex flex-col items-center text-center  lg::w-1/3 ${
               index < serviceData.length - 1
-                ? "md:border-r md:border-gray-300"
+                ? "lg:border-r lg:border-gray-300"
                 : ""
             }`}
           >
             <div>{service.icon}</div>
-            <h3 className="text-lg text-gray-700 font-semibold">
+            <h3 className="text-lg font-semibold text-gray-700">
               {service.title}
             </h3>
             <p className="text-sm text-gray-500">{service.description}</p>
