@@ -12,7 +12,7 @@ export const CardView = () => {
 
   return (
     <div className="w-full lg:max-w-[calc(100%-440px)] py-10 mx-auto">
-      <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+      <div className="flex flex-col items-center justify-between gap-4 lg:flex-row md:flex-row">
         {cards.map((card, index) => (
           <div
             key={index}

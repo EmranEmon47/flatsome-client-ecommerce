@@ -28,21 +28,22 @@ const UserDropdown = () => {
 
   return (
     <div className="relative hidden text-sm font-semibold text-gray-500 group lg:block">
-      <button className="flex items-center gap-2 py-2 text-black dark:text-amber-500">
+      <button className="flex items-center gap-2 py-2 text-black dark:text-[#abddff]">
         {/* <img
           src={avatar}
           alt="User avatar"
           className="object-cover w-6 h-6 rounded-full"
         /> */}
+        <span className="text-xs text-black dark:text-white">Hi!</span>{" "}
         {getFirstName()}
       </button>
 
       {/* Dropdown */}
-      <ul className="absolute right-0 z-50 hidden w-40 bg-white border rounded shadow-md group-hover:block">
+      <ul className="absolute left-0 z-50 hidden w-40 bg-white border shadow-lg dark:bg-neutral-900 group-hover:block">
         <li>
           <Link
             to="/profile"
-            className="block px-4 py-2 text-sm hover:bg-gray-100"
+            className="block px-4 py-2 hover:bg-[#FF6347] text-black dark:text-white hover:text-white transition"
           >
             Profile
           </Link>
@@ -51,7 +52,7 @@ const UserDropdown = () => {
           <li>
             <Link
               to="/admin"
-              className="block px-4 py-2 text-sm hover:bg-gray-100"
+              className="block px-4 py-2 hover:bg-[#FF6347] text-black dark:text-white hover:text-white transition"
             >
               Admin Panel
             </Link>
@@ -60,7 +61,7 @@ const UserDropdown = () => {
         <li>
           <button
             onClick={handleLogout}
-            className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
+            className="block px-4 w-full py-2 text-left hover:bg-[#FF6347] text-black dark:text-white hover:text-white transition"
           >
             Logout
           </button>

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import logo from "../../assets/logo.png";
+import lightLogo from "../../assets/logo-light.png";
 import { ShoppingBagIcon, HeartIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../Context/CartProvider";
 import { useWishlist } from "../../Context/WishlistContext";
@@ -20,8 +21,11 @@ const Nav = () => {
   } = useCart();
   const { wishlist } = useWishlist();
 
+  const [desktopProductOpen, setDesktopProductOpen] = useState(false);
+  const [mobileProductOpen, setMobileProductOpen] = useState(false);
+
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [open, setOpen] = useState(false);
+
   const timeoutRef = useRef(null);
 
   const handleMouseEnter = () => {
@@ -42,23 +46,60 @@ const Nav = () => {
   // Ai do not touch or change it until here
 
   return (
-    <div className="fixed top-0 z-50 w-full transition duration-300 border-b border-gray-300 shadow-md bg-white/70 backdrop-blur-md dark:bg-black/60">
+    <div className="fixed top-0 z-50 w-full transition duration-300 border-b border-gray-300 shadow-md dark:border-none bg-white/70 backdrop-blur-md dark:bg-black/60">
       <div className="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="Logo" className="h-10" />
+          <img src={logo} alt="Logo" className="block h-10 dark:hidden" />
+          <img src={lightLogo} alt="Logo" className="hidden h-10 dark:block" />
         </Link>
 
         {/* Desktop Nav */}
         <ul className="items-center hidden gap-6 text-sm font-semibold text-gray-700 uppercase transition lg:flex dark:text-white">
           <li
             className="relative"
-            onMouseEnter={() => setOpen(true)}
-            onMouseLeave={() => setOpen(false)}
+            onMouseEnter={() => setDesktopProductOpen(true)}
+            onMouseLeave={() => setDesktopProductOpen(false)}
           >
-            <span className="cursor-pointer py-2 hover:text-[#FF6347] transition">
+            <span className="cursor-pointer py-4 hover:text-[#FF6347] transition">
               Product
             </span>
+            {desktopProductOpen && (
+              <ul className="absolute left-0 w-48 mt-2 bg-white border shadow-lg dark:bg-neutral-900">
+                <li>
+                  <Link
+                    to="/all-products"
+                    className="block px-4 py-2 hover:bg-[#FF6347] hover:text-white transition"
+                  >
+                    All Products
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/products/men"
+                    className="block px-4 py-2 hover:bg-[#FF6347] hover:text-white transition"
+                  >
+                    For Men
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/products/women"
+                    className="block px-4 py-2 hover:bg-[#FF6347] hover:text-white transition"
+                  >
+                    For Women
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/products/kids"
+                    className="block px-4 py-2 hover:bg-[#FF6347] hover:text-white transition"
+                  >
+                    For Kids
+                  </Link>
+                </li>
+              </ul>
+            )}
           </li>
           <li>
             <Link
@@ -165,13 +206,13 @@ const Nav = () => {
         <div className="px-4 pt-2 pb-4 space-y-2 shadow-md lg:hidden bg-white/80 dark:bg-black/70 backdrop-blur-md">
           <div
             className="relative"
-            onMouseEnter={() => setOpen(true)}
-            onMouseLeave={() => setOpen(false)}
+            onMouseEnter={() => setMobileProductOpen(true)}
+            onMouseLeave={() => setMobileProductOpen(false)}
           >
             <span className="block px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
               Product
             </span>
-            {open && (
+            {mobileProductOpen && (
               <ul className="absolute left-0 w-48 mt-2 bg-white border shadow-lg dark:bg-neutral-900">
                 <li>
                   <Link

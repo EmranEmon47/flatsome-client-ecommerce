@@ -15,6 +15,16 @@ export default {
         primary: '#445e85',
       },
     },
+    screens: {
+
+      sm: { max: '450px' },
+
+
+      md: { min: '451px', max: '900px' },
+
+
+      lg: { min: '901px' },
+    },
   },
   plugins: [],
 };
