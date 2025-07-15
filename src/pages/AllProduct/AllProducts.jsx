@@ -127,7 +127,7 @@ const AllProducts = () => {
   return (
     <div>
       <Nav />
-      <div className="w-full max-w-[calc(100%-440px)] mt-20 mx-auto flex gap-6">
+      <div className="w-full max-w-[calc(100%-440px)] mt-28 mx-auto flex gap-6">
         <aside className="w-72">
           <ProductFilter
             filters={filters}

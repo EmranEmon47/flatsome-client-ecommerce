@@ -21,20 +21,20 @@ const BrowserCategories = () => {
       {/* Heading */}
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
-        <h2 className="text-2xl text-gray-600 font-medium uppercase whitespace-nowrap">
+        <h2 className="text-2xl font-medium text-gray-600 uppercase whitespace-nowrap">
           Browse our categories
         </h2>
         <hr className="flex-grow border-t border-gray-300" />
       </div>
 
       {/* Product Grid */}
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {products
           .sort((a, b) => b.id - a.id)
           .map((product) => (
             <div
               key={product.id}
-              className="bg-white shadow-sm overflow-hidden hover:shadow-lg transition-shadow group relative"
+              className="relative overflow-hidden transition-shadow bg-white shadow-sm hover:shadow-lg group"
             >
               {/* Wrap image in link to product details */}
               <Link to={`/product/${product.id}`}>
@@ -42,7 +42,7 @@ const BrowserCategories = () => {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-84 object-cover object-top"
+                    className="object-cover object-top w-full h-84"
                   />
                 </div>
                 <div className="text-left">
