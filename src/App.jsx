@@ -28,6 +28,7 @@ import AdminAllProducts from "./pages/admin/products/AdminAllProducts.jsx";
 import AdminAllUsers from "./pages/admin/Users/AdminAllUsers.jsx";
 import ManageOrders from "./pages/admin/Orders/ManageOrders.jsx";
 import OrderDetails from "./pages/admin/Orders/OrderDetails.jsx";
+import Blogs from "./pages/Blogs/Blogs.jsx";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -40,6 +41,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/all-products" element={<AllProducts />} />
             <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/blogs" element={<Blogs />} />
+            {/* <Route path="/blogs/:id" element={<BlogDetail />} /> */}
             <Route path="/cart" element={<CartView />} />
 
             <Route

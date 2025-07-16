@@ -47,7 +47,7 @@ const Nav = () => {
 
   return (
     <nav className="navbar fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-7xl mx-auto z-50">
-      <div className="backdrop-blur-xl bg-white/90 dark:bg-black/90 rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/30 transition-all duration-500 hover:shadow-3xl hover:bg-white/95 dark:hover:bg-black/95 hover:scale-[1.02] hover:border-white/30 dark:hover:border-gray-600/40">
+      <div className="backdrop-blur-lg bg-white/50 dark:bg-black/50 rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/30 transition-all duration-500 hover:shadow-3xl hover:bg-white/75 dark:hover:bg-black/75 hover:scale-[1.02] hover:border-white/30 dark:hover:border-gray-600/40">
         <div className="flex items-center justify-between px-6 py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
@@ -70,7 +70,7 @@ const Nav = () => {
                 Product
               </span>
               {desktopProductOpen && (
-                <ul className="absolute left-0 w-48 mt-2 bg-white border shadow-lg dark:bg-neutral-900">
+                <ul className="absolute left-0 w-48 mt-2 rounded backdrop-blur-lg bg-white/70 dark:bg-black/70">
                   <li>
                     <Link
                       to="/all-products"
@@ -273,43 +273,51 @@ const Nav = () => {
         {/* ai donot change anything from here */}
         {isCartOpen && (
           <div
-            className="absolute top-0 right-0 z-50 p-4 mt-20 mr-10 overflow-auto bg-white border border-gray-200 rounded shadow-lg mt-18 w-80 max-h-96"
+            className="absolute top-0 right-0 z-50 p-4 mt-20 mr-10 w-80 backdrop-blur-lg bg-white/90 dark:bg-black/90 border border-gray-200 rounded shadow-lg max-h-[30rem] flex flex-col"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <div>
-              <h2 className="text-lg font-bold border-b ">Your Cart</h2>
+            <h2 className="pb-2 text-lg font-bold text-black border-b dark:text-white">
+              Your Cart
+            </h2>
+
+            {/* Scrollable items container */}
+            <div className="flex-1 my-2 overflow-y-auto divide-y divide-gray-200">
               {cartItems.length === 0 ? (
-                <p className="text-gray-500">Your cart is empty.</p>
+                <p className="mt-2 text-gray-700 dark:text-white">
+                  Your cart is empty.
+                </p>
               ) : (
-                <ul className="overflow-y-auto divide-y divide-gray-200 max-h-60">
+                <ul>
                   {cartItems.map((item) => (
                     <li
                       key={`${item.id}-${item.selectedColor}-${item.selectedSize}`}
-                      className="flex items-center justify-between py-2"
+                      className="flex items-center justify-between py-2 pr-2"
                     >
                       <div className="flex flex-col">
-                        <span className="font-semibold">{item.name}</span>
+                        <span className="font-normal text-black dark:text-white">
+                          {item.name}
+                        </span>
                         {item.selectedColor && (
-                          <span className="text-sm text-gray-500">
+                          <span className="text-xs text-black dark:text-white">
                             Color:{" "}
-                            <span className="font-medium">
+                            <span className="text-xs text-black dark:text-white">
                               {item.selectedColor}
                             </span>
                           </span>
                         )}
                         {item.selectedSize && (
-                          <span className="text-sm text-gray-500">
+                          <span className="text-black ttext-xs dark:text-white">
                             Size:{" "}
                             <span className="font-medium">
                               {item.selectedSize}
                             </span>
                           </span>
                         )}
-                        <span className="text-sm text-gray-500">
+                        <span className="text-xs text-black dark:text-white">
                           Price: ${item.price.toFixed(2)}
                         </span>
-                        <span className="text-sm text-gray-500">
+                        <span className="text-xs text-black dark:text-white">
                           Total: ${(item.price * item.quantity).toFixed(2)}
                         </span>
                       </div>
@@ -324,11 +332,13 @@ const Nav = () => {
                             )
                           }
                           disabled={item.quantity <= 1}
-                          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+                          className="px-2 py-1 text-black bg-gray-100 rounded hover:bg-gray-300 disabled:opacity-50"
                         >
                           -
                         </button>
-                        <span>{item.quantity}</span>
+                        <span className="text-lg font-semibold text-black dark:text-white">
+                          {item.quantity}
+                        </span>
                         <button
                           onClick={() =>
                             updateQuantity(
@@ -338,7 +348,7 @@ const Nav = () => {
                               item.quantity + 1
                             )
                           }
-                          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                          className="px-2 py-1 text-black bg-gray-100 rounded hover:bg-gray-300"
                         >
                           +
                         </button>
@@ -359,24 +369,29 @@ const Nav = () => {
                   ))}
                 </ul>
               )}
-              <div className="py-3 mt-4 font-semibold text-right border-t">
+            </div>
+
+            {/* Sticky Footer */}
+            <div className="pt-2 border-t ">
+              <div className="px-8 py-2 font-semibold text-right text-black dark:text-white">
                 Total: ${totalPrice.toFixed(2)}
               </div>
               <Link
                 to="/cart"
-                className="block w-full text-center bg-[#445e85] text-white py-2 hover:bg-[#2c3c53] transition"
+                className="block rounded w-full text-center bg-[#445e85] text-white py-2 hover:bg-[#2c3c53] transition"
               >
                 View My Cart
               </Link>
               <Link
                 to="/checkout"
-                className="block w-full text-center bg-[#FF6347] text-white py-2 mt-2 hover:bg-[#EC2D01] transition"
+                className="block rounded w-full text-center bg-[#FF6347] text-white py-2 mt-2 hover:bg-[#EC2D01] transition"
               >
                 Proceed to Checkout
               </Link>
             </div>
           </div>
         )}
+
         {/* ai donot change anything until here */}
       </div>
     </nav>

@@ -36,7 +36,6 @@ body {
     animation: shimmer 1.5s infinite;
   }
 }
-
 /* bolt */
 /* Floating Animation */
 @keyframes float {

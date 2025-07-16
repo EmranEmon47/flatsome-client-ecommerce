@@ -20,7 +20,7 @@ const Home = () => {
   //   console.log("🧠 MongoDB User:", mongoUser);
   // }, [firebaseUser, mongoUser]);
   return (
-    <div>
+    <div className="text-gray-800 bg-white dark:bg-black dark:text-white">
       <Nav />
       <Hero />
       <CardView />

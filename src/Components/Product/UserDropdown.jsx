@@ -39,7 +39,7 @@ const UserDropdown = () => {
       </button>
 
       {/* Dropdown */}
-      <ul className="absolute left-0 z-50 hidden w-40 bg-white border shadow-lg dark:bg-neutral-900 group-hover:block">
+      <ul className="absolute left-0 z-50 hidden w-40 border rounded shadow-lg backdrop-blur-lg bg-white/70 dark:bg-black/70 group-hover:block">
         <li>
           <Link
             to="/profile"
