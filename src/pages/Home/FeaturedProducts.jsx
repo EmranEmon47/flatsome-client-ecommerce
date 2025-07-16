@@ -55,26 +55,25 @@ const FeaturedProducts = () => {
       {/* Heading */}
       <div className="flex items-center gap-4 lg:mb-8">
         <hr className="flex-grow border-t border-gray-300" />
-        <h2 className="text-lg font-medium text-gray-600 uppercase lg:text-2xl whitespace-nowrap">
+        <h2 className="text-lg font-medium text-gray-600 uppercase dark:text-white lg:text-2xl whitespace-nowrap">
           Weekly Featured Products
         </h2>
         <hr className="flex-grow border-t border-gray-300" />
       </div>
 
       {/* Carousel Wrapper */}
-      <div className="relative overflow-hidden group/card">
-        {/* Arrow Buttons */}
+      <div className="relative overflow-hidden group/item">
         {products.length > ITEMS_PER_VIEW && (
           <>
             <button
               onClick={handlePrev}
-              className="absolute left-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 top-1/3 group-hover/card:opacity-100"
+              className="absolute left-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 group-hover/item:opacity-100 top-1/3"
             >
               <ChevronLeft />
             </button>
             <button
               onClick={handleNext}
-              className="absolute right-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 top-1/3 group-hover/card:opacity-100"
+              className="absolute right-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 group-hover/item:opacity-100 top-1/3"
             >
               <ChevronRight />
             </button>
@@ -82,18 +81,17 @@ const FeaturedProducts = () => {
         )}
 
         {/* Product Cards */}
-        <div className="grid grid-cols-1 gap-4 transition-all duration-500 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 transition-all duration-500 md:grid-cols-3 lg:grid-cols-4">
           {loading
             ? Array.from({ length: ITEMS_PER_VIEW }).map((_, i) => (
                 <ProductCardSkeleton key={i} />
               ))
             : visibleProducts.map((product) => (
-                <div
-                  key={product._id}
-                  onClick={() => setSelectedProduct(product)}
-                  className="relative transition-shadow cursor-pointer hover:shadow-lg "
-                >
-                  <ProductCard product={product} showQuickView={true} />
+                <div key={product._id} className="relative group/item">
+                  <ProductCard
+                    product={product}
+                    onQuickView={() => setSelectedProduct(product)}
+                  />
                 </div>
               ))}
         </div>

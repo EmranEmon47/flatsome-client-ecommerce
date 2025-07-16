@@ -16,7 +16,7 @@ export const CardView = () => {
         {cards.map((card, index) => (
           <div
             key={index}
-            className="relative flex items-center justify-center w-full h-40 overflow-hidden cursor-pointer lg:w-80 group "
+            className="relative flex items-center justify-center w-full h-40 overflow-hidden rounded-md cursor-pointer lg:w-80 group "
           >
             {/* Always visible background image */}
             <div
