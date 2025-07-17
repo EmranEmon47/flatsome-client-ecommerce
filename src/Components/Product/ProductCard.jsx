@@ -39,7 +39,7 @@ const ProductCard = ({ product, onQuickView }) => {
 
   return (
     <motion.div
-      className="relative flex flex-col overflow-hidden backdrop-blur-lg bg-black/5 dark:bg-white/10  shadow-lg border border-white/20 dark:border-gray-700/30 transition-all duration-500 hover:shadow-xl hover:bg-black/10 dark:hover:bg-white/15 hover:scale-[1.02] hover:border-white/30 dark:hover:border-gray-600/40 group h-[450px] rounded-md"
+      className="relative flex flex-col overflow-hidden backdrop-blur-lg bg-black/5 dark:bg-white/10  shadow-lg border border-white/20 dark:border-gray-700/30 transition-all duration-500 hover:shadow-xl hover:bg-black/10 dark:hover:bg-white/15 hover:scale-[1.02] hover:border-white/30 dark:hover:border-gray-600/40 group h-[400px] lg:h-[450px] rounded-md"
       initial={{ opacity: 0.75, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.25, ease: "easeInOut" }}
@@ -59,7 +59,7 @@ const ProductCard = ({ product, onQuickView }) => {
       {/* 📸 Product Image */}
       <Link
         to={`/product/${product._id}`}
-        className="block h-[300px] relative overflow-hidden group-hover:scale-[1.01] transition-transform duration-500 ease-in-out"
+        className="block h-[280px] lg:h-[300px] relative overflow-hidden group-hover:scale-[1.01] transition-transform duration-500 ease-in-out"
       >
         <img
           src={product.primaryImage}
@@ -82,13 +82,13 @@ const ProductCard = ({ product, onQuickView }) => {
           e.stopPropagation();
           onQuickView(product);
         }}
-        className="absolute bottom-[146px]  left-1/2 transform  -translate-x-1/2 w-full py-2 text-sm bg-[#445e85] text-white transition-all opacity-0 group-hover:opacity-90"
+        className="absolute bottom-[118px] lg:bottom-[146px]  left-1/2 transform  -translate-x-1/2 w-full py-2 text-sm bg-[#445e85] text-white transition-all opacity-0 group-hover:opacity-90"
       >
         Quick View
       </button>
 
       {/* ℹ️ Product Info */}
-      <div className="flex-1 p-4 text-left h-[150px]">
+      <div className="flex-1 p-4 text-left h-[120px] lg:h-[150px]">
         <h5 className="text-xs font-normal text-gray-400 dark:text-gray-400">
           {product.category} / {product.subcategory}
         </h5>

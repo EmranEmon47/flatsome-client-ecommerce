@@ -9,10 +9,10 @@ const SizeSelector = ({ sizes, selectedSize, onSelectSize }) => {
           <button
             key={size}
             onClick={() => onSelectSize(size)}
-            className={`px-3 py-1 border rounded ${
+            className={`px-3 py-1 border text-black rounded ${
               selectedSize === size
-                ? "border-black bg-gray-100"
-                : "border-gray-300"
+                ? "border-black text-white dark:text-black bg-gray-600 dark:bg-gray-200 "
+                : "border-gray-600 bg-white dark:bg-gray-800 dark:text-white"
             }`}
           >
             {size}
@@ -20,7 +20,7 @@ const SizeSelector = ({ sizes, selectedSize, onSelectSize }) => {
         ))}
       </div>
       {selectedSize && (
-        <p className="text-sm text-gray-600 mt-1">
+        <p className="mt-1 text-sm text-gray-600">
           Selected Size: <strong>{selectedSize}</strong>
         </p>
       )}

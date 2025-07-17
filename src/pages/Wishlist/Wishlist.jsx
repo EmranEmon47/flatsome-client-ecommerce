@@ -45,7 +45,7 @@ const Wishlist = () => {
   return (
     <div>
       <Nav />
-      <div className="w-full max-w-[calc(100%-440px)] mt-20 mx-auto px-4">
+      <div className="w-full max-w-[calc(100%-440px)] pt-28 mx-auto px-4">
         <h2 className="text-3xl font-semibold mb-6 text-center text-[#001d49]">
           My Wishlist 💖
         </h2>
@@ -55,7 +55,7 @@ const Wishlist = () => {
             Your wishlist is empty. Start adding your favorite products!
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (
               <div
                 key={product._id}

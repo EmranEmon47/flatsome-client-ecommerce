@@ -2,10 +2,10 @@ import { Link } from "react-router";
 
 const Breadcrumb = ({ category, subcategory, name }) => {
   return (
-    <nav className="text-sm text-gray-500 mb-4">
-      <ol className="list-reset flex flex-wrap">
+    <nav className="mb-4 text-sm text-gray-500">
+      <ol className="flex flex-wrap list-reset">
         <li>
-          <Link to="/" className="hover:underline">
+          <Link to="/" className="hover:text-red-400">
             Home
           </Link>
         </li>
@@ -13,7 +13,7 @@ const Breadcrumb = ({ category, subcategory, name }) => {
         <li>
           <Link
             to={`/category/${category}`}
-            className="hover:underline capitalize"
+            className="capitalize hover:text-red-400"
           >
             {category}
           </Link>
@@ -22,13 +22,13 @@ const Breadcrumb = ({ category, subcategory, name }) => {
         <li>
           <Link
             to={`/category/${category}/${subcategory}`}
-            className="hover:underline capitalize"
+            className="capitalize hover:text-red-400"
           >
             {subcategory}
           </Link>
         </li>
         <li className="mx-2">/</li>
-        <li className="text-gray-800 font-medium">{name}</li>
+        <li className="font-medium text-gray-800 dark:text-gray-300">{name}</li>
       </ol>
     </nav>
   );

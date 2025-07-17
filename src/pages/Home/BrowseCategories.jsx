@@ -17,7 +17,12 @@ const BrowserCategories = () => {
   //   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
-    <div className=" w-full lg:max-w-[calc(100%-440px)] mx-auto">
+    <div className="relative w-full lg:max-w-[calc(100%-440px)] mx-auto">
+      {/* Red glow top */}
+      <div className="pointer-events-none hidden lg:block absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-30 rounded-full blur-3xl"></div>
+
+      {/* Red glow bottom right */}
+      <div className="pointer-events-none hidden lg:block absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-30 rounded-full blur-3xl"></div>
       {/* Heading */}
       <div className="flex items-center gap-4 lg:mb-8">
         <hr className="flex-grow border-t border-gray-300" />

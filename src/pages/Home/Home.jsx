@@ -24,7 +24,7 @@ const Home = () => {
       <Nav />
       <Hero />
       <CardView />
-      <FeaturedProducts />/
+      <FeaturedProducts />
       <BestSelling />
       <BrowseCategories />
       <Services />

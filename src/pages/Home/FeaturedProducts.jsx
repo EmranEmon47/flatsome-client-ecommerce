@@ -51,9 +51,14 @@ const FeaturedProducts = () => {
   ].slice(0, ITEMS_PER_VIEW);
 
   return (
-    <div className="relative py-4 w-full lg:max-w-[calc(100%-440px)] mx-auto">
+    <div className="relative py-4 lg:px-0 px-4 w-full lg:max-w-[calc(100%-440px)] mx-auto">
+      {/* Red glow top */}
+      <div className="pointer-events-none hidden lg:block absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+
+      {/* Red glow bottom right */}
+      <div className="pointer-events-none hidden lg:block absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
       {/* Heading */}
-      <div className="flex items-center gap-4 lg:mb-8">
+      <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
         <h2 className="text-lg font-medium text-gray-600 uppercase dark:text-white lg:text-2xl whitespace-nowrap">
           Weekly Featured Products
@@ -81,7 +86,7 @@ const FeaturedProducts = () => {
         )}
 
         {/* Product Cards */}
-        <div className="grid grid-cols-1 gap-4 transition-all duration-500 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 transition-all duration-500 lg:gap-4 md:grid-cols-3 lg:grid-cols-4">
           {loading
             ? Array.from({ length: ITEMS_PER_VIEW }).map((_, i) => (
                 <ProductCardSkeleton key={i} />

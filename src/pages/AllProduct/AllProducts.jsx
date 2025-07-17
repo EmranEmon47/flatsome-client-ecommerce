@@ -126,6 +126,11 @@ const AllProducts = () => {
 
   return (
     <div className="min-h-screen text-black bg-white dark:bg-black dark:text-white">
+      {/* Red glow top */}
+      <div className="pointer-events-none absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+
+      {/* Red glow bottom right */}
+      <div className="pointer-events-none absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
       <Nav />
       <div className="w-full max-w-[calc(100%-440px)] pt-28 pb-8 mx-auto flex gap-6">
         <aside className="w-72">

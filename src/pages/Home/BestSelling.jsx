@@ -1,109 +1,108 @@
-// src/pages/Home.jsx
-import React, { useState } from "react";
-import { Link } from "react-router";
-import products from "../../data/products";
-
-const Star = ({ filled }) => (
-  <svg
-    className={`w-4 h-4 ${filled ? "text-yellow-400" : "text-gray-300"}`}
-    fill="currentColor"
-    viewBox="0 0 20 20"
-  >
-    <path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.566-.955L10 0l2.946 5.955 6.566.955-4.756 4.635 1.122 6.545z" />
-  </svg>
-);
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import ProductCard from "../../Components/Product/ProductCard";
+import ProductCardSkeleton from "../../Components/Product/ProductCardSkeleton";
+import ProductQuickViewModal from "../../Components/Product/ProductQuickViewModal";
 
 const BestSelling = () => {
+  const [products, setProducts] = useState([]);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
+  const PRODUCTS_TO_SHOW = 6;
+  const ITEMS_PER_VIEW = 4;
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/products`
+        );
+        setProducts(res.data.slice(0, PRODUCTS_TO_SHOW));
+      } catch (err) {
+        console.error("Error loading products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const maxIndex = Math.ceil(PRODUCTS_TO_SHOW / ITEMS_PER_VIEW) - 1;
+
+  const handlePrev = () => {
+    setCarouselIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCarouselIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+  };
+
+  const start = carouselIndex * ITEMS_PER_VIEW;
+  const visibleProducts = [
+    ...products.slice(start, start + ITEMS_PER_VIEW),
+    ...products.slice(
+      0,
+      Math.max(0, start + ITEMS_PER_VIEW - PRODUCTS_TO_SHOW)
+    ),
+  ].slice(0, ITEMS_PER_VIEW);
+
   return (
-    <div className="pb-12 pt-4 w-full lg:max-w-[calc(100%-440px)] mx-auto">
+    <div className="relative py-4 lg:px-0 px-4 w-full lg:max-w-[calc(100%-440px)] mx-auto">
       {/* Heading */}
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
-        <h2 className="text-lg font-medium text-gray-600 uppercase lg:text-2xl whitespace-nowrap">
-          Best Selling Products
+        <h2 className="text-lg font-medium text-gray-600 uppercase dark:text-white lg:text-2xl whitespace-nowrap">
+          BestSelling
         </h2>
         <hr className="flex-grow border-t border-gray-300" />
       </div>
 
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
-        {products
-          .sort((a, b) => b.id - a.id)
-          .map((product) => (
-            <div
-              key={product.id}
-              className="relative overflow-hidden transition-shadow bg-white shadow-sm hover:shadow-lg group"
+      {/* Carousel Wrapper */}
+      <div className="relative overflow-hidden group/item">
+        {products.length > ITEMS_PER_VIEW && (
+          <>
+            <button
+              onClick={handlePrev}
+              className="absolute left-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 group-hover/item:opacity-100 top-1/3"
             >
-              {/* Wrap image in link to product details */}
-              <Link to={`/product/${product.id}`}>
-                <div className="relative">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="object-cover object-top w-full h-84"
+              <ChevronLeft />
+            </button>
+            <button
+              onClick={handleNext}
+              className="absolute right-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 group-hover/item:opacity-100 top-1/3"
+            >
+              <ChevronRight />
+            </button>
+          </>
+        )}
+
+        {/* Product Cards */}
+        <div className="grid grid-cols-1 gap-8 transition-all duration-500 lg:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {loading
+            ? Array.from({ length: ITEMS_PER_VIEW }).map((_, i) => (
+                <ProductCardSkeleton key={i} />
+              ))
+            : visibleProducts.map((product) => (
+                <div key={product._id} className="relative group/item">
+                  <ProductCard
+                    product={product}
+                    onQuickView={() => setSelectedProduct(product)}
                   />
                 </div>
-              </Link>
-
-              {/* Product info */}
-              <div className="p-4 text-left">
-                {/* Hover Quick View Button */}
-                <button
-                  onClick={() => setSelectedProduct(product)}
-                  className="absolute bottom-1/4 left-1/2 w-full -translate-x-1/2 mb-4 px-2 py-2 text-sm bg-[#445e85] text-white transition-all opacity-0 group-hover:opacity-80"
-                >
-                  Quick View
-                </button>
-                <h5 className="mb-2 text-base font-normal text-gray-400">
-                  {product.span}
-                </h5>
-                <h3 className="mb-2 text-sm font-normal">{product.name}</h3>
-                <div className="flex justify-start mb-2">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} filled={i <= product.rating} />
-                  ))}
-                </div>
-                <p className="text-sm font-semibold text-gray-800">
-                  ${product.price.toFixed(2)}
-                </p>
-              </div>
-            </div>
-          ))}
+              ))}
+        </div>
       </div>
 
-      {/* Modal */}
+      {/* Quick View Modal */}
       {selectedProduct && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-white/30 backdrop-blur-sm"
-          onClick={() => setSelectedProduct(null)}
-        >
-          <div
-            className="relative w-full max-w-xl p-6 bg-white rounded-lg shadow-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setSelectedProduct(null)}
-              className="absolute text-xl text-gray-500 top-2 right-2 hover:text-black"
-            >
-              &times;
-            </button>
-
-            <img
-              src={selectedProduct.image}
-              alt={selectedProduct.name}
-              className="w-full h-auto mb-4 rounded object-contain max-h-[80vh]"
-            />
-
-            <h3 className="mb-2 text-xl font-semibold">
-              {selectedProduct.name}
-            </h3>
-            <p className="text-lg text-gray-600">
-              ${selectedProduct.price.toFixed(2)}
-            </p>
-          </div>
-        </div>
+        <ProductQuickViewModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
       )}
     </div>
   );

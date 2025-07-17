@@ -59,6 +59,11 @@ const Blogs = () => {
     <>
       <Nav />
       <section className="min-h-screen px-4 py-10 pt-16 bg-white lg:pt-28 lg:px-8 dark:bg-black">
+        {/* Red glow top */}
+        <div className="pointer-events-none absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+
+        {/* Red glow bottom right */}
+        <div className="pointer-events-none absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
         <div className="mx-auto max-w-7xl">
           <h1 className="text-3xl font-bold text-center text-[#001d49] dark:text-white mb-8">
             Our Latest Blogs

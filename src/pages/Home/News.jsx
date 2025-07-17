@@ -35,7 +35,12 @@ const News = () => {
   ];
 
   return (
-    <div className="lg:max-w-[calc(100%-440px)] w-full mx-auto px-4 py-10 ">
+    <div className="lg:max-w-[calc(100%-440px)] w-full mx-auto px-4 py-10 relative">
+      {/* Red glow top */}
+      <div className="pointer-events-none hidden lg:block absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+
+      {/* Red glow bottom right */}
+      <div className="pointer-events-none hidden lg:block absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
       {/* Heading */}
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
@@ -44,9 +49,12 @@ const News = () => {
         </h2>
         <hr className="flex-grow border-t border-gray-300" />
       </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 lg:gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {posts.map((post) => (
-          <div key={post.id} className="relative bg-white rounded shadow">
+          <div
+            key={post.id}
+            className="relative bg-white backdrop-blur-lg bg-black/5 dark:bg-white/10  shadow-lg border border-white/20 dark:border-gray-700/30 transition-all duration-500 hover:shadow-xl hover:bg-black/10 dark:hover:bg-white/15 hover:scale-[1.02] hover:border-white/30 dark:hover:border-gray-600/40  h-[320px] rounded-md"
+          >
             <div className="relative group">
               <img
                 src={post.image}
