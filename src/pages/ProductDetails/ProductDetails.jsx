@@ -85,7 +85,7 @@ const ProductDetails = () => {
           className="text-gray-700"
         />
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Image Zoom + Modal */}
           <div>
             <div

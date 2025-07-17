@@ -79,7 +79,7 @@ const PriceSlider = ({ min, max, value, onChange }) => {
       />
 
       {/* Min and Max labels */}
-      <div className="flex justify-between px-1 mt-3 text-sm font-medium text-gray-700">
+      <div className="flex justify-between px-1 mt-3 text-xs font-normal text-gray-700 dark:text-white">
         <span>${minVal}</span>
         <span>${maxVal}</span>
       </div>

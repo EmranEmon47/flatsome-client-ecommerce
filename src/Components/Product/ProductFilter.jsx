@@ -123,19 +123,23 @@ const ProductFilter = ({
   }
 
   return (
-    <div className="p-4 bg-white rounded-md shadow-sm sticky top-24 w-full max-w-[240px] h-fit">
-      <h3 className="mb-4 text-lg font-semibold">Filter Products</h3>
+    <div className="p-4 bg-black/5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10 rounded-md shadow-sm sticky top-24 w-full max-w-[240px] h-fit">
+      <h3 className="mb-4 text-lg font-semibold text-black dark:text-white">
+        Filter Products
+      </h3>
 
       {/* Active filters */}
       {activeFilters.length > 0 && (
         <div className="mb-4">
-          <h4 className="mb-2 font-semibold text-gray-700">Active Filters</h4>
+          <h4 className="mb-2 font-semibold text-black dark:text-white">
+            Active Filters
+          </h4>
           <div className="flex flex-wrap gap-2">
             {activeFilters.map(({ type, value }, i) => (
               <button
                 key={`${type}-${value}-${i}`}
                 onClick={() => removeFilter(type, value)}
-                className="flex items-center gap-1 px-2 py-1 text-sm bg-gray-200 rounded hover:bg-gray-300"
+                className="flex items-center gap-1 px-2 py-1 text-sm text-black bg-gray-200 rounded hover:bg-gray-300 dark:text-bkack"
               >
                 {value} &times;
               </button>
@@ -153,7 +157,9 @@ const ProductFilter = ({
 
       {/* Price Filter Section */}
       <div className="mb-2">
-        <h4 className="mb-2 font-medium">Price Range</h4>
+        <h4 className="mb-2 font-medium text-black dark:text-white">
+          Price Range
+        </h4>
 
         {/* Input boxes */}
         <div className="flex gap-4 ">
@@ -163,7 +169,7 @@ const ProductFilter = ({
             max={filters.price.max - 10}
             value={filters.price.min}
             onChange={handlePriceMinChange}
-            className="w-1/2 p-1 border rounded"
+            className="w-1/2 px-2 text-black bg-white border rounded dark:text-white dark:bg-white/5 dark:text-whit3e dark:border-gray-600"
             aria-label="Minimum price"
           />
           <input
@@ -172,7 +178,7 @@ const ProductFilter = ({
             max={priceRange.max}
             value={filters.price.max}
             onChange={handlePriceMaxChange}
-            className="w-1/2 p-1 border rounded"
+            className="w-1/2 p-2 text-black bg-white border rounded dark:text-white dark:bg-white/5 dark:text-whit3e dark:border-gray-600"
             aria-label="Maximum price"
           />
         </div>

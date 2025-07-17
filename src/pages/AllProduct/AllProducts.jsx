@@ -125,9 +125,9 @@ const AllProducts = () => {
   const currentProducts = filteredProducts.slice(indexOfFirst, indexOfLast);
 
   return (
-    <div>
+    <div className="min-h-screen text-black bg-white dark:bg-black dark:text-white">
       <Nav />
-      <div className="w-full max-w-[calc(100%-440px)] mt-28 mx-auto flex gap-6">
+      <div className="w-full max-w-[calc(100%-440px)] pt-28 pb-8 mx-auto flex gap-6">
         <aside className="w-72">
           <ProductFilter
             filters={filters}
@@ -149,13 +149,13 @@ const AllProducts = () => {
 
           {/* Sort By (top of grid) */}
           <div className="flex items-center justify-end mb-4">
-            <div className="mr-auto font-semibold text-gray-600">
+            <div className="mr-auto font-semibold text-gray-600 dark:text-gray-200">
               {filteredProducts.length} Products Found
             </div>
             <div className="flex items-center gap-2">
               <label
                 htmlFor="sortBy"
-                className="text-sm font-medium text-gray-700"
+                className="text-sm font-medium text-black dark:text-white"
               >
                 Sort By:
               </label>
@@ -165,7 +165,7 @@ const AllProducts = () => {
                 onChange={(e) =>
                   setFilters((prev) => ({ ...prev, sortBy: e.target.value }))
                 }
-                className="p-2 border border-gray-300 rounded"
+                className="p-2 text-black border border-gray-300 rounded dark:text-white hover:bg-white backdrop-blur-lg bg-white/70 dark:bg-black/70"
               >
                 <option value="">Default sorting</option>
                 <option value="priceLowHigh">Price: Low to High</option>
