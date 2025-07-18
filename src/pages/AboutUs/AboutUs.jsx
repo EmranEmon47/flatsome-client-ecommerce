@@ -9,10 +9,10 @@ const AboutUs = () => {
       <Nav />
       <div className="text-gray-800 bg-white dark:bg-black dark:text-white">
         {/* Red glow top */}
-        <div className="pointer-events-none absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+        <div className="pointer-events-none hidden lg:block absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
 
         {/* Red glow bottom right */}
-        <div className="pointer-events-none absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
+        <div className="pointer-events-none hidden lg:block absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
         <div className="px-6 py-16 mx-auto space-y-12 lg:py-28 max-w-7xl">
           {/* Header */}
           <section className="space-y-4 text-center">

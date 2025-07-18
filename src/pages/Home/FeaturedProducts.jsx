@@ -72,13 +72,13 @@ const FeaturedProducts = () => {
           <>
             <button
               onClick={handlePrev}
-              className="absolute left-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 group-hover/item:opacity-100 top-1/3"
+              className="absolute left-0 z-10 p-2 text-black transition-opacity -translate-y-1/2 opacity-0 group-hover/item:opacity-100 top-1/3"
             >
               <ChevronLeft />
             </button>
             <button
               onClick={handleNext}
-              className="absolute right-0 z-10 p-2 transition-opacity -translate-y-1/2 opacity-0 group-hover/item:opacity-100 top-1/3"
+              className="absolute right-0 z-10 p-2 text-black transition-opacity -translate-y-1/2 opacity-0 group-hover/item:opacity-100 top-1/3"
             >
               <ChevronRight />
             </button>
@@ -86,7 +86,7 @@ const FeaturedProducts = () => {
         )}
 
         {/* Product Cards */}
-        <div className="grid grid-cols-1 gap-8 transition-all duration-500 lg:gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 transition-all duration-500 lg:gap-4 md:grid-cols-3 lg:grid-cols-4">
           {loading
             ? Array.from({ length: ITEMS_PER_VIEW }).map((_, i) => (
                 <ProductCardSkeleton key={i} />

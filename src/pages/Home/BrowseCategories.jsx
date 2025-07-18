@@ -24,7 +24,7 @@ const BrowserCategories = () => {
       {/* Red glow bottom right */}
       <div className="pointer-events-none hidden lg:block absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-30 rounded-full blur-3xl"></div>
       {/* Heading */}
-      <div className="flex items-center gap-4 lg:mb-8">
+      <div className="flex items-center gap-4 mt-2 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
         <h2 className="text-lg font-medium text-gray-600 uppercase lg:text-2xl whitespace-nowrap">
           Browse our categories
@@ -33,26 +33,26 @@ const BrowserCategories = () => {
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 px-4 lg:px-0 lg:gap-4 md:grid-cols-3 lg:grid-cols-4">
         {products
           .sort((a, b) => b.id - a.id)
           .map((product) => (
             <div
               key={product.id}
-              className="relative overflow-hidden transition-shadow bg-white shadow-sm hover:shadow-lg group"
+              className="relative overflow-hidden h-[350px] lg:h-[400px] transition-shadow rounded bg-white shadow-sm hover:shadow-lg group"
             >
               {/* Wrap image in link to product details */}
-              <Link to={`/product/${product.id}`}>
-                <div className="relative">
+              <Link to={`/all-products`}>
+                <div className="relative h-[350px] lg:h-[400px]">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="object-cover object-top w-full h-84"
+                    className="object-cover object-top w-full h-full"
                   />
                 </div>
                 <div className="text-left">
                   {/* Hover Quick View Button */}
-                  <button className="absolute bottom-0 left-1/2 w-full -translate-x-1/2 mb-10 px-2 py-2 text-sm  text-gray-600 group-hover:text-white transition-all bg-white group-hover:bg-[#445e85]">
+                  <button className="absolute bottom-0 left-1/2 w-full dark:bg-black dark:text-white -translate-x-1/2 mb-10 px-2 py-2 text-sm  text-black group-hover:text-white transition-all bg-white group-hover:bg-[#445e85]">
                     <div className="flex flex-col ">
                       <div className="text-lg font-medium">{product.span}</div>
                       <div className="text-xs font-normal">

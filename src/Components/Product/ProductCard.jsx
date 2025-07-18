@@ -88,19 +88,19 @@ const ProductCard = ({ product, onQuickView }) => {
       </button>
 
       {/* ℹ️ Product Info */}
-      <div className="flex-1 p-4 text-left h-[120px] lg:h-[150px]">
+      <div className="flex-1 p-2 lg:p-4 text-left h-[120px] lg:h-[150px]">
         <h5 className="text-xs font-normal text-gray-400 dark:text-gray-400">
           {product.category} / {product.subcategory}
         </h5>
-        <h3 className="mb-2 text-base font-medium line-clamp-2">
+        <h3 className="mb-0 text-sm font-medium lg:mb-2 lg:text-base line-clamp-2">
           {product.name}
         </h3>
-        <div className="flex mb-2">
+        <div className="flex mb-0 lg:mb-2">
           {[1, 2, 3, 4, 5].map((i) => (
             <Star key={i} filled={i <= Math.round(product.rating || 0)} />
           ))}
         </div>
-        <p className="text-base font-semibold text-[#001d49] dark:text-white">
+        <p className="lg:text-base text-sm font-semibold text-[#001d49] dark:text-white">
           ${product.price.toFixed(2)}
         </p>
       </div>

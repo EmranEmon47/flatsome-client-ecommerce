@@ -24,8 +24,8 @@ const serviceData = [
 
 const Services = () => {
   return (
-    <div className="w-full px-2 mx-auto lg:max-w-[calc(100%-440px)] py-4 lg:py-16">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="w-full px-4 mx-auto lg:max-w-[calc(100%-440px)] py-10 lg:py-16">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {serviceData.map((service, index) => (
           <div
             key={index}
