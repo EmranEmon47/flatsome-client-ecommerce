@@ -1,20 +1,20 @@
 import React from "react";
-import { Navigate, useLocation } from "react-router";
-import { auth } from "../../firebase"; // your firebase config import
+import { Navigate, Outlet, useLocation } from "react-router";
+import { useAuth } from "../../Context/AuthContext";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = () => {
+  const { firebaseUser, loading } = useAuth();
   const location = useLocation();
 
-  // Check if user is logged in via Firebase auth
-  const user = auth.currentUser;
+  if (loading) {
+    return <div>Loading...</div>; // or spinner component
+  }
 
-  if (!user) {
-    // Not logged in → redirect to login with state to remember where user wanted to go
+  if (!firebaseUser) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // User is logged in → render the requested page
-  return children;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

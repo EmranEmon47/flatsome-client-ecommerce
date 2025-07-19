@@ -47,6 +47,12 @@ const UserDropdown = () => {
           >
             Profile
           </Link>
+          <Link
+            to="/my-orders"
+            className="block px-4 py-2 hover:bg-[#FF6347] text-black dark:text-white hover:text-white transition"
+          >
+            My Orders
+          </Link>
         </li>
         {mongoUser?.role === "admin" && (
           <li>

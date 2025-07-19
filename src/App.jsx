@@ -29,6 +29,8 @@ import AdminAllUsers from "./pages/admin/Users/AdminAllUsers.jsx";
 import ManageOrders from "./pages/admin/Orders/ManageOrders.jsx";
 import OrderDetails from "./pages/admin/Orders/OrderDetails.jsx";
 import Blogs from "./pages/Blogs/Blogs.jsx";
+import UserLayout from "./pages/user/UserLayout.jsx";
+import Profile from "./pages/user/Profile.jsx";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -44,6 +46,14 @@ function App() {
             <Route path="/blogs" element={<Blogs />} />
             {/* <Route path="/blogs/:id" element={<BlogDetail />} /> */}
             <Route path="/cart" element={<CartView />} />
+
+            {/* 🛡️ Protected User Routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/profile" element={<UserLayout />}>
+                <Route index element={<Profile />} />
+                {/* <Route path="my-orders" element={<MyOrders />} /> */}
+              </Route>
+            </Route>
 
             <Route
               path="/checkout"

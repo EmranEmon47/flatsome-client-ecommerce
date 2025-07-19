@@ -1,6 +1,6 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 
@@ -17,3 +17,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 window.auth = getAuth();
 export const auth = getAuth(app);
+
+// ✅ TEMPORARY: Log the ID token after login
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        const token = await user.getIdToken();
+        console.log("🔥 Firebase ID Token for Postman:", token);
+    } else {
+        console.log("❌ No user logged in.");
+    }
+});
