@@ -31,6 +31,7 @@ import OrderDetails from "./pages/admin/Orders/OrderDetails.jsx";
 import Blogs from "./pages/Blogs/Blogs.jsx";
 import UserLayout from "./pages/user/UserLayout.jsx";
 import Profile from "./pages/user/Profile.jsx";
+import { MyOrders } from "./pages/user/MyOrders.jsx";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -51,7 +52,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<UserLayout />}>
                 <Route index element={<Profile />} />
-                {/* <Route path="my-orders" element={<MyOrders />} /> */}
+                <Route path="my-orders" element={<MyOrders />} />
               </Route>
             </Route>
 
