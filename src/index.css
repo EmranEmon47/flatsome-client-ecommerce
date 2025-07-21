@@ -1,16 +1,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
-
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent white flash and set default background color */
+html,
+body,
+#root {
+  background-color: #000; /* Black background */
+  /* color: white; */
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+  overflow-x: hidden;
+}
+
 /* Custom styles */
 body {
   font-family: "Montserrat", sans-serif;
   overflow-x: hidden;
 }
+
 @keyframes shimmer {
   100% {
     transform: translateX(100%);
@@ -38,6 +51,7 @@ body {
     animation: shimmer 1.5s infinite;
   }
 }
+
 /* bolt */
 /* Floating Animation */
 @keyframes float {
@@ -120,6 +134,11 @@ body {
   -webkit-backdrop-filter: blur(24px);
 }
 
+.solid-bg-no-blur {
+  background-color: white; /* or black for dark */
+  backdrop-filter: none !important;
+  opacity: 1 !important;
+}
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 6px;

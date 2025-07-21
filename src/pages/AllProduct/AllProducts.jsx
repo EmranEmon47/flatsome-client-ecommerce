@@ -8,7 +8,10 @@ import ProductCardSkeleton from "../../Components/Product/ProductCardSkeleton";
 import Pagination from "../../Components/Common/Pagination";
 import ProductFilter from "../../Components/Product/ProductFilter";
 import ProductSearch from "../../Components/Product/ProductSearch";
-import { useSearchParams } from "react-router";
+import { useSearchParams, useLocation, Link } from "react-router";
+import logo from "../../assets/logo.png";
+import lightLogo from "../../assets/logo-light.png";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 
 const categories = ["Men", "Women", "Child"];
 const subcategories = ["T-Shirts", "Jeans", "Shoes", "Jackets", "Tops"];
@@ -20,21 +23,28 @@ const AllProducts = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
+  const location = useLocation();
 
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("search") || ""
   );
 
-  const [filters, setFilters] = useState({
+  const defaultFilters = {
     category: [],
     subcategory: [],
     availability: [],
     price: { min: priceRangeLimits.min, max: priceRangeLimits.max },
     sortBy: "",
+  };
+
+  const [filters, setFilters] = useState(() => {
+    const saved = localStorage.getItem("productFilters");
+    return saved ? JSON.parse(saved) : defaultFilters;
   });
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -52,6 +62,14 @@ const AllProducts = () => {
     };
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("productFilters", JSON.stringify(filters));
+  }, [filters]);
+
+  useEffect(() => {
+    setMobileFilterOpen(false);
+  }, [location.pathname]);
 
   const highlightMatch = (text, query) => {
     if (!query || !text) return text;
@@ -126,14 +144,23 @@ const AllProducts = () => {
 
   return (
     <div className="min-h-screen text-black bg-white dark:bg-black dark:text-white">
-      {/* Red glow top */}
-      <div className="pointer-events-none absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+      {/* Glow Effects */}
+      <div className="pointer-events-none absolute hidden  lg:top-[-50px] lg:left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+      <div className="pointer-events-none absolute hidden lg:bottom-[-50px] lg:right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
 
-      {/* Red glow bottom right */}
-      <div className="pointer-events-none absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
       <Nav />
-      <div className="w-full max-w-[calc(100%-440px)] pt-28 pb-8 mx-auto flex gap-6">
-        <aside className="w-72">
+
+      <div className="w-full lg:max-w-[calc(100%-440px)] pt-24 lg:pt-28 pb-8 mx-auto flex px-4 lg:px-0 gap-6 relative">
+        {/* Mobile Filter Toggle */}
+        <button
+          onClick={() => setMobileFilterOpen(true)}
+          className="fixed z-40 px-4 py-2 text-white bg-red-500 rounded shadow bottom-4 lg:hidden right-4"
+        >
+          Filters
+        </button>
+
+        {/* Desktop Filter */}
+        <aside className="hidden lg:block lg:w-72">
           <ProductFilter
             filters={filters}
             setFilters={setFilters}
@@ -146,16 +173,72 @@ const AllProducts = () => {
           />
         </aside>
 
+        {/* Mobile Drawer Filter */}
+        <AnimatePresence>
+          {mobileFilterOpen && (
+            <>
+              {/* Overlay */}
+              <Motion.div
+                className="fixed inset-0 z-[999] bg-black bg-opacity-50"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileFilterOpen(false)}
+              />
+
+              {/* Slide-in filter aside */}
+              <Motion.aside
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "tween", duration: 0.3 }}
+                className="fixed top-0 right-0 z-[1000] h-full p-4 text-black bg-white shadow-lg dark:text-white w-72 dark:bg-black"
+                onClick={(e) => e.stopPropagation()} // Prevent clicks inside the aside from closing it
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <Link onClick={() => setMobileFilterOpen(false)}>
+                    <img src={logo} alt="Logo" className="h-8 dark:hidden" />
+                    <img
+                      src={lightLogo}
+                      alt="Logo"
+                      className="hidden h-8 dark:block"
+                    />
+                  </Link>
+                  <button
+                    onClick={() => setMobileFilterOpen(false)}
+                    className="text-4xl font-bold text-black dark:text-white"
+                  >
+                    ×
+                  </button>
+                </div>
+                <ProductFilter
+                  filters={filters}
+                  setFilters={setFilters}
+                  categories={categories}
+                  subcategories={subcategories}
+                  availabilityOptions={availabilityOptions}
+                  priceRange={priceRangeLimits}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                />
+              </Motion.aside>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Main Content */}
         <main className="flex-1">
           <ProductSearch
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
           />
 
-          {/* Sort By (top of grid) */}
+          {/* Sort and Count */}
           <div className="flex items-center justify-end mb-4">
-            <div className="mr-auto font-semibold text-gray-600 dark:text-gray-200">
-              {filteredProducts.length} Products Found
+            <div className="mr-auto ">
+              <p className="text-xs font-semibold text-gray-600 dark:text-gray-200 lg:text-base">
+                {filteredProducts.length} Products Found
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <label
@@ -172,7 +255,7 @@ const AllProducts = () => {
                 }
                 className="p-2 text-black border border-gray-300 rounded dark:text-white hover:bg-white backdrop-blur-lg bg-white/70 dark:bg-black/70"
               >
-                <option value="">Default sorting</option>
+                <option value="">Default</option>
                 <option value="priceLowHigh">Price: Low to High</option>
                 <option value="priceHighLow">Price: High to Low</option>
                 <option value="nameAZ">A–Z</option>
@@ -184,7 +267,8 @@ const AllProducts = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {/* Products Grid */}
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {loading
               ? Array.from({ length: productsPerPage }).map((_, i) => (
                   <ProductCardSkeleton key={i} />
@@ -219,6 +303,7 @@ const AllProducts = () => {
           )}
         </main>
       </div>
+
       <Footer />
     </div>
   );

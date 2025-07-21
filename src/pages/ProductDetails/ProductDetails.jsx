@@ -88,12 +88,12 @@ const ProductDetails = () => {
   return (
     <div className="relative min-h-screen overflow-hidden text-black bg-white dark:bg-black dark:text-white">
       {/* Red glow top */}
-      <div className="pointer-events-none absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+      <div className="pointer-events-none hidden absolute lg:top-[-50px] lg:left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
 
       {/* Red glow bottom right */}
-      <div className="pointer-events-none absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
+      <div className="pointer-events-none hidden absolute lg:bottom-[-50px] lg:right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
       <Nav />
-      <div className="max-w-[calc(100%-440px)] pt-28 pb-12 mx-auto ">
+      <div className="lg:max-w-[calc(100%-440px)] w-full lg:px-0 px-4 pt-20 lg:pt-28 pb-12 mx-auto ">
         <Breadcrumb
           category={product.category}
           subcategory={product.subcategory}

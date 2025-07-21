@@ -14,6 +14,16 @@ export default {
       colors: {
         primary: '#445e85',
       },
+      animation: {
+        "loading-bar": "loadingBar 1.5s infinite ease-in-out",
+      },
+      keyframes: {
+        loadingBar: {
+          "0%": { transform: "translateX(-100%)" },
+          "50%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+      },
     },
     screens: {
 
