@@ -30,9 +30,9 @@ const UserLayout = () => {
   return (
     <>
       <Nav />
-      <div className="relative flex min-h-screen bg-gray-100 pt-28 dark:bg-gray-900">
+      <div className="relative flex min-h-screen pt-20 bg-gray-100 dark:bg-black">
         {/* Sidebar */}
-        <aside className="flex flex-col justify-between fixed left-0 bottom-0 w-64 px-4 py-8 bg-white shadow-lg h-[450px] dark:bg-black">
+        <aside className="flex flex-col justify-between fixed left-0 bottom-0 w-64 px-4 py-8 bg-white shadow-lg h-[450px] dark:bg-gray-900">
           <div>
             {/* Greeting Section */}
             <div className="flex flex-col items-center gap-3 pb-6 border-b border-gray-300 dark:border-gray-700">

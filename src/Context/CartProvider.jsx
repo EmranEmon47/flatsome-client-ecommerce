@@ -6,24 +6,103 @@ import React, {
   useCallback,
 } from "react";
 import toast from "react-hot-toast";
+import axiosInstance from "../api/axiosInstance"; // Your axios with baseURL
+import { useAuth } from "./AuthContext"; // Your Firebase auth context
 
-// Create the cart context
 const CartContext = createContext();
 
-// Custom hook to use cart context
 export const useCart = () => useContext(CartContext);
 
-// CartProvider component
 export const CartProvider = ({ children }) => {
+  const { firebaseUser, loading } = useAuth();
   const [cartItems, setCartItems] = useState(() => {
-    const saved = localStorage.getItem("cart");
-    return saved ? JSON.parse(saved) : [];
+    // Initialize from localStorage if logged out
+    try {
+      const localCart = JSON.parse(localStorage.getItem("cartItems"));
+      return localCart || [];
+    } catch {
+      return [];
+    }
   });
+  const [isSyncing, setIsSyncing] = useState(false);
 
-  // Save to localStorage whenever cartItems change
+  // Fetch cart from backend when logged in
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  }, [cartItems]);
+    const fetchCart = async () => {
+      if (!firebaseUser) {
+        console.log("[CartProvider] No user logged in, clear cart");
+        setCartItems([]);
+        return;
+      }
+
+      setIsSyncing(true);
+      try {
+        const token = await firebaseUser.getIdToken();
+        const res = await axiosInstance.get("/cart", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log(
+          "[CartProvider] Fetched cart from backend:",
+          res.data?.items
+        );
+        setCartItems(res.data?.items || []);
+      } catch (error) {
+        console.error("[CartProvider] Failed to fetch cart:", error);
+        toast.error("Failed to load cart data.");
+      } finally {
+        setIsSyncing(false);
+      }
+    };
+
+    if (!loading) {
+      fetchCart();
+    }
+  }, [firebaseUser, loading]);
+
+  // Save cart to backend when cartItems change and user is logged in
+  // Otherwise save to localStorage when logged out
+  useEffect(() => {
+    if (isSyncing) return; // Don't save while loading from backend
+
+    if (firebaseUser) {
+      const saveCart = async () => {
+        try {
+          const token = await firebaseUser.getIdToken();
+          await axiosInstance.put(
+            "/cart",
+            { items: cartItems },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          console.log("[CartProvider] Saved cart to backend");
+        } catch (error) {
+          console.error("[CartProvider] Failed to save cart:", error);
+          toast.error("Failed to sync cart.");
+        }
+      };
+
+      saveCart();
+    } else {
+      // Save to localStorage when logged out
+      try {
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        console.log("[CartProvider] Saved cart to localStorage");
+      } catch (err) {
+        console.error(
+          "[CartProvider] Failed to save cart to localStorage:",
+          err
+        );
+      }
+    }
+  }, [cartItems, firebaseUser, isSyncing]);
+
+  // Clear cart on logout (firebaseUser becomes null)
+  useEffect(() => {
+    if (!firebaseUser) {
+      setCartItems([]);
+      localStorage.removeItem("cartItems");
+      console.log("[CartProvider] User logged out - cart cleared");
+    }
+  }, [firebaseUser]);
 
   // Add to cart
   const addToCart = (product, quantity) => {
@@ -40,10 +119,8 @@ export const CartProvider = ({ children }) => {
           item.selectedSize === product.selectedSize
       );
 
-      let updatedCart;
-
       if (existing) {
-        updatedCart = prev.map((item) =>
+        return prev.map((item) =>
           item.id === product.id &&
           item.selectedColor === product.selectedColor &&
           item.selectedSize === product.selectedSize
@@ -55,10 +132,8 @@ export const CartProvider = ({ children }) => {
             : item
         );
       } else {
-        updatedCart = [...prev, { ...product, quantity, price: numericPrice }];
+        return [...prev, { ...product, quantity, price: numericPrice }];
       }
-
-      return updatedCart;
     });
 
     toast.success(
@@ -102,7 +177,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // ✅ Clear cart wrapped in useCallback to avoid re-renders
+  // Clear cart
   const clearCart = useCallback(() => {
     setCartItems([]);
   }, []);

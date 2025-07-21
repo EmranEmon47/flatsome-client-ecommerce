@@ -2,29 +2,35 @@ import React from "react";
 import { Link, useNavigate } from "react-router";
 import Nav from "../../Components/Shared/Nav";
 import { useCart } from "../../Context/CartProvider";
+import { useAuth } from "../../Context/AuthContext";
 
 const CartView = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const { firebaseUser } = useAuth();
   const navigate = useNavigate();
 
+  // Calculate totals
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
   const shipping = 5.0;
   const tax = subtotal * 0.05;
-  const total = subtotal + shipping + tax;
+  const totalAmount = parseFloat((subtotal + shipping + tax).toFixed(2));
 
   const handleCheckout = () => {
+    if (!firebaseUser) {
+      return navigate("/login");
+    }
     navigate("/checkout");
   };
 
   if (cartItems.length === 0) {
     return (
-      <div>
+      <div className="min-h-screen bg-gray-100 py-28">
         <Nav />
         <div className="p-8 text-center text-gray-600">
-          <h2 className="text-2xl font-semibold mb-2">Your Cart is Empty</h2>
+          <h2 className="mb-2 text-2xl font-semibold">Your Cart is Empty</h2>
           <Link
             to="/"
             className="text-[#d26e4c] underline hover:text-[#ff6b39]"
@@ -39,13 +45,12 @@ const CartView = () => {
   return (
     <div>
       <Nav />
-      <div className="max-w-[calc(100%-440px)] mx-auto  py-8">
-        <h2 className="text-2xl font-medium mb-6">Shopping Cart</h2>
+      <div className="max-w-[calc(100%-440px)] mx-auto py-28">
+        <h2 className="mb-6 text-2xl font-medium">Shopping Cart</h2>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col gap-8 lg:flex-row">
           {/* Left: Cart Items */}
           <div className="flex-1">
-            {/* Table Header (hidden on small screens) */}
             <div className="hidden sm:grid grid-cols-[2fr_1fr_.5fr_.5fr_.5fr] font-semibold text-gray-700 py-2 border-b text-sm">
               <div>Product</div>
               <div>Color / Size</div>
@@ -54,25 +59,22 @@ const CartView = () => {
               <div className="text-end">Subtotal</div>
             </div>
 
-            {/* Cart Items */}
             {cartItems.map((item, index) => (
               <div
                 key={index}
-                className="py-4 px-2 flex flex-col sm:grid sm:grid-cols-[2fr_1fr_.5fr_.5fr_.5fr] sm:items-center border-b gap-3 text-sm"
+                className="py-4 px-2 flex flex-col lg:grid lg:grid-cols-[2fr_1fr_.5fr_.5fr_.5fr] sm:items-center border-b gap-3 text-sm"
               >
-                {/* Product */}
                 <div className="flex items-center gap-3">
                   <img
                     src={item.primaryImage}
                     alt={item.name}
-                    className="w-12 h-12 object-contain rounded"
+                    className="object-contain w-12 h-12 rounded"
                   />
-                  <h4 className="font-normal text-sm sm:text-base break-words">
+                  <h4 className="text-sm font-normal break-words sm:text-base">
                     {item.name}
                   </h4>
                 </div>
 
-                {/* Color / Size */}
                 <div className="text-gray-600">
                   <div>
                     Color:{" "}
@@ -81,13 +83,11 @@ const CartView = () => {
                   <div>Size: {item.selectedSize}</div>
                 </div>
 
-                {/* Unit Price */}
-                <div className="sm:text-center text-start text-gray-600">
+                <div className="text-gray-600 sm:text-center text-start">
                   ${item.price.toFixed(2)}
                 </div>
 
-                {/* Quantity Controls */}
-                <div className="flex justify-start sm:justify-center items-center gap-2">
+                <div className="flex items-center justify-start gap-2 sm:justify-center">
                   <button
                     onClick={() =>
                       updateQuantity(
@@ -97,7 +97,7 @@ const CartView = () => {
                         item.quantity - 1
                       )
                     }
-                    className="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded"
+                    className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200"
                     disabled={item.quantity <= 1}
                   >
                     -
@@ -112,14 +112,13 @@ const CartView = () => {
                         item.quantity + 1
                       )
                     }
-                    className="px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded"
+                    className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200"
                   >
                     +
                   </button>
                 </div>
 
-                {/* Subtotal and Remove */}
-                <div className="flex flex-col items-start sm:items-end gap-1">
+                <div className="flex flex-col items-start gap-1 sm:items-end">
                   <p className="font-semibold">
                     ${(item.price * item.quantity).toFixed(2)}
                   </p>
@@ -131,7 +130,7 @@ const CartView = () => {
                         item.selectedSize
                       )
                     }
-                    className="text-red-500 hover:underline text-xs"
+                    className="text-xs text-red-500 hover:underline"
                   >
                     Remove
                   </button>
@@ -141,8 +140,8 @@ const CartView = () => {
           </div>
 
           {/* Right: Cart Totals */}
-          <div className="lg:w-1/4 w-full sticky top-24 self-start border  p-4 h-fit bg-gray-50 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+          <div className="sticky self-start w-full p-4 border shadow-sm lg:w-1/4 top-24 h-fit bg-gray-50">
+            <h2 className="mb-4 text-lg font-semibold text-gray-800">
               Cart Totals
             </h2>
 
@@ -162,7 +161,7 @@ const CartView = () => {
               <hr className="my-2" />
               <div className="flex justify-between text-base font-semibold">
                 <span>Total:</span>
-                <span>${total.toFixed(2)}</span>
+                <span>${totalAmount}</span>
               </div>
             </div>
 

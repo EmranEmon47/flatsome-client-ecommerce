@@ -31,84 +31,93 @@ import OrderDetails from "./pages/admin/Orders/OrderDetails.jsx";
 import Blogs from "./pages/Blogs/Blogs.jsx";
 import UserLayout from "./pages/user/UserLayout.jsx";
 import Profile from "./pages/user/Profile.jsx";
-import { MyOrders } from "./pages/user/MyOrders.jsx";
+import MyOrders from "./pages/user/MyOrders.jsx";
+import UserOrderDetails from "./pages/user/UserOrderDetails.jsx";
+import InvoiceGenerator from "./pages/user/InvoiceDownload.jsx";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function App() {
   return (
     <AuthProvider>
-      <Elements stripe={stripePromise}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/all-products" element={<AllProducts />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/blogs" element={<Blogs />} />
-            {/* <Route path="/blogs/:id" element={<BlogDetail />} /> */}
-            <Route path="/cart" element={<CartView />} />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/all-products" element={<AllProducts />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/blogs" element={<Blogs />} />
+          {/* <Route path="/blogs/:id" element={<BlogDetail />} /> */}
+          <Route path="/cart" element={<CartView />} />
 
-            {/* 🛡️ Protected User Routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<UserLayout />}>
-                <Route index element={<Profile />} />
-                <Route path="my-orders" element={<MyOrders />} />
-              </Route>
+          {/* 🛡️ Protected User Routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<UserLayout />}>
+              <Route index element={<Profile />} />
+              <Route path="my-orders" element={<MyOrders />} />
+              <Route path="user-orders/:id" element={<UserOrderDetails />} />
             </Route>
+          </Route>
 
-            <Route
+          {/* <Route
               path="/checkout"
               element={
                 <ProtectedRoute>
                   <Checkout />
                 </ProtectedRoute>
               }
-            />
-            <Route
+            /> */}
+
+          <Route path="/checkout" element={<Checkout />} />
+
+          {/* <Route
               path="/payment"
               element={
                 <ProtectedRoute>
                   <Payment />
                 </ProtectedRoute>
               }
-            />
-            <Route
-              path="/order-complete"
-              element={
-                <ProtectedRoute>
-                  <OrderComplete />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/wishlist" element={<Wishlist />} />
+            /> */}
+          <Route
+            path="/payment/:orderId"
+            element={
+              <Elements stripe={stripePromise}>
+                <Payment />
+              </Elements>
+            }
+          />
 
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="/test-payment/:orderId" element={<Payment />} />
 
-            <Route path="*" element={<NotFound />} />
-            {/* admin */}
-            <Route
-              path="/admin"
-              element={
-                <RequireAdmin>
-                  <AdminLayout />
-                </RequireAdmin>
-              }
-            >
-              <Route index element={<DashboardHome />} /> {/* default route */}
-              <Route path="products/add" element={<AddProduct />} />
-              <Route path="products/all" element={<AdminAllProducts />} />
-              <Route path="products/update/:id" element={<UpdateProduct />} />
-              <Route path="users" element={<AdminAllUsers />} />
-              <Route path="/admin/orders" element={<ManageOrders />} />
-              <Route path="/admin/orders/:id" element={<OrderDetails />} />
-            </Route>
-          </Routes>
-        </Router>
+          <Route path="/order-complete/:orderId" element={<OrderComplete />} />
 
-        <Toaster position="top-right" reverseOrder={false} />
-      </Elements>
+          <Route path="/wishlist" element={<Wishlist />} />
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
+
+          <Route path="*" element={<NotFound />} />
+          {/* admin */}
+          <Route
+            path="/admin"
+            element={
+              <RequireAdmin>
+                <AdminLayout />
+              </RequireAdmin>
+            }
+          >
+            <Route index element={<DashboardHome />} /> {/* default route */}
+            <Route path="products/add" element={<AddProduct />} />
+            <Route path="products/all" element={<AdminAllProducts />} />
+            <Route path="products/update/:id" element={<UpdateProduct />} />
+            <Route path="users" element={<AdminAllUsers />} />
+            <Route path="/admin/orders" element={<ManageOrders />} />
+            <Route path="/admin/orders/:id" element={<OrderDetails />} />
+          </Route>
+        </Routes>
+      </Router>
+
+      <Toaster position="top-right" reverseOrder={false} />
     </AuthProvider>
   );
 }

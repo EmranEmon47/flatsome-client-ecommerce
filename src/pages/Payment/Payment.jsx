@@ -1,103 +1,189 @@
 import React, { useEffect, useState } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { useLocation, useNavigate } from "react-router";
-import toast from "react-hot-toast";
-import Nav from "../../Components/Shared/Nav";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useParams, useNavigate } from "react-router";
+import axios from "axios";
+import { useAuth } from "../../Context/AuthContext";
 import { useCart } from "../../Context/CartProvider";
-import axiosInstance from "../../api/axiosInstance";
-import { getAuth } from "firebase/auth";
+import Nav from "../../Components/Shared/Nav";
+
+const CARD_ELEMENT_OPTIONS = {
+  style: {
+    base: {
+      fontSize: "16px",
+      color: "#32325d",
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      "::placeholder": {
+        color: "#a0aec0",
+      },
+    },
+    invalid: {
+      color: "#fa755a",
+      iconColor: "#fa755a",
+    },
+  },
+};
 
 const Payment = () => {
+  const { orderId } = useParams();
+  const { firebaseUser } = useAuth();
+  const { clearCart } = useCart(); // ✅ use clearCart
+  const navigate = useNavigate();
+
   const stripe = useStripe();
   const elements = useElements();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { clearCart } = useCart();
-  const auth = getAuth();
 
-  // Destructure order data from location.state
-  const { shippingInfo, totalAmount, orderId } = location.state || {};
-
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [clientSecret, setClientSecret] = useState("");
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
+  const [postalCode, setPostalCode] = useState("");
 
   useEffect(() => {
-    if (!shippingInfo || typeof totalAmount !== "number" || !orderId) {
-      toast.error("Missing payment data. Redirecting...");
-      navigate("/checkout");
+    if (!firebaseUser) {
+      navigate("/login");
+      return;
     }
-  }, [shippingInfo, totalAmount, orderId, navigate]);
 
-  const handlePayment = async (e) => {
-    e.preventDefault();
+    const fetchClientSecret = async () => {
+      try {
+        const token = await firebaseUser.getIdToken();
+        const response = await axios.post(
+          `/api/payments/create-payment-intent/${orderId}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setClientSecret(response.data.clientSecret);
+      } catch (err) {
+        setError("Failed to initialize payment. Please try again.");
+        console.error("Error fetching clientSecret:", err);
+      }
+    };
 
-    if (!stripe || !elements) return;
+    fetchClientSecret();
+  }, [firebaseUser, navigate, orderId]);
 
-    setIsProcessing(true);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError(null);
+
+    if (!stripe || !elements) {
+      setError("Stripe has not loaded yet.");
+      return;
+    }
+
+    const zipRegex = /^\d{5}$/;
+    if (!postalCode.trim() || !zipRegex.test(postalCode.trim())) {
+      setError("Please enter a valid 5-digit ZIP code.");
+      return;
+    }
+
+    setProcessing(true);
+
+    const cardElement = elements.getElement(CardElement);
+    if (!cardElement) {
+      setError("Card details not found.");
+      setProcessing(false);
+      return;
+    }
 
     try {
-      // Simulate payment delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Update payment status in backend
-      const user = auth.currentUser;
-      if (!user) throw new Error("User not logged in");
-
-      const token = await user.getIdToken();
-
-      await axiosInstance.patch(
-        `/orders/${orderId}/payment-status`,
-        { status: "Paid" },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+      const payload = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name: firebaseUser.displayName || "Customer",
+            email: firebaseUser.email,
+            address: {
+              postal_code: postalCode.trim(),
+              country: "US",
+            },
           },
-        }
-      );
+        },
+      });
 
-      toast.success("🎉 Payment successful!");
+      if (payload.error) {
+        setError(`Payment failed: ${payload.error.message}`);
+        setProcessing(false);
+      } else {
+        setSucceeded(true);
+        setProcessing(false);
 
-      // Save order summary with real orderId to localStorage for OrderComplete page
-      const orderSummary = {
-        orderId,
-        shippingInfo,
-        totalAmount,
-      };
+        const token = await firebaseUser.getIdToken();
+        await axios.patch(
+          `/api/orders/${orderId}/payment-status`,
+          { paymentStatus: "Paid" },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-      localStorage.setItem("orderSummary", JSON.stringify(orderSummary));
+        // ✅ Clear cart after successful payment
+        clearCart();
 
-      // Clear cart only after successful payment & backend update
-      clearCart();
-
-      // Redirect to Order Complete page
-      navigate("/order-complete");
-    } catch (error) {
-      console.error("Payment failed:", error);
-      toast.error("Payment failed. Please try again.");
-      setIsProcessing(false);
+        // Redirect to order-complete page
+        setTimeout(() => {
+          navigate(`/order-complete/${orderId}`);
+        }, 2000);
+      }
+    } catch (err) {
+      setError("Payment processing error. Try again.");
+      setProcessing(false);
+      console.error(err);
     }
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100 lg:pt-36">
       <Nav />
-      <div className="max-w-md p-6 mx-auto bg-white border rounded shadow mt-28">
-        <h2 className="mb-4 text-2xl font-semibold">Complete Your Payment</h2>
+      <div className="max-w-md p-6 mx-auto bg-white rounded-md shadow-md">
+        <h2 className="mb-4 text-2xl font-semibold text-center">
+          Complete Payment
+        </h2>
 
-        <form onSubmit={handlePayment} className="space-y-4">
-          <div className="p-4 border rounded">
-            <CardElement />
+        {error && (
+          <div className="p-2 mb-4 text-red-700 bg-red-100 border border-red-300 rounded">
+            {error}
           </div>
+        )}
 
-          <button
-            type="submit"
-            disabled={!stripe || isProcessing}
-            className="w-full bg-[#ff6b51] hover:bg-[#ec0101] text-white py-2 rounded font-semibold disabled:opacity-50"
-          >
-            {isProcessing
-              ? "Processing..."
-              : `Pay $${Number(totalAmount).toFixed(2)}`}
-          </button>
-        </form>
+        {succeeded ? (
+          <div className="p-4 text-green-700 bg-green-100 border border-green-300 rounded">
+            Payment succeeded! Redirecting...
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} noValidate>
+            <label className="block mb-2 font-medium" htmlFor="postalCode">
+              ZIP Code <span className="text-red-600">*</span>
+            </label>
+            <input
+              id="postalCode"
+              type="text"
+              value={postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+              required
+              maxLength={5}
+              className="w-full px-3 py-2 mb-4 border border-gray-300 rounded"
+              placeholder="e.g. 12345"
+            />
+
+            <label className="block mb-2 font-medium">Card Details</label>
+            <div className="p-3 mb-6 border border-gray-300 rounded">
+              <CardElement options={CARD_ELEMENT_OPTIONS} />
+            </div>
+
+            <button
+              type="submit"
+              disabled={!stripe || !clientSecret || processing}
+              className={`w-full py-2 px-4 text-white rounded ${
+                processing
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {processing ? "Processing..." : "Pay Now"}
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

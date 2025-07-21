@@ -1,336 +1,215 @@
+// src/pages/Checkout/Checkout.jsx
 import React, { useState, useEffect } from "react";
-import { useCart } from "../../Context/CartProvider.jsx";
-import { useNavigate, useLocation } from "react-router";
-import toast from "react-hot-toast";
-import Nav from "../../Components/Shared/Nav.jsx";
-import { getAuth } from "firebase/auth"; // Import Firebase Auth
+import { useNavigate } from "react-router";
+import { useCart } from "../../Context/CartProvider";
+import { useAuth } from "../../Context/AuthContext";
 import axiosInstance from "../../api/axiosInstance";
+import toast from "react-hot-toast";
+import Nav from "../../Components/Shared/Nav";
 
-const auth = getAuth(); // ✅ define globally
 const Checkout = () => {
-  const { cartItems } = useCart();
+  const { cartItems, totalPrice } = useCart();
+  const { mongoUser, firebaseUser, loading } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [isValid, setIsValid] = useState(false);
-
-  const [shippingInfo, setShippingInfo] = useState({
-    company: "",
-    country: "Bangladesh",
+  // Form state for all required shipping fields
+  const [form, setForm] = useState({
     address: "",
     apartment: "",
     postcode: "",
     city: "",
     phone: "",
-    shipToDifferent: false,
-    alternate: {
-      address: "",
-      apartment: "",
-      postcode: "",
-      city: "",
-      phone: "",
-    },
     notes: "",
     termsAccepted: false,
   });
 
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-  const shipping = 5.0;
-  const tax = subtotal * 0.05;
-  const total = subtotal + shipping + tax;
+  // Block submit button if any required field is empty or terms not accepted
+  const isFormValid =
+    form.address.trim() !== "" &&
+    form.city.trim() !== "" &&
+    form.postcode.trim() !== "" &&
+    form.phone.trim() !== "" &&
+    form.termsAccepted;
 
+  // Redirect to login if not logged in and loading done
   useEffect(() => {
-    const requiredFields = [
-      "address",
-      "apartment",
-      "postcode",
-      "city",
-      "phone",
-    ];
-    const allFilled = requiredFields.every(
-      (field) => shippingInfo[field].trim() !== ""
-    );
-    const nameFilled = firstName.trim() !== "" && lastName.trim() !== "";
-    setIsValid(allFilled && shippingInfo.termsAccepted && nameFilled);
-  }, [shippingInfo, firstName, lastName]);
+    if (!loading && !firebaseUser) {
+      navigate("/login", { state: { from: "/checkout" } });
+    }
+  }, [firebaseUser, loading, navigate]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    if (name.startsWith("alternate.")) {
-      const field = name.split(".")[1];
-      setShippingInfo((prev) => ({
-        ...prev,
-        alternate: { ...prev.alternate, [field]: value },
-      }));
-    } else {
-      setShippingInfo((prev) => ({
-        ...prev,
-        [name]: type === "checkbox" ? checked : value,
-      }));
-    }
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
-  const handlePlaceOrder = async () => {
-    if (!isValid) {
-      toast.error("Please complete all required fields and accept terms.");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!isFormValid) {
+      toast.error("Please fill all required fields and accept the terms.");
       return;
     }
-
-    const user = auth.currentUser;
-
-    if (!user) {
-      toast.error("Please log in to place your order.");
-      navigate("/login", { state: { from: location } });
-      return;
-    }
-
-    if (cartItems.length === 0) {
-      toast.error("Your cart is empty!");
-      return;
-    }
-
-    const orderPayload = {
-      cartItems,
-      shippingInfo: {
-        ...shippingInfo,
-        firstName,
-        lastName,
-        email: user.email,
-      },
-      totalAmount: Number(total.toFixed(2)),
-    };
 
     try {
-      const token = await user.getIdToken();
+      const token = await firebaseUser.getIdToken();
+
+      const orderPayload = {
+        uid: mongoUser.uid,
+        email: mongoUser.email,
+        firstName: mongoUser.firstName,
+        lastName: mongoUser.lastName,
+        cartItems,
+        shippingInfo: {
+          address: form.address,
+          apartment: form.apartment || undefined,
+          postcode: form.postcode,
+          city: form.city,
+          phone: form.phone,
+          notes: form.notes || undefined,
+          termsAccepted: form.termsAccepted,
+          alternate: {}, // leave empty or implement later
+        },
+        totalAmount: totalPrice,
+        paymentStatus: "Pending",
+      };
+
       const res = await axiosInstance.post("/orders", orderPayload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
-      const savedOrder = res.data;
-
-      if (!savedOrder._id) {
-        throw new Error("Failed to get order ID from backend");
+      navigate(`/payment/${res.data._id}`);
+    } catch (err) {
+      console.error("Checkout error:", err);
+      if (err.response) {
+        console.error("Response data:", err.response.data);
       }
-
-      toast.success("Order placed successfully!");
-
-      navigate("/payment", {
-        state: {
-          shippingInfo: orderPayload.shippingInfo,
-          totalAmount: Number(total.toFixed(2)),
-          orderId: savedOrder._id, // Pass actual order ID here
-        },
-      });
-    } catch (error) {
-      console.error(
-        "Order failed:",
-        error.response?.data || error.message || error
-      );
       toast.error("Failed to place order.");
     }
   };
 
+  if (loading) return <div>Loading...</div>;
+
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100 lg:pt-36">
       <Nav />
-      <h1 className="py-6 text-2xl font-medium text-center">
-        Checkout Details
-      </h1>
-      <div className="max-w-[calc(100%-440px)] mx-auto pb-4 grid grid-cols-[1fr_1fr] gap-4">
-        {/* Left: Shipping Form */}
-        <div className="w-full">
-          <h2 className="mb-4 text-xl font-normal">Shipping Information</h2>
-          <form className="grid w-full gap-4">
-            <input
-              value={auth.currentUser?.email || ""}
-              disabled
-              className="w-full input"
-              placeholder="Email"
-            />
-            <input
-              name="firstName"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="w-full input"
-              placeholder="First Name *"
-            />
-            <input
-              name="lastName"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              className="w-full input"
-              placeholder="Last Name *"
-            />
-            <input
-              name="company"
-              onChange={handleChange}
-              className="w-full input"
-              placeholder="Company Name (optional)"
-            />
-            <select
-              name="country"
-              onChange={handleChange}
-              value={shippingInfo.country}
-              className="w-full input"
-            >
-              <option value="Bangladesh">Bangladesh</option>
-            </select>
-            <input
-              name="address"
-              value={shippingInfo.address}
-              onChange={handleChange}
-              className="w-full input"
-              placeholder="Street Address *"
-            />
-            <input
-              name="apartment"
-              onChange={handleChange}
-              className="w-full input"
-              placeholder="Apartment / Suite"
-            />
-            <input
-              name="postcode"
-              value={shippingInfo.postcode}
-              onChange={handleChange}
-              className="w-full input"
-              placeholder="Postcode / ZIP *"
-            />
-            <input
-              name="city"
-              value={shippingInfo.city}
-              onChange={handleChange}
-              className="w-full input"
-              placeholder="Town / City *"
-            />
-            <input
-              name="phone"
-              value={shippingInfo.phone}
-              onChange={handleChange}
-              className="w-full input"
-              placeholder="Phone Number *"
-            />
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                name="shipToDifferent"
-                onChange={handleChange}
-              />
-              Ship to a different address?
-            </label>
+      <div className="grid max-w-5xl grid-cols-1 gap-6 p-6 mx-auto lg:grid-cols-2">
+        {/* Shipping form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <h2 className="mb-4 text-2xl font-semibold">Shipping Information</h2>
 
-            {shippingInfo.shipToDifferent && (
-              <div className="grid gap-4 p-4 border rounded">
-                <input
-                  name="alternate.address"
-                  onChange={handleChange}
-                  className="w-full input"
-                  placeholder="Alt. Street Address"
-                />
-                <input
-                  name="alternate.apartment"
-                  onChange={handleChange}
-                  className="w-full input"
-                  placeholder="Alt. Apartment / Suite"
-                />
-                <input
-                  name="alternate.postcode"
-                  onChange={handleChange}
-                  className="w-full input"
-                  placeholder="Alt. Postcode / ZIP"
-                />
-                <input
-                  name="alternate.city"
-                  onChange={handleChange}
-                  className="w-full input"
-                  placeholder="Alt. Town / City"
-                />
-                <input
-                  name="alternate.phone"
-                  onChange={handleChange}
-                  className="w-full input"
-                  placeholder="Alt. Phone Number"
-                />
-              </div>
-            )}
+          <input
+            name="address"
+            placeholder="Address *"
+            value={form.address}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded"
+          />
+          <input
+            name="apartment"
+            placeholder="Apartment, suite, etc. (optional)"
+            value={form.apartment}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
+          <input
+            name="postcode"
+            placeholder="Postcode *"
+            value={form.postcode}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded"
+          />
+          <input
+            name="city"
+            placeholder="City *"
+            value={form.city}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded"
+          />
+          <input
+            name="phone"
+            placeholder="Phone *"
+            value={form.phone}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded"
+          />
+          <textarea
+            name="notes"
+            placeholder="Notes (optional)"
+            value={form.notes}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            rows={3}
+          />
 
-            <textarea
-              name="notes"
-              onChange={handleChange}
-              className="w-full h-20 input"
-              placeholder="Order notes (optional)"
-            ></textarea>
-          </form>
-        </div>
-
-        {/* Right: Summary */}
-        <div className="sticky w-full p-6 bg-white border top-24 h-fit">
-          <h2 className="mb-4 text-xl font-medium">Your Order</h2>
-          <ul className="mb-4 text-sm divide-y">
-            {cartItems.map((item, index) => (
-              <li key={index} className="flex justify-between py-2">
-                <span>
-                  {item.name} x {item.quantity}
-                </span>
-                <span>${(item.price * item.quantity).toFixed(2)}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="flex justify-between">
-            Subtotal: <span>${subtotal.toFixed(2)}</span>
-          </p>
-          <p className="flex justify-between">
-            Shipping: <span>${shipping.toFixed(2)}</span>
-          </p>
-          <p className="flex justify-between">
-            Tax (5%): <span>${tax.toFixed(2)}</span>
-          </p>
-          <hr className="my-3" />
-          <p className="flex justify-between text-lg font-semibold">
-            Total: <span>${total.toFixed(2)}</span>
-          </p>
-
-          <label className="flex items-center gap-2 mt-4">
+          <label className="flex items-center space-x-2">
             <input
               type="checkbox"
               name="termsAccepted"
-              checked={shippingInfo.termsAccepted}
+              checked={form.termsAccepted}
               onChange={handleChange}
+              required
             />
-            I agree to the terms and conditions.
+            <span>I accept the terms & conditions *</span>
           </label>
 
-          <div className="p-4 mt-6 space-y-2 text-sm bg-gray-100 rounded">
-            <h3 className="mb-3 text-lg font-semibold">Confirm Your Order</h3>
-            <p>
-              Name: {firstName} {lastName}
-            </p>
-            <p>Email: {auth.currentUser?.email}</p>
-            <p>
-              Shipping: {shippingInfo.address}, {shippingInfo.city},{" "}
-              {shippingInfo.postcode}
-            </p>
-            <p>Phone: {shippingInfo.phone}</p>
-            {shippingInfo.notes && <p>Notes: {shippingInfo.notes}</p>}
-          </div>
-
           <button
-            onClick={handlePlaceOrder}
-            disabled={!isValid}
-            className={`mt-6 w-full px-4 py-2 font-semibold rounded ${
-              isValid
-                ? "bg-[#FF6347] hover:bg-[#EC2D01] text-white"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            type="submit"
+            disabled={!isFormValid}
+            className={`w-full py-2 rounded text-white ${
+              isFormValid
+                ? "bg-black hover:bg-gray-800"
+                : "bg-gray-400 cursor-not-allowed"
             }`}
           >
-            Place Order
+            Proceed to Payment
           </button>
+        </form>
+
+        {/* Cart summary */}
+        <div className="p-4 mt-16 rounded-md bg-gray-50">
+          <h2 className="mb-4 text-xl font-semibold">Your Cart</h2>
+
+          {cartItems.length === 0 ? (
+            <p>Your cart is empty.</p>
+          ) : (
+            <div className="space-y-4 max-h-[500px] overflow-y-auto">
+              {cartItems.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-4 pb-2 border-b"
+                >
+                  <img
+                    src={item.primaryImage}
+                    alt={item.name}
+                    className="object-cover w-16 h-16 rounded"
+                  />
+                  <div className="flex-1">
+                    <h3 className="font-semibold">{item.name}</h3>
+                    <p className="text-sm text-gray-600">
+                      Color: {item.selectedColor} | Size: {item.selectedSize}
+                    </p>
+                    <p className="text-sm">Qty: {item.quantity}</p>
+                  </div>
+                  <div className="font-semibold">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="flex justify-between mt-4 text-lg font-bold">
+            <span>Total:</span>
+            <span>${totalPrice.toFixed(2)}</span>
+          </div>
         </div>
       </div>
     </div>

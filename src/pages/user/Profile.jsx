@@ -4,17 +4,24 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import axios from "axios";
 
 const Profile = () => {
-  const { firebaseUser, mongoUser } = useAuth();
+  const { firebaseUser, mongoUser, updateMongoUser } = useAuth();
 
-  const [formData, setFormData] = useState({ name: "", address: "" });
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    address: "",
+  });
+
   const [imagePreview, setImagePreview] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState("");
 
   useEffect(() => {
     if (mongoUser) {
       setFormData({
-        name: mongoUser.name || "",
+        firstName: mongoUser.firstName || "",
+        lastName: mongoUser.lastName || "",
         address: mongoUser.address || "",
       });
       setImagePreview(mongoUser.profileImage || "");
@@ -25,7 +32,7 @@ const Profile = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value?.trim() === "" ? mongoUser[name] || "" : value,
+      [name]: value,
     }));
   };
 
@@ -62,7 +69,8 @@ const Profile = () => {
       await axios.put(
         "http://localhost:5000/api/users/me",
         {
-          name: formData.name,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
           address: formData.address,
           profileImage: imagePreview,
         },
@@ -71,7 +79,18 @@ const Profile = () => {
         }
       );
 
-      alert("Profile updated successfully.");
+      // Refetch updated user to sync state
+      const userRes = await axios.get("http://localhost:5000/api/users/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (userRes.data && updateMongoUser) {
+        updateMongoUser(userRes.data);
+      }
+
+      setToast("Profile updated successfully.");
+      setTimeout(() => setToast(""), 3000);
+
       setShowConfirm(false);
     } catch (err) {
       console.error("Failed to update profile:", err);
@@ -85,7 +104,7 @@ const Profile = () => {
     return <div className="mt-10 text-center">Loading profile...</div>;
 
   return (
-    <div className="max-w-2xl p-6 mx-auto mt-8 bg-white rounded shadow dark:bg-black">
+    <div className="relative max-w-2xl p-6 mx-auto mt-8 bg-white rounded shadow dark:bg-gray-800 dark:text-white">
       <h2 className="mb-4 text-xl font-bold">User Profile</h2>
 
       {/* Profile Image */}
@@ -107,15 +126,28 @@ const Profile = () => {
         </label>
       </div>
 
-      {/* Name Input */}
+      {/* First Name */}
       <div className="mb-4">
-        <label className="block mb-1 text-sm font-medium">Name</label>
+        <label className="block mb-1 text-sm font-medium">First Name</label>
         <input
           type="text"
-          name="name"
-          value={formData.name}
+          name="firstName"
+          value={formData.firstName}
           onChange={handleChange}
-          placeholder="Enter your name"
+          placeholder="Enter first name"
+          className="w-full px-3 py-2 border rounded dark:bg-gray-800 dark:text-white"
+        />
+      </div>
+
+      {/* Last Name */}
+      <div className="mb-4">
+        <label className="block mb-1 text-sm font-medium">Last Name</label>
+        <input
+          type="text"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+          placeholder="Enter last name"
           className="w-full px-3 py-2 border rounded dark:bg-gray-800 dark:text-white"
         />
       </div>
@@ -141,14 +173,14 @@ const Profile = () => {
           placeholder="Enter your address"
           className="w-full px-3 py-2 border rounded resize-none dark:bg-gray-800 dark:text-white"
           rows={3}
-        ></textarea>
+        />
       </div>
 
       {/* Save Button */}
       <button
         onClick={() => setShowConfirm(true)}
-        className="px-4 py-2 bg-[#FF6347] text-white rounded hover:bg-red-600 disabled:opacity-50"
         disabled={saving}
+        className="px-4 py-2 bg-[#FF6347] text-white rounded hover:bg-red-600 disabled:opacity-50"
       >
         {saving ? "Saving..." : "Save Changes"}
       </button>
@@ -175,6 +207,13 @@ const Profile = () => {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Toast Message */}
+      {toast && (
+        <div className="absolute px-4 py-2 text-white bg-green-600 rounded shadow-lg top-4 right-4 animate-fade-in-out">
+          {toast}
         </div>
       )}
     </div>

@@ -18,12 +18,14 @@ export const AuthProvider = ({ children }) => {
 
       if (user) {
         try {
-          const token = await user.getIdToken();
+          const token = await user.getIdToken(true); // 🔁 Force refresh token
+
           const res = await axiosInstance.get("/users/me", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
+
           setMongoUser(res.data);
           console.log("✅ Synced user from MongoDB:", res.data);
         } catch (err) {
