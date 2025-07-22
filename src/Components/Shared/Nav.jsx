@@ -133,7 +133,7 @@ const Nav = () => {
                       {["all-products", "men", "women", "kids"].map((path) => (
                         <li key={path}>
                           <Link
-                            to={`/products/${path}`}
+                            to={`/${path}`}
                             className="block px-4 py-2 hover:bg-[#FF6347] hover:text-white transition"
                           >
                             {path === "all-products"

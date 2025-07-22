@@ -94,27 +94,32 @@ const Checkout = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-100 lg:pt-36">
+    <div className="min-h-screen pt-20 bg-white dark:bg-black lg:pt-28">
       <Nav />
-      <div className="grid max-w-5xl grid-cols-1 gap-6 p-6 mx-auto lg:grid-cols-2">
+      <div className="flex flex-col-reverse w-full gap-6 p-6 mx-auto lg:grid lg:max-w-5xl lg:grid-cols-2">
         {/* Shipping form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <h2 className="mb-4 text-2xl font-semibold">Shipping Information</h2>
+        <form
+          onSubmit={handleSubmit}
+          className="px-4 py-4 space-y-4 rounded-lg bg-slate-100 dark:bg-gray-800 lg:p-8"
+        >
+          <h2 className="mb-4 text-xl font-semibold text-black dark:text-white lg:text-2xl">
+            Shipping Information
+          </h2>
 
           <input
             name="address"
-            placeholder="Address *"
+            placeholder="Write your address *"
             value={form.address}
             onChange={handleChange}
             required
-            className="w-full p-2 border rounded"
+            className="w-full p-2 text-black bg-white border rounded placeholder:text-gray-400 dark:bg-gray-200"
           />
           <input
             name="apartment"
             placeholder="Apartment, suite, etc. (optional)"
             value={form.apartment}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 text-black bg-white border rounded placeholder:text-gray-400 dark:bg-gray-200"
           />
           <input
             name="postcode"
@@ -122,7 +127,7 @@ const Checkout = () => {
             value={form.postcode}
             onChange={handleChange}
             required
-            className="w-full p-2 border rounded"
+            className="w-full p-2 text-black bg-white border rounded placeholder:text-gray-400 dark:bg-gray-200"
           />
           <input
             name="city"
@@ -130,7 +135,7 @@ const Checkout = () => {
             value={form.city}
             onChange={handleChange}
             required
-            className="w-full p-2 border rounded"
+            className="w-full p-2 text-black bg-white border rounded placeholder:text-gray-400 dark:bg-gray-200"
           />
           <input
             name="phone"
@@ -138,14 +143,14 @@ const Checkout = () => {
             value={form.phone}
             onChange={handleChange}
             required
-            className="w-full p-2 border rounded"
+            className="w-full p-2 text-black bg-white border rounded placeholder:text-gray-400 dark:bg-gray-200"
           />
           <textarea
             name="notes"
             placeholder="Notes (optional)"
             value={form.notes}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 text-black bg-white border rounded placeholder:text-gray-400 dark:bg-gray-200"
             rows={3}
           />
 
@@ -157,7 +162,9 @@ const Checkout = () => {
               onChange={handleChange}
               required
             />
-            <span>I accept the terms & conditions *</span>
+            <span className="text-black dark:text-white">
+              I accept the terms & conditions *
+            </span>
           </label>
 
           <button
@@ -165,7 +172,7 @@ const Checkout = () => {
             disabled={!isFormValid}
             className={`w-full py-2 rounded text-white ${
               isFormValid
-                ? "bg-black hover:bg-gray-800"
+                ? " bg-gray-800  dark:bg-white text-black dark:text-black transition-colors"
                 : "bg-gray-400 cursor-not-allowed"
             }`}
           >
@@ -174,13 +181,13 @@ const Checkout = () => {
         </form>
 
         {/* Cart summary */}
-        <div className="p-4 mt-16 rounded-md bg-gray-50">
+        <div className="p-6 text-black rounded-md bg-slate-100 dark:text-white dark:bg-gray-800">
           <h2 className="mb-4 text-xl font-semibold">Your Cart</h2>
 
           {cartItems.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (
-            <div className="space-y-4 max-h-[500px] overflow-y-auto">
+            <div className="max-h-full space-y-4 overflow-y-auto">
               {cartItems.map((item, idx) => (
                 <div
                   key={idx}

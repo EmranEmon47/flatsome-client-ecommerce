@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import axiosInstance from "../../api/axiosInstance"; // Ensure this uses Firebase token
 import Nav from "../../Components/Shared/Nav";
 
@@ -36,9 +36,9 @@ const OrderComplete = () => {
   const { shippingInfo, totalAmount, cartItems, createdAt } = order;
 
   return (
-    <div>
+    <div className="min-h-screen text-black bg-white dark:bg-black dark:text-white">
       <Nav />
-      <div className="max-w-3xl p-6 mx-auto py-28">
+      <div className="w-full p-6 py-24 mx-auto lg:max-w-3xl lg:py-28">
         <h1 className="mb-4 text-3xl font-bold text-green-600">
           🎉 Order Successful!
         </h1>
@@ -86,6 +86,13 @@ const OrderComplete = () => {
               ))}
             </ul>
           </div>
+
+          <Link
+            to="/"
+            className="inline-block px-4 py-2 mt-6 text-white bg-[#FF6347] rounded hover:bg-[#EC2D01]"
+          >
+            Continue Shopping
+          </Link>
         </div>
       </div>
     </div>

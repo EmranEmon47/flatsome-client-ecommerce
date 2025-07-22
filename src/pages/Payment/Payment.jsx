@@ -133,9 +133,9 @@ const Payment = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 lg:pt-36">
+    <div className="min-h-screen pt-20 bg-gray-100 dark:bg-black lg:pt-36">
       <Nav />
-      <div className="max-w-md p-6 mx-auto bg-white rounded-md shadow-md">
+      <div className="max-w-md p-6 mx-auto text-black bg-white rounded-md shadow-md dark:text-white dark:bg-gray-600">
         <h2 className="mb-4 text-2xl font-semibold text-center">
           Complete Payment
         </h2>
@@ -167,8 +167,11 @@ const Payment = () => {
             />
 
             <label className="block mb-2 font-medium">Card Details</label>
-            <div className="p-3 mb-6 border border-gray-300 rounded">
-              <CardElement options={CARD_ELEMENT_OPTIONS} />
+            <div className="p-3 mb-6 text-black bg-white border border-gray-300 rounded">
+              <CardElement
+                className="text-black"
+                options={CARD_ELEMENT_OPTIONS}
+              />
             </div>
 
             <button
