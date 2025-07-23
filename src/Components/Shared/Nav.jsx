@@ -401,11 +401,11 @@ const Nav = () => {
                 <Link
                   to="/wishlist"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between text-sm font-semibold"
+                  className="flex text-sm font-semibold"
                 >
                   Wishlist
                   {wishlist.length > 0 && (
-                    <span className="flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full">
+                    <span className="flex items-center justify-center w-4 h-4 p-1 text-[8px] text-white bg-red-500 rounded-full">
                       {wishlist.length}
                     </span>
                   )}
@@ -414,11 +414,11 @@ const Nav = () => {
                 <Link
                   to="/cart"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between text-sm font-semibold"
+                  className="flex text-sm font-semibold"
                 >
                   Cart
                   {totalQuantity > 0 && (
-                    <span className="flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full">
+                    <span className="flex items-center justify-center w-4 h-4 text-[8px] text-white bg-red-500 rounded-full">
                       {totalQuantity}
                     </span>
                   )}

@@ -221,6 +221,12 @@ const AllProducts = () => {
                   searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
                 />
+                <button
+                  onClick={() => setMobileFilterOpen(false)}
+                  className="px-2 py-1 mt-8 ml-4 text-sm font-semibold text-white bg-red-600 rounded hover:bg-red-700"
+                >
+                  Apply Filters
+                </button>
               </Motion.aside>
             </>
           )}
