@@ -66,7 +66,7 @@ const Nav = () => {
     <div>
       <nav className="navbar fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-7xl mx-auto z-[500]">
         {/* Nav Container */}
-        <div className="bg-white/50 backdrop-blur-lg dark:bg-black/50 rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/30 transition-all duration-500 hover:shadow-3xl hover:bg-white/75 dark:hover:bg-black/75 hover:scale-[1.02] hover:border-white/30 dark:hover:border-gray-600/40">
+        <div className="bg-white/50 backdrop-blur-xl dark:bg-black/50 rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/30 transition-all duration-500 hover:shadow-3xl hover:bg-white/75 dark:hover:bg-black/75 hover:scale-[1.02] hover:border-white/30 dark:hover:border-gray-600/40">
           {/* Top Row */}
           <div className="flex items-center justify-between px-2 py-2 lg:px-6 lg:py-4">
             {/* --- MOBILE NAV --- */}
