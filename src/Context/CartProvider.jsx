@@ -7,7 +7,8 @@ import React, {
 } from "react";
 import toast from "react-hot-toast";
 import axiosInstance from "../api/axiosInstance"; // Your axios with baseURL
-import { useAuth } from "./AuthContext"; // Your Firebase auth context
+import { useAuth } from "./AuthContext";
+import { showToast } from "..//Components/Shared/showToast.jsx"; // Your Firebase auth context
 
 const CartContext = createContext();
 
@@ -136,7 +137,7 @@ export const CartProvider = ({ children }) => {
       }
     });
 
-    toast.success(
+    showToast(
       `${product.name} (${product.selectedColor}, ${product.selectedSize}) added to your cart!`
     );
   };
