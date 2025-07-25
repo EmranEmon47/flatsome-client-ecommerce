@@ -8,6 +8,7 @@ import ColorSelector from "../../Components/Product/ColorSelector";
 import SizeSelector from "../../Components/Product/SizeSelector";
 import Breadcrumb from "../../Components/Product/Breadcrumb";
 import Modal from "../../Components/Common/Modal";
+import RelatedProducts from "./RelatedProducts";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -88,12 +89,12 @@ const ProductDetails = () => {
   return (
     <div className="relative min-h-screen overflow-hidden text-black bg-white dark:bg-black dark:text-white">
       {/* Red glow top */}
-      <div className="pointer-events-none hidden absolute lg:top-[-50px] lg:left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+      <div className="pointer-events-none hidden lg:block absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
 
       {/* Red glow bottom right */}
-      <div className="pointer-events-none hidden absolute lg:bottom-[-50px] lg:right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
+      <div className="pointer-events-none hidden lg:block absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
       <Nav />
-      <div className="lg:max-w-[calc(100%-440px)] w-full lg:px-0 px-4 pt-20 lg:pt-28 pb-12 mx-auto ">
+      <div className="lg:max-w-[calc(100%-440px)] w-full lg:px-0 px-4 pt-20 lg:pt-28 lg:pb-16 mx-auto ">
         <Breadcrumb
           category={product.category}
           subcategory={product.subcategory}
@@ -207,7 +208,21 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
+        <div className="mt-16 space-y-4">
+          <h3 className="text-lg font-semibold ">Product information</h3>
+          <p>
+            {product.description} Indulge in the timeless elegance of our blush
+            pink silk midi dress. Crafted from luxurious silk, this dress drapes
+            beautifully and feels incredibly soft against the skin. The delicate
+            spaghetti straps and flattering A-line silhouette make it perfect
+            for summer weddings or garden parties. The dress also features a
+            hidden back zipper for a seamless look and is fully lined for
+            comfort. Effortlessly chic and versatile, this dress will become a
+            staple in your wardrobe.
+          </p>
+        </div>
       </div>
+      <RelatedProducts />
       <Footer />
       {/* Modal */}
       {isModalOpen && (
