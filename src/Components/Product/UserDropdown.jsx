@@ -9,7 +9,7 @@ const UserDropdown = () => {
 
   const getFirstName = () => {
     const fullName =
-      mongoUser?.name || firebaseUser?.displayName || firebaseUser?.email;
+      mongoUser?.firstName || firebaseUser?.displayName || firebaseUser?.email;
     if (!fullName) return "User";
     return fullName.includes("@")
       ? fullName.split("@")[0]
