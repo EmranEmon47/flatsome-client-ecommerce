@@ -1,9 +1,10 @@
+// src/pages/Payment/Payment.jsx
 import React, { useEffect, useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useParams, useNavigate } from "react-router";
-import axios from "axios";
 import { useAuth } from "../../Context/AuthContext";
 import { useCart } from "../../Context/CartProvider";
+import axiosInstance from "../../api/axiosInstance"; // ✅ use configured instance
 import Nav from "../../Components/Shared/Nav";
 
 const CARD_ELEMENT_OPTIONS = {
@@ -26,7 +27,7 @@ const CARD_ELEMENT_OPTIONS = {
 const Payment = () => {
   const { orderId } = useParams();
   const { firebaseUser } = useAuth();
-  const { clearCart } = useCart(); // ✅ use clearCart
+  const { clearCart } = useCart();
   const navigate = useNavigate();
 
   const stripe = useStripe();
@@ -47,11 +48,13 @@ const Payment = () => {
     const fetchClientSecret = async () => {
       try {
         const token = await firebaseUser.getIdToken();
-        const response = await axios.post(
-          `/api/payments/create-payment-intent/${orderId}`,
+        const response = await axiosInstance.post(
+          `/payments/create-payment-intent/${orderId}`,
           {},
           {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         setClientSecret(response.data.clientSecret);
@@ -111,16 +114,14 @@ const Payment = () => {
         setProcessing(false);
 
         const token = await firebaseUser.getIdToken();
-        await axios.patch(
-          `/api/orders/${orderId}/payment-status`,
+        await axiosInstance.patch(
+          `/orders/${orderId}/payment-status`,
           { paymentStatus: "Paid" },
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        // ✅ Clear cart after successful payment
-        clearCart();
+        clearCart(); // ✅ Clear the cart after success
 
-        // Redirect to order-complete page
         setTimeout(() => {
           navigate(`/order-complete/${orderId}`);
         }, 2000);

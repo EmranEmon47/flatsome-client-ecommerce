@@ -12,7 +12,6 @@ const Checkout = () => {
   const { mongoUser, firebaseUser, loading } = useAuth();
   const navigate = useNavigate();
 
-  // Form state for all required shipping fields
   const [form, setForm] = useState({
     address: "",
     apartment: "",
@@ -23,7 +22,6 @@ const Checkout = () => {
     termsAccepted: false,
   });
 
-  // Block submit button if any required field is empty or terms not accepted
   const isFormValid =
     form.address.trim() !== "" &&
     form.city.trim() !== "" &&
@@ -31,7 +29,6 @@ const Checkout = () => {
     form.phone.trim() !== "" &&
     form.termsAccepted;
 
-  // Redirect to login if not logged in and loading done
   useEffect(() => {
     if (!loading && !firebaseUser) {
       navigate("/login", { state: { from: "/checkout" } });
@@ -54,6 +51,11 @@ const Checkout = () => {
       return;
     }
 
+    if (!mongoUser) {
+      toast.error("User data not loaded. Please wait or try again.");
+      return;
+    }
+
     try {
       const token = await firebaseUser.getIdToken();
 
@@ -71,7 +73,7 @@ const Checkout = () => {
           phone: form.phone,
           notes: form.notes || undefined,
           termsAccepted: form.termsAccepted,
-          alternate: {}, // leave empty or implement later
+          alternate: {},
         },
         totalAmount: totalPrice,
         paymentStatus: "Pending",
@@ -91,13 +93,12 @@ const Checkout = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading || !mongoUser) return <div>Loading...</div>;
 
   return (
     <div className="min-h-screen pt-20 bg-white dark:bg-black lg:pt-28">
       <Nav />
       <div className="flex flex-col-reverse w-full gap-6 p-6 mx-auto lg:grid lg:max-w-5xl lg:grid-cols-2">
-        {/* Shipping form */}
         <form
           onSubmit={handleSubmit}
           className="px-4 py-4 space-y-4 rounded-lg bg-slate-100 dark:bg-gray-800 lg:p-8"
@@ -180,7 +181,6 @@ const Checkout = () => {
           </button>
         </form>
 
-        {/* Cart summary */}
         <div className="p-6 text-black rounded-md bg-slate-100 dark:text-white dark:bg-gray-800">
           <h2 className="mb-4 text-xl font-semibold">Your Cart</h2>
 

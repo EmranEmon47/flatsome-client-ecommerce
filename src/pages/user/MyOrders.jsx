@@ -1,8 +1,10 @@
-// src/Pages/User/MyOrders.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../Context/AuthContext";
 import { Link } from "react-router";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
 const MyOrders = () => {
   const { firebaseUser } = useAuth();
@@ -15,12 +17,9 @@ const MyOrders = () => {
 
       try {
         const token = await firebaseUser.getIdToken();
-        const res = await axios.get(
-          "http://localhost:5000/api/orders/my-orders",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const res = await axios.get(`${API_BASE_URL}/orders/my-orders`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setOrders(res.data);
       } catch (err) {
         console.error("Failed to fetch orders:", err);

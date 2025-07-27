@@ -3,7 +3,8 @@ import axios from "axios";
 import { getAuth } from "firebase/auth";
 import toast from "react-hot-toast";
 
-const API_URL = "http://localhost:5000/api/admin/users";
+// ✅ Use live backend URL from Render
+const API_URL = "https://flatsome-server-ecommerce.onrender.com/api/admin/users";
 
 const useAdminUsers = () => {
     const [users, setUsers] = useState([]);
@@ -28,7 +29,6 @@ const useAdminUsers = () => {
         }
     };
 
-    // Adjust promote/demote to call /users/:id/role with correct payload
     const promoteUser = async (userId) => {
         try {
             const token = await getToken();

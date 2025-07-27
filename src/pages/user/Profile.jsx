@@ -3,6 +3,9 @@ import { useAuth } from "../../Context/AuthContext";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import axios from "axios";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+
 const Profile = () => {
   const { firebaseUser, mongoUser, updateMongoUser } = useAuth();
 
@@ -67,7 +70,7 @@ const Profile = () => {
       const token = await firebaseUser.getIdToken();
 
       await axios.put(
-        "http://localhost:5000/api/users/me",
+        `${API_BASE_URL}/users/me`,
         {
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -80,7 +83,7 @@ const Profile = () => {
       );
 
       // Refetch updated user to sync state
-      const userRes = await axios.get("http://localhost:5000/api/users/me", {
+      const userRes = await axios.get(`${API_BASE_URL}/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

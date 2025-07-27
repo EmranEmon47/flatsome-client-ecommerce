@@ -1,10 +1,12 @@
-// src/Pages/User/OrderDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
 import axios from "axios";
 import { useAuth } from "../../Context/AuthContext";
 import { HiArrowLeft, HiOutlineLocationMarker, HiUser } from "react-icons/hi";
 import InvoiceDownload from "./InvoiceDownload.jsx"; // adjust path if needed
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
 const UserOrderDetails = () => {
   const { id } = useParams();
@@ -13,21 +15,12 @@ const UserOrderDetails = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // invoice download handler
-  // const navigate = useNavigate();
-
-  // const handleDownloadInvoice = () => {
-  //   navigate("/profile/invoice", { state: { order } });
-  // };
-
-  // Fetch order details
-
   useEffect(() => {
     const fetchOrder = async () => {
       try {
         const token = await firebaseUser.getIdToken();
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/my-orders/${id}`,
+          `${API_BASE_URL}/orders/my-orders/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -49,9 +42,6 @@ const UserOrderDetails = () => {
     return (
       <div className="mt-10 text-center text-red-500">Order not found.</div>
     );
-
-  console.log("Order object:", order);
-  console.log("Order name:", order.name);
 
   return (
     <div className="max-w-4xl p-6 mx-auto mt-2 bg-white rounded shadow-md dark:bg-gray-800 dark:text-white">

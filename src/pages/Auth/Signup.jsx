@@ -12,6 +12,9 @@ import signupImage from "../../assets/login-image.jpg";
 import logo from "../../assets/logo.png";
 import axios from "axios";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+
 const Signup = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,14 +51,14 @@ const Signup = () => {
         password
       );
 
-      // 2. Update Firebase displayName using first + last name concatenated (optional)
+      // 2. Update Firebase displayName
       await updateProfile(userCredential.user, {
         displayName: `${firstName} ${lastName}`.trim(),
       });
 
       // 3. Sync user with backend MongoDB
       try {
-        await axios.post("http://localhost:5000/api/users", {
+        await axios.post(`${API_BASE_URL}/users`, {
           uid: userCredential.user.uid,
           email: userCredential.user.email,
           firstName: firstName.trim(),
@@ -93,7 +96,7 @@ const Signup = () => {
 
       // Sync user with backend
       try {
-        await axios.post("http://localhost:5000/api/users", {
+        await axios.post(`${API_BASE_URL}/users`, {
           uid: user.uid,
           email: user.email,
           firstName,
