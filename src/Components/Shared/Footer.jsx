@@ -7,7 +7,7 @@ const Footer = () => {
         <div>
           <p>
             Copyright © {new Date().getFullYear()} - All right reserved by
-            someone Industries Ltd
+            Flatsome Industries Ltd
           </p>
         </div>
       </footer>

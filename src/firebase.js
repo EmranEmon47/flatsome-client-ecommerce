@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 window.auth = getAuth();
 export const auth = getAuth(app);
 
-// ✅ TEMPORARY: Log the ID token after login
+//TEMPORARY: Log the ID token after login
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         const token = await user.getIdToken(true);
