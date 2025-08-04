@@ -108,7 +108,7 @@ const Profile = () => {
 
   return (
     <div className="relative max-w-2xl p-6 mx-auto mt-8 bg-white rounded shadow dark:bg-gray-800 dark:text-white">
-      <h2 className="mb-4 text-xl font-bold">User Profile</h2>
+      <h2 className="mb-4 text-xl font-bold">My Profile</h2>
 
       {/* Profile Image */}
       <div className="flex items-center gap-4 mb-6">
@@ -131,7 +131,9 @@ const Profile = () => {
 
       {/* First Name */}
       <div className="mb-4">
-        <label className="block mb-1 text-sm font-medium">First Name</label>
+        <label className="block mb-1 text-sm font-medium">
+          your first Name
+        </label>
         <input
           type="text"
           name="firstName"
@@ -144,7 +146,7 @@ const Profile = () => {
 
       {/* Last Name */}
       <div className="mb-4">
-        <label className="block mb-1 text-sm font-medium">Last Name</label>
+        <label className="block mb-1 text-sm font-medium">your last Name</label>
         <input
           type="text"
           name="lastName"
@@ -157,7 +159,7 @@ const Profile = () => {
 
       {/* Email Display */}
       <div className="mb-4">
-        <label className="block mb-1 text-sm font-medium">Email</label>
+        <label className="block mb-1 text-sm font-medium">Email id</label>
         <input
           type="text"
           value={mongoUser.email || ""}
@@ -168,7 +170,9 @@ const Profile = () => {
 
       {/* Address Input */}
       <div className="mb-4">
-        <label className="block mb-1 text-sm font-medium">Address</label>
+        <label className="block mb-1 text-sm font-medium">
+          write your address
+        </label>
         <textarea
           name="address"
           value={formData.address}
