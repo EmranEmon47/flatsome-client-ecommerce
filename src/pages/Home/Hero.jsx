@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 import image1 from "../../assets/hero1.jpg";
 import image2 from "../../assets/hero2.jpg";
@@ -152,7 +153,9 @@ const Hero = () => {
                     : "bg-[#445e85] text-white border-[#445e85] hover:border-white hover:bg-white hover:text-[#445e85]"
                 } transition`}
               >
-                Shop Men
+                <Link to="/all-products" className="">
+                  Shop Men
+                </Link>
               </button>
               <button
                 className={`uppercase px-6 py-2 font-semibold border-2 ${
@@ -161,7 +164,9 @@ const Hero = () => {
                     : "bg-[#445e85] text-white border-[#445e85] hover:border-white hover:bg-white hover:text-[#445e85]"
                 } transition`}
               >
-                Shop Woman
+                <Link to="/all-products" className="">
+                  Shop Woman
+                </Link>
               </button>
             </motion.div>
           </motion.div>
