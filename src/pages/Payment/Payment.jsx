@@ -148,7 +148,7 @@ const Payment = () => {
         )}
 
         {succeeded ? (
-          <div className="p-4 text-green-700 bg-green-100 border border-green-300 rounded">
+          <div className="p-4 text-green-600 bg-green-100 border border-green-300 rounded">
             Payment succeeded! Redirecting...
           </div>
         ) : (
