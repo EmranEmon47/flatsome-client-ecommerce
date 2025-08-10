@@ -48,6 +48,12 @@ const AboutUs = () => {
                 trends, and enhances customer satisfaction through data-driven
                 design and automation.
               </p>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Voluptatem, incidunt. Aut autem enim necessitatibus aliquid
+                expedita ea soluta praesentium sequi excepturi, consequuntur
+                accusamus saepe velit! Dolorum deserunt tenetur a eius.
+              </p>
             </div>
           </section>
 
