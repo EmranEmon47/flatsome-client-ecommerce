@@ -10,7 +10,7 @@ const products = [
         image: product1,
         span: "Tops",
         name: "Lenox Star Knit Hunkydory",
-        rating: 4,
+        rating: 5,
         price: 49.99,
         description:
             "A soft and stylish top made from premium knit materials, perfect for casual wear or layering. It offers comfort and fashion in one piece.",
@@ -38,7 +38,7 @@ const products = [
         image: product3,
         span: "Sweaters",
         name: "Print Ls College Sweat",
-        rating: 3,
+        rating: 5,
         price: 25.50,
         description:
             "A retro college-style sweatshirt with bold print and durable stitching. Stay warm and trendy all season long.",
