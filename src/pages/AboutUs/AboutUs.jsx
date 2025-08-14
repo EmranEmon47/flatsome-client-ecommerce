@@ -72,6 +72,11 @@ const AboutUs = () => {
                 digital transformation where customer experience is intuitive,
                 adaptive, and proactive.
               </p>
+              <p>
+                To revolutionize online shopping with machine learning and
+                intelligent UX — making every Flatsome interaction smarter,
+                faster, and more meaningful.
+              </p>
             </div>
           </section>
 
@@ -120,7 +125,7 @@ const AboutUs = () => {
               on our journey to redefine e-commerce with intelligence.
             </p>
             <a
-              href="/contact"
+              href="https://github.com/EmranEmon47"
               className="inline-block mt-6 px-6 py-3 bg-[#445e85] text-white rounded hover:bg-[#2c3c53] transition"
             >
               Connect with Us
