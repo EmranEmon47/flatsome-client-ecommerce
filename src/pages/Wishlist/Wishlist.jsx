@@ -43,7 +43,7 @@ const Wishlist = () => {
   };
 
   return (
-    <div>
+    <div className="text-black bg-white dark:text-white dark:bg-black">
       <Nav />
       <div className="w-full max-w-[calc(100%-440px)] pt-28 mx-auto px-4">
         <h2 className="text-3xl font-semibold mb-6 text-center text-[#001d49]">
@@ -59,7 +59,7 @@ const Wishlist = () => {
             {products.map((product) => (
               <div
                 key={product._id}
-                className="relative overflow-hidden transition bg-white border rounded-lg shadow-sm hover:shadow-md"
+                className="relative overflow-hidden text-black transition border rounded-lg shadow-sm dark:text-white bg-black/20 dark:bg-white/20 hover:shadow-md"
               >
                 <Link to={`/product/${product._id}`}>
                   <img
