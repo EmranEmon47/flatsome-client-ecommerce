@@ -48,6 +48,11 @@ const AboutUs = () => {
                 trends, and enhances customer satisfaction through data-driven
                 design and automation.
               </p>
+              <p>
+                Our intelligent architecture adapts to user behavior, predicts
+                trends, and enhances customer satisfaction through data-driven
+                design and automation.
+              </p>
             </div>
           </section>
 
