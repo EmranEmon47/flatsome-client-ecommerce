@@ -11,17 +11,17 @@ const Modal = ({ onClose, children }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-none bg-opacity-40 backdrop-blur-sm transition-opacity duration-300"
+      className="fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300 bg-none bg-opacity-40 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white p-6 rounded-xl shadow-2xl max-w-4xl w-full mx-4 relative animate-fadeIn transition-all duration-300 scale-100"
+        className="relative w-full max-w-4xl p-6 mx-4 transition-all duration-300 scale-100 bg-white shadow-2xl dark:bg-black rounded-xl animate-fadeIn"
       >
         {/* ❌ Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-2xl font-bold transition-colors duration-200"
+          className="absolute text-2xl font-bold text-gray-500 transition-colors duration-200 top-3 right-3 hover:text-red-500"
           aria-label="Close modal"
         >
           &times;

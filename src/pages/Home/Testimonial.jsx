@@ -4,7 +4,7 @@ import bgImage from "../../assets/hero3.jpg"; // Local background image
 
 const reviews = [
   {
-    name: "John Doe",
+    name: "Abdullah Al Emran Emon",
     platform: "LinkedIn",
     text: "This product changed the way we work—absolutely love it!",
   },
@@ -14,7 +14,7 @@ const reviews = [
     text: "Great support team and user-friendly interface. Highly recommended.",
   },
   {
-    name: "Mike Johnson",
+    name: "Emran Emon",
     platform: "Twitter",
     text: "Fast, reliable, and efficient. A game-changer in the market!",
   },

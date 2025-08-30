@@ -11,7 +11,7 @@ const Footer = () => {
             <a
               href="https://github.com/EmranEmon47"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="emran github link"
             >
               (By Abdullah Al Emran Emon)
             </a>
