@@ -10,11 +10,12 @@ const NotFound = () => {
         alt="404 Not Found"
         className="w-2/3 max-w-full mb-6"
       />
-      <h1 className="mb-2 text-3xl font-bold">Page Not Found</h1>
+      <h1 className="mb-2 text-3xl font-bold">404 Page Not Found</h1>
       <p className="mb-6 text-gray-600">
         <span className="text-red-400">Oops!</span> The page you're looking for
         doesn't exist.
       </p>
+      <p>Try another page </p>
       <Link
         to="/"
         className="px-6 py-2 text-white bg-green-600 rounded hover:bg-green-700"
