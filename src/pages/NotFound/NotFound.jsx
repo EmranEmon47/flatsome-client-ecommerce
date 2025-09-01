@@ -15,7 +15,7 @@ const NotFound = () => {
         <span className="text-red-400">Oops!</span> The page you're looking for
         doesn't exist.
       </p>
-      <p>Try another page </p>
+
       <Link
         to="/"
         className="px-6 py-2 text-white bg-green-600 rounded hover:bg-green-700"

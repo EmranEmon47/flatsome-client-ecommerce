@@ -2,7 +2,9 @@ import React from "react";
 
 const AdminOrderCartView = ({ cartItems }) => {
   if (!cartItems || cartItems.length === 0) {
-    return <p className="text-gray-500">No items in cart.</p>;
+    return (
+      <p className="text-gray-500">No items in cart. continue shopping </p>
+    );
   }
 
   return (
