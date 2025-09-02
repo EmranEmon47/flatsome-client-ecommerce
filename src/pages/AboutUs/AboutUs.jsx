@@ -67,6 +67,11 @@ const AboutUs = () => {
                 intelligent UX — making every Flatsome interaction smarter,
                 faster, and more meaningful.
               </p>
+              <p>
+                To revolutionize online shopping with machine learning and
+                intelligent UX — making every Flatsome interaction smarter,
+                faster, and more meaningful.
+              </p>
             </div>
             <div className="bg-[#f1f5f9] dark:bg-[#1f2937] rounded-xl p-6 shadow">
               <h4 className="text-xl font-bold text-[#445e85] mb-2">
