@@ -37,7 +37,7 @@ const useAdminUsers = () => {
                 { role: "admin" },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            toast.success("User promoted to admin");
+            toast.success("User promoted to admin successfully");
             fetchUsers();
         } catch (err) {
             console.error(err);
@@ -53,7 +53,7 @@ const useAdminUsers = () => {
                 { role: "user" },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            toast.success("User demoted");
+            toast.success("User demoted successfully");
             fetchUsers();
         } catch (err) {
             console.error(err);

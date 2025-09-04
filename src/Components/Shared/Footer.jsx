@@ -13,7 +13,7 @@ const Footer = () => {
               target="_blank"
               rel="emran github link"
             >
-              (By Abdullah Al Emran Emon)
+              (creator Abdullah Al Emran Emon)
             </a>
           </p>
         </div>
