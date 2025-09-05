@@ -16,8 +16,8 @@ const Home = () => {
   // const { firebaseUser, mongoUser } = useAuth();
 
   // useEffect(() => {
-  //   console.log("📦 Firebase User:", firebaseUser);
-  //   console.log("🧠 MongoDB User:", mongoUser);
+  //   console.log(" Firebase User:", firebaseUser);
+  //   console.log(" MongoDB User:", mongoUser);
   // }, [firebaseUser, mongoUser]);
   return (
     <div className="text-gray-800 bg-white dark:bg-black dark:text-white">
