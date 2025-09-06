@@ -92,6 +92,14 @@ const Wishlist = () => {
             ))}
           </div>
         )}
+        <div>
+          <Link
+            to="/all-products"
+            className="text-[#ff855c] font-semibold text-lg py-2 px-8 bg-gray-200 dark:bg-white mt-8 hover:text-[#ff6b39]"
+          >
+            Continue Shopping
+          </Link>
+        </div>
       </div>
     </div>
   );
