@@ -16,7 +16,7 @@ const Modal = ({ onClose, children }) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-4xl p-6 mx-4 transition-all duration-300 scale-100 bg-white shadow-2xl dark:bg-black rounded-xl animate-fadeIn"
+        className="relative w-full max-w-4xl p-6 mx-4 text-black transition-all duration-300 scale-100 bg-white shadow-2xl dark:text-white dark:bg-black rounded-xl animate-fadeIn"
       >
         {/* ❌ Close Button */}
         <button
