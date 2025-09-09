@@ -47,7 +47,7 @@ const RequireAdmin = ({ children }) => {
   }, [navigate, location]);
 
   if (loading) {
-    return <div className="p-6 text-center">Checking admin access...</div>;
+    return <div className="p-6 text-center">Checking for admin access...</div>;
   }
 
   return isAdmin ? children : null;
