@@ -145,10 +145,10 @@ const AllProducts = () => {
   return (
     <div className="min-h-screen text-black bg-white dark:bg-black dark:text-white">
       {/* Red glow top */}
-      <div className="pointer-events-none hidden lg:block absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+      <div className="pointer-events-none hidden lg:block absolute top-[-50px] left-[-50px] h-60 w-60 dark:bg-red-500 bg-none opacity-20 rounded-full blur-3xl"></div>
 
       {/* Red glow bottom right */}
-      <div className="pointer-events-none hidden lg:block absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
+      <div className="pointer-events-none hidden lg:block absolute bottom-[-50px] right-[-50px] h-72 w-72 dark:bg-red-500 bg-none opacity-10 rounded-full blur-3xl"></div>
 
       <Nav />
 

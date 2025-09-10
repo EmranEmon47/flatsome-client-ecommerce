@@ -37,10 +37,10 @@ const News = () => {
   return (
     <div className="lg:max-w-[calc(100%-440px)] w-full mx-auto px-4 py-10 relative">
       {/* Red glow top */}
-      <div className="pointer-events-none hidden lg:block absolute top-[-50px] left-[-50px] h-60 w-60 bg-red-500 opacity-20 rounded-full blur-3xl"></div>
+      <div className="pointer-events-none hidden lg:block absolute top-[-50px] left-[-50px] h-60 w-60 dark:bg-red-500 bg-none opacity-20 rounded-full blur-3xl"></div>
 
       {/* Red glow bottom right */}
-      <div className="pointer-events-none hidden lg:block absolute bottom-[-50px] right-[-50px] h-72 w-72 bg-red-500 opacity-10 rounded-full blur-3xl"></div>
+      <div className="pointer-events-none hidden lg:block absolute bottom-[-50px] right-[-50px] h-72 w-72 dark:bg-red-500 bg-none opacity-10 rounded-full blur-3xl"></div>
       {/* Heading */}
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
