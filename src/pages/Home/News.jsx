@@ -32,6 +32,38 @@ const News = () => {
       date: { day: "11", month: "Feb" },
       image: "https://picsum.photos/300/200?random=3",
     },
+    {
+      id: 5,
+      title: "Exploring the Mountains",
+      description:
+        "Discover the beauty of nature as we explore the wild terrains.",
+      date: { day: "11", month: "Feb" },
+      image: "https://picsum.photos/300/200?random=3",
+    },
+    {
+      id: 6,
+      title: "Exploring the Mountains",
+      description:
+        "Discover the beauty of nature as we explore the wild terrains.",
+      date: { day: "11", month: "Feb" },
+      image: "https://picsum.photos/300/200?random=3",
+    },
+    {
+      id: 7,
+      title: "Exploring the Mountains",
+      description:
+        "Discover the beauty of nature as we explore the wild terrains.",
+      date: { day: "11", month: "Feb" },
+      image: "https://picsum.photos/300/200?random=3",
+    },
+    {
+      id: 8,
+      title: "Exploring the Mountains",
+      description:
+        "Discover the beauty of nature as we explore the wild terrains.",
+      date: { day: "11", month: "Feb" },
+      image: "https://picsum.photos/300/200?random=3",
+    },
   ];
 
   return (
