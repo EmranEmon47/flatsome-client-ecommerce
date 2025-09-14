@@ -40,7 +40,7 @@ const OrderComplete = () => {
       <Nav />
       <div className="w-full p-6 py-24 mx-auto lg:max-w-3xl lg:py-28">
         <h1 className="mb-4 text-3xl font-bold text-green-600">
-          🎉 Order Successful!
+          🎉 Order Successful Complete!
         </h1>
         <p className="mb-4">
           Thank you for your purchase,{" "}
