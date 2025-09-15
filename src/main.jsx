@@ -12,8 +12,6 @@ import "./index.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      {" "}
-      {/* Wrap everything inside AuthProvider */}
       <CartProvider>
         <WishlistProvider>
           <ThemeProvider>
