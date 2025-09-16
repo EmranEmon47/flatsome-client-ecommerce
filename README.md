@@ -22,7 +22,7 @@ It includes Firebase Authentication, secure Stripe payments, Cloudinary image ho
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack for frontend
 
 - **Frontend:** React, Vite, Tailwind CSS, Framer Motion
 - **Auth & Security:** Firebase Auth, Firebase Token
@@ -33,6 +33,24 @@ It includes Firebase Authentication, secure Stripe payments, Cloudinary image ho
 - **Language:** JavaScript (ES6)
 
 ---
+
+## 🛠️ Tech Stack for Backend
+
+- **Backend:** Node js, Express js, mongodb, cloudinary,
+- **Auth & Security:** Firebase Auth, Firebase Token
+- **Payments:** Stripe
+- **Storage:** mongodb
+- **Networking:** Axios
+- **Routing:** React Router DOM
+- **Language:** JavaScript (ES6)
+
+---
+
+## Deploy
+
+- **Frontend:** vercel
+- **Backend:** Render
+- **Testing:** Postman
 
 ## 📦 Installation
 
