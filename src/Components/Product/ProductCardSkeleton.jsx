@@ -1,4 +1,3 @@
-// src/Components/Common/ProductCardSkeleton.jsx
 import React from "react";
 
 const ProductCardSkeleton = () => {

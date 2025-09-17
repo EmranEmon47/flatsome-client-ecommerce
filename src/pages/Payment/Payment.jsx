@@ -4,7 +4,7 @@ import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useParams, useNavigate } from "react-router";
 import { useAuth } from "../../Context/AuthContext";
 import { useCart } from "../../Context/CartProvider";
-import axiosInstance from "../../api/axiosInstance"; // ✅ use configured instance
+import axiosInstance from "../../api/axiosInstance";
 import Nav from "../../Components/Shared/Nav";
 
 const CARD_ELEMENT_OPTIONS = {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../../api/axiosInstance"; // use your axiosInstance here
+import axiosInstance from "../../../api/axiosInstance";
 import { useParams, useNavigate } from "react-router";
 
 const UpdateProduct = () => {

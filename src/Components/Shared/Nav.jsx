@@ -6,11 +6,11 @@ import { ShoppingBagIcon, HeartIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../../Context/CartProvider";
 import { useWishlist } from "../../Context/WishlistContext";
 import { useAuth } from "../../Context/AuthContext";
-import { Link } from "react-router"; // <--- updated import here
+import { Link } from "react-router";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import DarkModeToggle from "./DarkModeToggle";
-import UserDropdown from "../Product/UserDropdown"; // ✅ imported here
+import UserDropdown from "../Product/UserDropdown";
 
 const Nav = () => {
   const { firebaseUser, mongoUser, loading } = useAuth();

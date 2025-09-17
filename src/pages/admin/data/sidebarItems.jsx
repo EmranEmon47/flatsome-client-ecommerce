@@ -5,14 +5,14 @@ import {
   FiShoppingBag,
   FiTrendingUp,
   FiVolume2,
-  FiFileText, // import icon for Orders
+  FiFileText,
 } from "react-icons/fi";
 
 export const sidebarItems = [
   { icon: FiGrid, label: "Dashboard" },
   { icon: FiBox, label: "Products" },
   {
-    icon: FiFileText, // 🧾 for Manage Orders
+    icon: FiFileText, //  for Manage Orders
     label: "Orders",
   },
   {

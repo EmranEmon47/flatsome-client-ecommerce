@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router";
 import axios from "axios";
 import { useAuth } from "../../Context/AuthContext";
 import { HiArrowLeft, HiOutlineLocationMarker, HiUser } from "react-icons/hi";
-import InvoiceDownload from "./InvoiceDownload.jsx"; // adjust path if needed
+import InvoiceDownload from "./InvoiceDownload.jsx";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";

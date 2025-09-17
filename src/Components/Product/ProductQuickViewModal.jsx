@@ -1,4 +1,3 @@
-// src/components/Product/ProductQuickViewModal.jsx
 import React from "react";
 
 const ProductQuickViewModal = ({ product, onClose }) => {

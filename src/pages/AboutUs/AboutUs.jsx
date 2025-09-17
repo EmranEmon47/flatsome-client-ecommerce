@@ -1,4 +1,3 @@
-""; // src/pages/AboutUs.jsx
 import React from "react";
 import Nav from "../../Components/Shared/Nav";
 import Footer from "../../Components/Shared/Footer";

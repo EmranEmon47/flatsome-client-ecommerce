@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react"; // Or use Unicode arrows
-import bgImage from "../../assets/hero3.jpg"; // Local background image
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import bgImage from "../../assets/hero3.jpg";
 
 const reviews = [
   {

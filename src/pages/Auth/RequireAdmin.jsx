@@ -1,4 +1,3 @@
-// src/pages/Auth/RequireAdmin.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { getAuth, onAuthStateChanged } from "firebase/auth";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router";
 import { useAuth } from "../../Context/AuthContext";
-import axiosInstance from "../../api/axiosInstance"; // ✅ use your custom axios
+import axiosInstance from "../../api/axiosInstance"; // use your custom axios
 
 const ProtectedRoute = () => {
   const { firebaseUser, loading: authLoading } = useAuth();
@@ -14,7 +14,7 @@ const ProtectedRoute = () => {
       if (!firebaseUser) return;
 
       try {
-        const res = await axiosInstance.get("/users/me"); // ✅ No need to manually set token
+        const res = await axiosInstance.get("/users/me"); //  No need to manually set token
         setMongoUser(res.data);
       } catch (err) {
         console.error("Failed to fetch MongoDB user:", err);

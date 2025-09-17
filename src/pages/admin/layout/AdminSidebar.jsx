@@ -6,7 +6,7 @@ import {
   FiBox,
   FiGrid,
   FiHome,
-  FiFileText, // added for orders icon
+  FiFileText,
 } from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router";
 import logo from "../../../assets/logo.png";

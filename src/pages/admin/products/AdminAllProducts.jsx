@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../../api/axiosInstance"; // Use your axiosInstance
+import axiosInstance from "../../../api/axiosInstance";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router";
 

@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import logo from "../../assets/logo.png"; // path to your logo
+import logo from "../../assets/logo.png";
 
 const InvoiceDownload = ({ order }) => {
   const handleDownload = async () => {

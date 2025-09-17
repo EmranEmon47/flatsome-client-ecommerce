@@ -6,9 +6,9 @@ import React, {
   useCallback,
 } from "react";
 import toast from "react-hot-toast";
-import axiosInstance from "../api/axiosInstance"; // Your axios with baseURL
+import axiosInstance from "../api/axiosInstance";
 import { useAuth } from "./AuthContext";
-import { showToast } from "..//Components/Shared/showToast.jsx"; // Your Firebase auth context
+import { showToast } from "..//Components/Shared/showToast.jsx";
 
 const CartContext = createContext();
 

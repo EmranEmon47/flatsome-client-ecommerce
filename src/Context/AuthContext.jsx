@@ -1,4 +1,3 @@
-// src/Context/AuthContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -18,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
       if (user) {
         try {
-          const token = await user.getIdToken(true); // 🔁 Force refresh token
+          const token = await user.getIdToken(true); // Force refresh token
 
           const res = await axiosInstance.get("/users/me", {
             headers: {

@@ -1,6 +1,6 @@
 // App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import { Toaster } from "react-hot-toast"; // ✅ import Toaster
+import { Toaster } from "react-hot-toast";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import React, { useState, useEffect } from "react";

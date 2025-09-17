@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import UserTable from "./UserTable"; // ✅ assuming it's in same dir or adjust path
+import UserTable from "./UserTable";
 
 const AdminAllUsers = () => {
   const [searchTerm, setSearchTerm] = useState("");

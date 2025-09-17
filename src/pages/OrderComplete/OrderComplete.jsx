@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import { useParams, Link } from "react-router";
-import axiosInstance from "../../api/axiosInstance"; // Ensure this uses Firebase token
+import axiosInstance from "../../api/axiosInstance";
 import Nav from "../../Components/Shared/Nav";
 
 const OrderComplete = () => {

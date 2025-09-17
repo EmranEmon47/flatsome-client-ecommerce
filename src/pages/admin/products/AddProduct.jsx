@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosInstance from "../../../api/axiosInstance"; // make sure path is correct
+import axiosInstance from "../../../api/axiosInstance";
 import { useNavigate } from "react-router";
 
 const AddProduct = () => {

@@ -5,7 +5,6 @@ import { useAuth } from "../../../Context/AuthContext";
 const AdminHeader = ({ searchTerm, setSearchTerm }) => {
   const { firebaseUser, mongoUser } = useAuth();
 
-  // Try to get the name from mongoUser first, fallback to firebaseUser.displayName, else 'Admin'
   const adminName = mongoUser?.fullName || firebaseUser?.displayName || "Admin";
 
   return (

@@ -44,7 +44,7 @@ const ProductCard = ({ product, onQuickView }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.25, ease: "easeInOut" }}
     >
-      {/* ❤️ Wishlist */}
+      {/*  Wishlist */}
       <button
         onClick={toggleWishlist}
         className="absolute z-10 p-1 bg-gray-200 rounded-full shadow dark:bg-gray-200 top-3 right-3"
@@ -56,7 +56,7 @@ const ProductCard = ({ product, onQuickView }) => {
         )}
       </button>
 
-      {/* 📸 Product Image */}
+      {/*  Product Image */}
       <Link
         to={`/product/${product._id}`}
         className="block h-[280px] lg:h-[300px] relative overflow-hidden group-hover:scale-[1.01] transition-transform duration-500 ease-in-out"
@@ -75,7 +75,7 @@ const ProductCard = ({ product, onQuickView }) => {
         )}
       </Link>
 
-      {/* 👁️ Quick View */}
+      {/*  Quick View */}
       <button
         onClick={(e) => {
           e.preventDefault();
@@ -87,7 +87,7 @@ const ProductCard = ({ product, onQuickView }) => {
         Quick View
       </button>
 
-      {/* ℹ️ Product Info */}
+      {/*  Product Info */}
       <div className="flex-1 p-2 lg:p-4 text-left h-[120px] lg:h-[150px]">
         <h5 className="text-xs font-normal text-gray-400 dark:text-gray-400">
           {product.category} / {product.subcategory}

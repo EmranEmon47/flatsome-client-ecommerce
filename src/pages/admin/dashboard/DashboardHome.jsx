@@ -1,7 +1,5 @@
-// src/pages/admin/dashboard/DashboardHome.jsx
-
 import React from "react";
-import OverviewSection from "../components/OverviewSection"; // if you extracted KPI section
+import OverviewSection from "../components/OverviewSection";
 
 const DashboardHome = () => {
   return (

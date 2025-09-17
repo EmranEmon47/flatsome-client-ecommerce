@@ -1,4 +1,3 @@
-// src/Components/Product/QuantitySelector.jsx
 import React from "react";
 
 const QuantitySelector = ({ quantity, setQuantity }) => {

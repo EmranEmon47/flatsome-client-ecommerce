@@ -1,4 +1,3 @@
-// src/Pages/User/UserLayout.jsx
 import React from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router";
 import Nav from "../../Components/Shared/Nav";
