@@ -171,7 +171,7 @@ const Profile = () => {
       {/* Address Input */}
       <div className="mb-4">
         <label className="block mb-1 text-sm font-medium">
-          write your address
+          write your address here
         </label>
         <textarea
           name="address"
