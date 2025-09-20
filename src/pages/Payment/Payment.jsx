@@ -1,4 +1,3 @@
-// src/pages/Payment/Payment.jsx
 import React, { useEffect, useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useParams, useNavigate } from "react-router";
@@ -120,7 +119,7 @@ const Payment = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        clearCart(); // ✅ Clear the cart after success
+        clearCart(); // Clear the cart after success
 
         setTimeout(() => {
           navigate(`/order-complete/${orderId}`);

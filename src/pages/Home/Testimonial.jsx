@@ -9,6 +9,11 @@ const reviews = [
     text: "This product changed the way we work—absolutely love it!",
   },
   {
+    name: "Emily Davis",
+    platform: "LinkedIn",
+    text: "The best investment for our team productivity in recent times.",
+  },
+  {
     name: "Jane Smith",
     platform: "Facebook",
     text: "Great support team and user-friendly interface. Highly recommended.",
