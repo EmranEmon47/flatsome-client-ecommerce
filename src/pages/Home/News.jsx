@@ -77,7 +77,7 @@ const News = () => {
       <div className="flex items-center gap-4 mb-8">
         <hr className="flex-grow border-t border-gray-300" />
         <h2 className="text-2xl font-medium text-gray-600 uppercase whitespace-nowrap">
-          Latest News
+          Latest News Now
         </h2>
         <hr className="flex-grow border-t border-gray-300" />
       </div>

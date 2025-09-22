@@ -66,7 +66,7 @@ const ProductDetails = () => {
   if (!product)
     return (
       <div className="p-8 text-red-500 dark:text-red-400">
-        Product not found.
+        Product not found!
       </div>
     );
 
