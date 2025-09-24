@@ -147,7 +147,7 @@ const AboutUs = () => {
               href="https://github.com/EmranEmon47"
               className="inline-block mt-6 px-6 py-3 bg-[#445e85] text-white rounded hover:bg-[#2c3c53] transition"
             >
-              Connect with Us
+              Connect with Us in github
             </a>
           </section>
         </div>

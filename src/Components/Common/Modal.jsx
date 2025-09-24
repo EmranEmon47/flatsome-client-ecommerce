@@ -18,7 +18,7 @@ const Modal = ({ onClose, children }) => {
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-4xl p-6 mx-4 text-black transition-all duration-300 scale-100 bg-white shadow-2xl dark:text-white dark:bg-black rounded-xl animate-fadeIn"
       >
-        {/* ❌ Close Button */}
+        {/*  Close Button */}
         <button
           onClick={onClose}
           className="absolute text-2xl font-bold text-gray-500 transition-colors duration-200 top-3 right-3 hover:text-red-500"
@@ -27,7 +27,7 @@ const Modal = ({ onClose, children }) => {
           &times;
         </button>
 
-        {/* ✅ Modal Content */}
+        {/*  Modal Content */}
         <div className="overflow-hidden">{children}</div>
       </div>
     </div>

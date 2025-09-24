@@ -5,7 +5,7 @@ const SplashScreen = () => {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setFadeOut(true), 2000); // Show for 2 seconds
+    const timeout = setTimeout(() => setFadeOut(true), 2000);
     return () => clearTimeout(timeout);
   }, []);
 

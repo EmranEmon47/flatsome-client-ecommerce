@@ -3,7 +3,7 @@ import axios from "axios";
 import { getAuth } from "firebase/auth";
 import toast from "react-hot-toast";
 
-// live backend URL from Render
+
 const API_URL = "https://flatsome-server-ecommerce.onrender.com/api/admin/users";
 
 const useAdminUsers = () => {

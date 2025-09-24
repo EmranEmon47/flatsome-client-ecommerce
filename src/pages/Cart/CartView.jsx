@@ -31,7 +31,7 @@ const CartView = () => {
         <Nav />
         <div className="p-8 text-center text-gray-600">
           <h2 className="mb-4 text-2xl font-semibold text-black dark:text-white">
-            Your Cart is Empty
+            Your Cart is Empty now
           </h2>
           <Link
             to="/all-products"
