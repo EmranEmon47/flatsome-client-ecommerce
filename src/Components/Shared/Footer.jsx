@@ -6,8 +6,7 @@ const Footer = () => {
       <footer className="flex justify-center p-4 py-0 mx-auto text-black transition-all duration-500 lg:py-8 backdrop-blur-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 hover:border-white/30 dark:text-white item-center text-base-content">
         <div>
           <p className="text-sm text-center">
-            Copyright © {new Date().getFullYear()} - All right reserved by
-            Flatsome Industries Ltd{" "}
+            Copyright © {new Date().getFullYear()} by Flatsome Industries Ltd{" "}
             <a
               href="https://github.com/EmranEmon47"
               target="_blank"

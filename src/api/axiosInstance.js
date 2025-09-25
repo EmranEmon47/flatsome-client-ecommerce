@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
-    // Send cookies/auth headers for CORS requests
+
 });
 
 axiosInstance.interceptors.request.use(
