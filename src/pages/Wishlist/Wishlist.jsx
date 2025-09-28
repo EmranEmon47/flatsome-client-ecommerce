@@ -46,12 +46,12 @@ const Wishlist = () => {
       <Nav />
       <div className="w-full max-w-[calc(100%-440px)] pt-28 mx-auto px-4">
         <h2 className="text-3xl font-semibold mb-6 text-center text-[#001d49]">
-          My Wishlist 💖
+          My Wishlist
         </h2>
 
         {products.length === 0 ? (
           <p className="text-lg text-center text-gray-500">
-            Your wishlist is empty. Start adding your favorite products!
+            Your wishlist is empty now. Start adding your favorite products!
           </p>
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
