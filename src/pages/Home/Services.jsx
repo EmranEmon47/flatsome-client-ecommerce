@@ -1,5 +1,5 @@
 import React from "react";
-import { Truck, Headset, ShieldCheck } from "lucide-react"; // Lucide icons
+import { Truck, Headset, ShieldCheck } from "lucide-react";
 
 const serviceData = [
   {
