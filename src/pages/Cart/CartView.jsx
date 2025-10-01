@@ -9,7 +9,6 @@ const CartView = () => {
   const { firebaseUser } = useAuth();
   const navigate = useNavigate();
 
-  // Calculate totals
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0

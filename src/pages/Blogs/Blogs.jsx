@@ -84,22 +84,6 @@ const blogs = [
     image: "https://picsum.photos/300/200?random=6",
     slug: "feed-supply-chain",
   },
-  {
-    id: 11,
-    title: "Global Supply Chain Challenges in Feed Industry",
-    description:
-      "Explore how modern supply chains are evolving, and how Eco Field ensures timely and reliable delivery.",
-    image: "https://picsum.photos/300/200?random=6",
-    slug: "feed-supply-chain",
-  },
-  {
-    id: 12,
-    title: "Global Supply Chain Challenges in Feed Industry",
-    description:
-      "Explore how modern supply chains are evolving, and how Eco Field ensures timely and reliable delivery.",
-    image: "https://picsum.photos/300/200?random=6",
-    slug: "feed-supply-chain",
-  },
 ];
 
 const BlogCard = ({ blog }) => (
