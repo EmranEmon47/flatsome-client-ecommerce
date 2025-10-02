@@ -68,22 +68,6 @@ const blogs = [
     image: "https://picsum.photos/300/200?random=6",
     slug: "feed-supply-chain",
   },
-  {
-    id: 9,
-    title: "Global Supply Chain Challenges in Feed Industry",
-    description:
-      "Explore how modern supply chains are evolving, and how Eco Field ensures timely and reliable delivery.",
-    image: "https://picsum.photos/300/200?random=6",
-    slug: "feed-supply-chain",
-  },
-  {
-    id: 10,
-    title: "Global Supply Chain Challenges in Feed Industry",
-    description:
-      "Explore how modern supply chains are evolving, and how Eco Field ensures timely and reliable delivery.",
-    image: "https://picsum.photos/300/200?random=6",
-    slug: "feed-supply-chain",
-  },
 ];
 
 const BlogCard = ({ blog }) => (
@@ -104,7 +88,7 @@ const BlogCard = ({ blog }) => (
         to={`/blog/${blog.slug}`}
         className="inline-block px-4 py-2 text-sm font-medium text-white bg-[#445e85] rounded hover:bg-[#2c3c53] transition"
       >
-        Read More
+        Read More blogs
       </Link>
     </div>
   </div>
