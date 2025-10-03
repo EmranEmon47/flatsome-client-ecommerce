@@ -31,11 +31,11 @@ export const ThemeProvider = ({ children }) => {
     if (darkMode) {
       // currently dark, switch to light
       setDarkMode(false);
-      console.log("☀️ Light mode is now ON");
+      // console.log(" Light mode is now ON");
     } else {
       // currently light, switch to dark
       setDarkMode(true);
-      console.log("🌙 Dark mode is now ON");
+      // console.log(" Dark mode is now ON");
     }
   };
 
