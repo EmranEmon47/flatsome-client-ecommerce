@@ -60,8 +60,6 @@ export const CartProvider = ({ children }) => {
     }
   }, [firebaseUser, loading]);
 
-  // Save cart to backend when cartItems change and user is logged in
-  // Otherwise save to localStorage when logged out
   useEffect(() => {
     if (isSyncing) return; // Don't save while loading from backend
 
