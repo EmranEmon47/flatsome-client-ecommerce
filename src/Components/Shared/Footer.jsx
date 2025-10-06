@@ -14,6 +14,13 @@ const Footer = () => {
             >
               (creator Abdullah Al Emran Emon)
             </a>
+            <a
+              href="https://www.linkedin.com/in/abdullah-al-emran-emon-a07905229/"
+              target="_blank"
+              rel="emran linkedin link"
+            >
+              (Also linkedin)
+            </a>
           </p>
         </div>
       </footer>
