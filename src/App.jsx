@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { Toaster } from "react-hot-toast";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import SplashScreen from "./Components/Shared/SplashScreen.jsx";
 
 import Home from "./pages/Home/Home.jsx";
@@ -39,19 +39,19 @@ import InvoiceGenerator from "./pages/user/InvoiceDownload.jsx";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [fadeOut, setFadeOut] = useState(false);
+  // const [loading, setLoading] = useState(true);
+  // const [fadeOut, setFadeOut] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setFadeOut(true), 2000); // start fade out after 2s
-    const unmountTimer = setTimeout(() => setLoading(false), 2500); // unmount splash after fade
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(unmountTimer);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => setFadeOut(true), 2000);
+  //   const unmountTimer = setTimeout(() => setLoading(false), 2500);
+  //   return () => {
+  //     clearTimeout(timer);
+  //     clearTimeout(unmountTimer);
+  //   };
+  // }, []);
 
-  if (loading) return <SplashScreen fadeOut={fadeOut} />;
+  // if (loading) return <SplashScreen fadeOut={fadeOut} />;
   return (
     <AuthProvider>
       <Router>
