@@ -119,7 +119,7 @@ const Payment = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        clearCart(); // Clear the cart after success
+        clearCart();
 
         setTimeout(() => {
           navigate(`/order-complete/${orderId}`);

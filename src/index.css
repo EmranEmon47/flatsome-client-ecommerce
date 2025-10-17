@@ -5,11 +5,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Prevent white flash and set default background color */
 html,
 body,
 #root {
-  
   height: 100%;
   margin: 0;
   padding: 0;

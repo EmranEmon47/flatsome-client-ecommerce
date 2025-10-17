@@ -21,21 +21,21 @@ const images = [
     url: image1,
     subheading: "It has finally Started",
     heading: "Huge Sale\nUp to 70% off",
-    // text: "This is the first slide description.",
+
     textColor: "text-white",
   },
   {
     url: image2,
     subheading: "Mens Clothing",
     heading: "Hot Summer\nfashion",
-    // text: "This is the second slide description.",
+
     textColor: "text-white",
   },
   {
     url: image3,
     subheading: "Something Nice To Buy",
     heading: "Discover\nYour Style of Clothing",
-    // text: "This is the third slide description.",
+
     textColor: "text-white",
   },
 ];
